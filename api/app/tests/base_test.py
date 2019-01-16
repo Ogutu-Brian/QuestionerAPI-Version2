@@ -4,6 +4,7 @@ from migrtions import DbMigrations
 from api.app.models.object_models import User
 from .import meetup_data, user_data
 
+
 class BaseTest(unittest.TestCase):
     """Defines a Base template class for performing unit testst"""
 
