@@ -2,7 +2,6 @@ from flask import Flask
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
 from flask_jwt_extended import JWTManager
-from api.app.models.models import TokenBlackList
 from flask import jsonify
 from api.app.views import Status
 
@@ -21,6 +20,7 @@ def create_app(application_config):
     @jwt.token_in_blacklist_loader
     def is_valid_token(token):
         """Checks if the token exists in the black list table"""
+        from api.app.models.models import TokenBlackList
         return len(TokenBlackList.query_by_field("token", token['jti'])) == 0
 
     @jwt.invalid_token_loader
