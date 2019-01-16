@@ -4,6 +4,7 @@ from api.app.models.object_models import User as V1user
 from api.app.models.object_models import Question as V1Question
 from api.app.models.object_models import Meetup as V1Meetup
 from api.app.models.object_models import Rsvp as V1Rsvp
+from api.app.models.object_models import BlackList as v1BlacList
 from run import database
 
 
@@ -244,11 +245,8 @@ class Meetup(V1Meetup, BaseModel):
         database.connection.commit()
 
 
-class TokenBlackList(BaseModel):
+class TokenBlackList(v1BlacList, BaseModel):
     """Hodls blacklisted jwt tokens"""
-
-    def __init__(self, token=""):
-        self.token = token
     table_name = "blacklist"
 
     @classmethod
@@ -264,6 +262,7 @@ class TokenBlackList(BaseModel):
         """Saves a blacklist token into blacklst database"""
         database.cursor.execute(
             "INSERT INTO blacklist (token) VALUES(%s)", (self.token,))
+        database.connection.commit()
 
     @classmethod
     def to_object(cls, query_dict):

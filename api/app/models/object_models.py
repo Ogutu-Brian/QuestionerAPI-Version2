@@ -134,3 +134,16 @@ class Rsvp(BaseModel):
             "user": self.user,
             "response": self.response
         }
+
+
+class BlackList(BaseModel):
+    def __init__(self, id="", created_on=date.today(), token=""):
+        super().__init__(id_=id, created_on=created_on)
+        self.token = token
+
+    def to_dictionary(self)->Dict:
+        """Returns the token object as a dictionary"""
+        return {
+            "id": self.id,
+            "token": self.token
+        }
