@@ -88,7 +88,6 @@ class User(V1user, BaseModel):
             email varchar,
             phone varchar,
             username varchar,
-            registered varchar,
             password varchar,
             role varchar
         )""")
@@ -105,7 +104,6 @@ class User(V1user, BaseModel):
         user.email = query_dict.get("email")
         user.phone_number = query_dict.get("phone")
         user.user_name = query_dict.get("username")
-        user.registred = bool(query_dict.get("registered"))
         user.is_admin = bool(query_dict.get("role"))
         return user
 
@@ -114,14 +112,13 @@ class User(V1user, BaseModel):
         Saves a user object into database
         """
         database.cursor.execute(
-            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,registered,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (
+            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (
                 self.first_name,
                 self.last_name,
                 self.other_name,
                 self.email,
                 self.phone_number,
                 self.user_name,
-                self.registred,
                 self.password,
                 self.is_admin
             ))

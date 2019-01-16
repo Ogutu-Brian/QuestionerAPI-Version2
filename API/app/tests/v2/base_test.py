@@ -1,6 +1,8 @@
 import unittest
 from run import create_app, database
 from migrtions import DbMigrations
+from app.api.v2.models.object_models import User
+from .import meetup_data, user_data
 
 
 class BaseTest(unittest.TestCase):
@@ -17,6 +19,14 @@ class BaseTest(unittest.TestCase):
     def complete_url(self, url=""):
         """Returns complete url endpoint that is tested by the view"""
         return self.url_prefix+url
+
+    def sign_up(self):
+        data = user_data.valid_user_data.get("sign_up")
+        return self.client().post(self.complete_url("/users/sign-up"), data=data, headers=self.json_headers)
+
+    def create_meetup(self):
+        data = meetup_data.valid_meetup_data.get("data")
+        return self.client().post(self.complete_url("/meetups"), data=data, headers=self.json_headers)
 
     def tearDown(self):
         """Clears all the content in database tables"""
