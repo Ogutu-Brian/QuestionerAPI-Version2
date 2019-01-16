@@ -1,6 +1,7 @@
 from flask import Flask
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
+from flask_jwt_extended import JWTManager
 
 database = PostgresDatabase()
 
@@ -12,6 +13,7 @@ def create_app(application_config):
     app = Flask(__name__)
     app.config.from_object(app_config.get(application_config))
     database.initialize_application(app)
+    jwt = JWTManager(app)
     return app
 
 

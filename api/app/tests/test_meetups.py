@@ -2,6 +2,7 @@ from api.app.tests.base_test import BaseTest
 from .import meetup_data
 from api.app.models.models import Meetup
 from .import rsvp_data
+from api.app.views import Status
 
 
 class TestMeetup(BaseTest):
@@ -20,5 +21,5 @@ class TestMeetup(BaseTest):
         self.create_meetup()
         rsvp_data.valid_rsvp_data["data"]["response"] = "yes"
         rsvp_data.valid_rsvp_data["data"]["user"] = 1
-        self.assertEqual(201, self.client().post(self.complete_url(
+        self.assertEqual(Status.created, self.client().post(self.complete_url(
             "/meetups/1/rsvps"), data=rsvp_data.valid_rsvp_data.get("data"), headers=self.json_headers).status_code)

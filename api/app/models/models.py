@@ -242,3 +242,32 @@ class Meetup(V1Meetup, BaseModel):
             self.created_by
         ))
         database.connection.commit()
+
+
+class TokenBlackList(BaseModel):
+    """Hodls blacklisted jwt tokens"""
+
+    def __init__(self, token=""):
+        self.token = token
+    table_name = "blacklist"
+
+    @classmethod
+    def migrate(cls):
+        """Creates table for holding blacklisted tokens"""
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS blacklist(
+            id serial PRIMARY KEY,
+            token varchar
+        )""")
+        database.connection.commit()
+
+    def save(self):
+        """Saves a blacklist token into blacklst database"""
+        database.cursor.execute(
+            "INSERT INTO blacklist (token) VALUES(%s)", (self.token,))
+    @classmethod
+    def to_object(cls, query_dict):
+        """Changes the query into a blacklist object"""
+        blacklist_token = TokenBlackList()
+        blacklist_token.id = query_dict.get("id")
+        blacklist_token.token = query_dict.get("token")
+        return blacklist_token
