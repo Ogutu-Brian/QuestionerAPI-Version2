@@ -2,7 +2,7 @@
 Creates a database Schema
 When the file is run directly it clears data in all the tables
 """
-from api.app.models.models import User, Question, Rsvp, Meetup
+from api.app.models.models import User, Question, Rsvp, Meetup, TokenBlackList
 
 
 class DbMigrations(object):
@@ -16,6 +16,7 @@ class DbMigrations(object):
         Question.clear()
         Meetup.clear()
         Rsvp.clear()
+        Rsvp
 
     @classmethod
     def makemigrations(cls)->None:
@@ -23,6 +24,7 @@ class DbMigrations(object):
         Question.migrate()
         Meetup.migrate()
         Rsvp.migrate()
+        TokenBlackList.migrate()
 
 
 if __name__ == "__main__":
