@@ -2,7 +2,7 @@
 Creates a database Schema
 When the file is run directly it clears data in all the tables
 """
-from app.api.v2.models.models import User, Question, Rsvp, Meetup
+from api.app.models.models import User, Question, Rsvp, Meetup
 
 
 class DbMigrations(object):

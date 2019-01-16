@@ -4,12 +4,13 @@ python:
 services:
   - postgresql
 install:
-  - cd API
+  - cd api
   - pip install pytest
   - pip install pytest-cov
   - pip install coveralls
   - pip install -r requirements.txt
 before_script:
+  - cd ..
   - source .travis.sh
   - psql -c 'create database questioner;' -U postgres
 script:

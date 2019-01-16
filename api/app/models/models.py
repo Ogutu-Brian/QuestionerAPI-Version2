@@ -1,9 +1,9 @@
 from typing import Dict, List
-from app.api.v2.models.object_models import BaseModel as V1Base
-from app.api.v2.models.object_models import User as V1user
-from app.api.v2.models.object_models import Question as V1Question
-from app.api.v2.models.object_models import Meetup as V1Meetup
-from app.api.v2.models.object_models import Rsvp as V1Rsvp
+from api.app.models.object_models import BaseModel as V1Base
+from api.app.models.object_models import User as V1user
+from api.app.models.object_models import Question as V1Question
+from api.app.models.object_models import Meetup as V1Meetup
+from api.app.models.object_models import Rsvp as V1Rsvp
 from run import database
 
 

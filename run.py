@@ -1,6 +1,6 @@
 from flask import Flask
-from app.api.v2.models.database import PostgresDatabase
-from instance.config import app_config
+from api.app.models.database import PostgresDatabase
+from api.instance.config import app_config
 
 database = PostgresDatabase()
 

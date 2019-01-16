@@ -1,6 +1,6 @@
-from app.tests.v2.base_test import BaseTest
+from api.app.tests.base_test import BaseTest
 from .import meetup_data
-from app.api.v2.models.models import Meetup
+from api.app.models.models import Meetup
 from .import rsvp_data
 
 

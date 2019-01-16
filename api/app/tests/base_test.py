@@ -1,9 +1,8 @@
 import unittest
 from run import create_app, database
 from migrtions import DbMigrations
-from app.api.v2.models.object_models import User
+from api.app.models.object_models import User
 from .import meetup_data, user_data
-
 
 class BaseTest(unittest.TestCase):
     """Defines a Base template class for performing unit testst"""

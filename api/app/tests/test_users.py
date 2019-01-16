@@ -1,4 +1,4 @@
-from app.tests.v2.base_test import BaseTest
+from api.app.tests.base_test import BaseTest
 
 
 class SignupTest(BaseTest):
