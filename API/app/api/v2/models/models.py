@@ -177,9 +177,9 @@ class Rsvp(V1Rsvp, BaseModel):
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS rsvps (
             creatd_date varchar,
             meetup integer,
-            user integer,
+            user_id integer,
             response varchar,
-            PRIMARY KEY(meetup,user)
+            PRIMARY KEY(meetup,user_id)
         )""")
         database.connection.commit()
 
@@ -188,13 +188,13 @@ class Rsvp(V1Rsvp, BaseModel):
         """Converts the query into Rsvp object"""
         rsvp = Rsvp()
         rsvp.meetup = query_dict.get("meetup")
-        rsvp.user = query_dict.get("user")
+        rsvp.user = query_dict.get("user_id")
         rsvp.response = query_dict.get("response")
         return rsvp
 
     def save(self):
         """Saves Rsvp object to database"""
-        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user,response) VALUES(%s,%s,%s,%s)", (
+        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user_id,response) VALUES(%s,%s,%s,%s)", (
             self.created_date,
             self.meetup,
             self.user,
