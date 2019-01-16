@@ -1,5 +1,5 @@
 import psycopg2
-from psycopg2.extras import DictCursor
+from psycopg2.extras import RealDictCursor
 
 
 class PostgresDatabase(object):
@@ -15,4 +15,4 @@ class PostgresDatabase(object):
         self.app = app
         self.connection = psycopg2.connect(dbname=app.config.get("DATABASE_NAME"), user=app.config.get(
             "DATABASE_USER"), password=app.config.get("DATABASE_PASSWORD"), host=app.config.get("DATABASE_HOST"))
-        self.cursor = self.connection.cursor(cursor_factory=DictCursor)
+        self.cursor = self.connection.cursor(cursor_factory=RealDictCursor)

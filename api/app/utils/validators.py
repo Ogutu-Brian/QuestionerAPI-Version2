@@ -1,10 +1,8 @@
 import re
-
-
 class UserValidators(object):
     """ Checks done on User data during Post"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("firstname"):
             errors.append({
@@ -18,12 +16,6 @@ class UserValidators(object):
             errors.append({
                 "message": "email must be provided"
             })
-        else:
-            for object_ in self.data.values():
-                if object_.to_dictionary().get("email") == item.get("email"):
-                    errors.append({
-                        "message": "The email address has already been taken"
-                    })
         if not item.get("phoneNumber"):
             errors.append({
                 "message": "Phone number must be provided"
@@ -32,13 +24,6 @@ class UserValidators(object):
             errors.append({
                 "message": "username must be provided"
             })
-        else:
-            for object_ in self.data.values():
-                if object_.to_dictionary().get("username") == item.get("username"):
-                    errors.append({
-                        "message": "The username has already been taken"
-                    })
-                    break
         if not item.get("password"):
             errors.append({
                 "message": "Password must be provided"
@@ -70,8 +55,8 @@ class UserValidators(object):
 
 class MeetupValidators(object):
     """Validation done on Meetup data during posts"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("location"):
             errors.append({
@@ -94,8 +79,8 @@ class MeetupValidators(object):
 
 class QuestionValidators(object):
     """Validation done on Question data during Posts"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("createdBy"):
             errors.append({
@@ -118,8 +103,8 @@ class QuestionValidators(object):
 
 class RsvpValidators(object):
     """Vallidation done on Rsvp Data during post"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("user"):
             errors.append({

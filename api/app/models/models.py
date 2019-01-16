@@ -53,7 +53,7 @@ class BaseModel(V1Base):
         Queries all items with a given field name
         """
         database.cursor.execute(
-            "SELECT * FROM {} WHERE {} = {}".format(cls.table_name, field, str(value)))
+            "SELECT * FROM {0} WHERE {1} = %s".format(cls.table_name, field), (value,))
         items = database.cursor.fetchall()
         return [cls.to_object(item) for item in items]
 
@@ -113,7 +113,7 @@ class User(V1user, BaseModel):
         Saves a user object into database
         """
         database.cursor.execute(
-            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (
+            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", (
                 self.first_name,
                 self.last_name,
                 self.other_name,

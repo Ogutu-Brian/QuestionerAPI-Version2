@@ -10,7 +10,7 @@ class MeetupData(object):
             "topic": "Responsive Web Design",
             "happeningOn": "2018-04-23T18:25:43.511Z"
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
     missing_location_data = {
         "headers": {
@@ -22,7 +22,7 @@ class MeetupData(object):
             "Tags": ["User Interface", "Responsive Design"],
             "happeningOn": "2018-04-23T18:25:43.511Z"
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
     missing_meetup_date_data = {
         "headers": {
@@ -34,7 +34,7 @@ class MeetupData(object):
             "topic": "Responsive Web Design",
             "Tags": ["User Interface", "Responsive Design"],
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
     missing_image_data = {
         "headers": {
@@ -46,7 +46,7 @@ class MeetupData(object):
             "Tags": ["User Interface", "Responsive Design"],
             "happeningOn": "2018-04-23T18:25:43.511Z"
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
     invalid_post_object_data = {
         "headers": {
@@ -58,7 +58,7 @@ class MeetupData(object):
             "Tags": ["User Interface", "Responsive Design"],
             "happeningOn": "2018-04-23T18:25:43.511Z"
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
     valid_meetup_data = {
         "headers": {
@@ -71,7 +71,7 @@ class MeetupData(object):
             "Tags": ["User Interface", "Responsive Design"],
             "happeningOn": "2018-04-23T18:25:43.511Z"
         },
-        "url": "/api/v1/meetups"
+        "url": "/api/v2/meetups"
     }
 
 
@@ -87,7 +87,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     missing_creator_data = {
         "headers": {
@@ -98,7 +98,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     missing_body_data = {
         "headers": {
@@ -109,7 +109,7 @@ class QuestionData(object):
             "createdBy": 1,
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     missing_meetup_data = {
         "headers": {
@@ -120,7 +120,7 @@ class QuestionData(object):
             "createdBy": 1,
             "body": "What is the best way of getting around responsiveness of a website",
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     invalid_user_data = {
         "headers": {
@@ -132,7 +132,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     invalid_meetup_data = {
         "headers": {
@@ -144,7 +144,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": -2
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     valid_upvote_data = {
         "headers": {
@@ -156,7 +156,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     unexsiting_query_upvote_data = {
         "headers": {
@@ -168,7 +168,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     valid_downvote_data = {
         "headers": {
@@ -180,7 +180,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
     unexisting_downvote_query_data = {
         "headers": {
@@ -192,7 +192,7 @@ class QuestionData(object):
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         },
-        "url": "/api/v1/questions"
+        "url": "/api/v2/questions"
     }
 
 
@@ -243,8 +243,8 @@ class UserData(object):
             "email": "codingbrian58@gmail.com",
             "password": "password12#B"
         },
-        "sign_up_url": "/api/v1/users/sign-up",
-        "log_in_url": "/api/v1/users/log-in"
+        "sign_up_url": "/api/v2/users/sign-up",
+        "log_in_url": "/api/v2/users/log-in"
     }
     missing_mail_data = {
         "headers": {
@@ -280,8 +280,8 @@ class UserData(object):
             "email": "codingbrian58@gmail.com",
             "password": ""
         },
-        "sign_up_url": "/api/v1/users/sign-up",
-        "log_in_url": "/api/v1/users/log-in"
+        "sign_up_url": "/api/v2/users/sign-up",
+        "log_in_url": "/api/v2/users/log-in"
     }
     missing_first_name_data = {
         "lastname": "Brian",

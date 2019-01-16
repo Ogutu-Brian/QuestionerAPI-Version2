@@ -1,4 +1,5 @@
 import unittest
+import json
 from run import create_app
 from migrtions import DbMigrations
 from api.app.models.object_models import User
@@ -15,7 +16,7 @@ class BaseTest(unittest.TestCase):
         self.not_json_header = {}
         self.migration = DbMigrations()
         self.json_headers = {"Content-Type": "application/json"}
-        self.url_prefix = "/api/v2"
+        self.url_prefix = "/api/v2/"
         self.migration.makemigrations()
 
     def complete_url(self, url=""):
@@ -23,12 +24,16 @@ class BaseTest(unittest.TestCase):
         return self.url_prefix+url
 
     def sign_up(self):
-        data = user_data.valid_user_data.get("sign_up")
-        return self.client().post(self.complete_url("/users/sign-up"), data=data, headers=self.json_headers)
+        data = json.dumps(user_data.valid_user_data.get("sign_up"))
+        result = json.loads(self.client().post(self.complete_url(
+            "users/sign-up"), data=data, headers=self.json_headers).get_data(as_text=True))
+        return result
 
     def create_meetup(self):
         data = meetup_data.valid_meetup_data.get("data")
-        return self.client().post(self.complete_url("/meetups"), data=data, headers=self.json_headers)
+        result = json.loads(self.client().post(self.complete_url(
+            "/meetups"), data=data, headers=self.json_headers).get_data(as_text=True))
+        return result
 
     def tearDown(self):
         """Clears all the content in database tables"""
