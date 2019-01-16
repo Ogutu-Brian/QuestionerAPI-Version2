@@ -54,7 +54,8 @@ class BaseModel(V1Base):
         """
         database.cursor.execute("SELECT * FROM {0} WHERE {1} = %s".format(cls.table_name, field), (value,))
         items = database.cursor.fetchall()
-        print(items)
+        for item in items:
+            print (item)
         return [cls.to_object(item) for item in items]
 
     def delete(self)->None:
