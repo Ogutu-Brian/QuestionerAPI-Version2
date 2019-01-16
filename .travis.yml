@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.6"
+services:
+  - postgresql
+install:
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install coveralls
+  - pip install -r requirements.txt
+before_script:
+  - source .travis.sh
+  - psql -c 'create database questioner;' -U postgres
+script:
+  - py.test --cov
+after_success:
+  - coveralls
