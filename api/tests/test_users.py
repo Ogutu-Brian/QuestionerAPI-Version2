@@ -9,4 +9,5 @@ class SignupTest(BaseTest):
 
     def test_successful_sign_up(self):
         """Tests for a successful sign up by user"""
-        self.assertEqual(self.sign_up().status_code, Status.created)
+        result = self.sign_up()
+        self.assertEqual(Status.created, result.get("status"))

@@ -2,26 +2,33 @@ from .import user_view
 from flask import request, jsonify
 from api.app.utils.validators import UserValidators
 from .import Status
-from api.app.models.models import User
-from run import database
 import bcrypt
 
 
 @user_view.route("/sign-up", methods=["POST"])
 def sign_up():
     """A post endpoint for creating a user account"""
+    from api.app.models.models import User
     response = None
     if request.is_json:
-        valid, errors = UserValidators.is_valid(request.json)
+        data = request.json
+        valid, errors = UserValidators.is_valid(data)
         if not valid:
             response = jsonify({
-                "message": "You encountered {}".format(len(errors)),
+                "message": "You encountered {} errors".format(len(errors)),
                 "status": Status.invalid_data
             }), Status.invalid_data
+        elif User.query_by_field("email", data.get("email")):
+            response = jsonify({
+                "message": "The email address has already been taken",
+                "status": Status.invalid_data
+            }), Status.invalid_data
+        elif User.query_by_field("username",data.get("username")):
+            response=jsonify({
+                "message":"The username has already been taken",
+                "status":Status.invalid_data
+            }),Status.invalid_data
         else:
-            data = request.json
-            other_name = ""
-            data = request.json
             other_name = ""
             if data.get("othername"):
                 other_name = data.get("othername")

@@ -1,6 +1,4 @@
 import re
-
-
 class UserValidators(object):
     """ Checks done on User data during Post"""
     @classmethod
@@ -18,12 +16,6 @@ class UserValidators(object):
             errors.append({
                 "message": "email must be provided"
             })
-        else:
-            for object_ in self.data.values():
-                if object_.to_dictionary().get("email") == item.get("email"):
-                    errors.append({
-                        "message": "The email address has already been taken"
-                    })
         if not item.get("phoneNumber"):
             errors.append({
                 "message": "Phone number must be provided"
@@ -32,13 +24,6 @@ class UserValidators(object):
             errors.append({
                 "message": "username must be provided"
             })
-        else:
-            for object_ in self.data.values():
-                if object_.to_dictionary().get("username") == item.get("username"):
-                    errors.append({
-                        "message": "The username has already been taken"
-                    })
-                    break
         if not item.get("password"):
             errors.append({
                 "message": "Password must be provided"
