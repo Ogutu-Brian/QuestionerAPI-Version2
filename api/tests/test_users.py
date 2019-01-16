@@ -1,4 +1,4 @@
-from api.app.tests.base_test import BaseTest
+from api.tests.base_test import BaseTest
 from api.app.views import Status
 
 class SignupTest(BaseTest):

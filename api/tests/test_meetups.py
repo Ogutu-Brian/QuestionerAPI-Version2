@@ -1,4 +1,4 @@
-from api.app.tests.base_test import BaseTest
+from api.tests.base_test import BaseTest
 from .import meetup_data
 from api.app.models.models import Meetup
 from .import rsvp_data
