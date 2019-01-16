@@ -19,4 +19,5 @@ class BaseTest(unittest.TestCase):
         return self.url_prefix+url
 
     def tearDown(self):
+        """Clears all the content in database tables"""
         DbMigrations.tear_down()
