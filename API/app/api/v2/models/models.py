@@ -128,21 +128,22 @@ class User(V1user, BaseModel):
         database.connection.commit()
 
 
-class Question(BaseModel, V1Question):
+class Question(V1Question, BaseModel):
     """Defines table structure and operations for Questions"""
     table_name = "questions"
 
     @classmethod
     def migrate(cls):
-        database.cursor.execute("""CREATE TABLE IF NOT EXISTS question (
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS questions (
             id serial PRIMARY KEY,
             created_date varchar,
-            created_by int,
-            meetup int,
+            created_by integer,
+            meetup integer,
             title varchar,
             body varchar,
-            votes int
+            votes integer
         )""")
+        database.connection.commit()
 
     @classmethod
     def to_object(cls, query_dict):
@@ -168,3 +169,65 @@ class Question(BaseModel, V1Question):
             self.votes
         ))
         database.connection.commit()
+
+
+class Rsvp(V1Rsvp, BaseModel):
+    table_name = "rsvps"
+
+    @classmethod
+    def migrate(cls):
+        """Creates the rsvp table during migrations"""
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS rsvps (
+            creatd_date varchar,
+            meetup integer,
+            user integer,
+            response varchar,
+            PRIMARY KEY(meetup,user)
+        )""")
+        database.connection.commit()
+
+    @classmethod
+    def to_object(cls, query_dict):
+        """Converts the query into Rsvp object"""
+        rsvp = Rsvp()
+        rsvp.meetup = query_dict.get("meetup")
+        rsvp.user = query_dict.get("user")
+        rsvp.response = query_dict.get("response")
+        return rsvp
+
+    def save(self):
+        """Saves Rsvp object to database"""
+        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user,response) VALUES(%s,%s,%s,%s)", (
+            self.created_date,
+            self.meetup,
+            self.user,
+            self.response
+        ))
+        database.connection.commit()
+
+
+class Meetup(V1Meetup, BaseModel):
+    table_name = "meetups"
+
+    @classmethod
+    def migrate(cls):
+        """Creates meetups table during migrations"""
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS meetups(
+            id serial PRIMARY KEY,
+            topic varchar,
+            happening_date varchar,
+            tags varchar,
+            location varchar,
+            images varchar,
+            creator integer
+        )""")
+
+    @classmethod
+    def to_object(cls, query_dict):
+        meetup = Meetup()
+        meetup.topic = query_dict.get("topic")
+        meetup.happening_on = query_dict.get("happening_date")
+        meetup.location = query_dict.get("location")
+        meetup.images = query_dict.get("images")
+        meetup.created_by = query_dict.get("creator")
+        return meetup
