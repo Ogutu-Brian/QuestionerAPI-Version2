@@ -12,6 +12,6 @@ before_script:
   - source .travis.sh
   - psql -c 'create database questioner;' -U postgres
 script:
-  - pytest --cov=app tests/
+  - py.test --cov
 after_success:
   - coveralls
