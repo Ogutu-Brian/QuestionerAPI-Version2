@@ -3,8 +3,8 @@ import re
 
 class UserValidators(object):
     """ Checks done on User data during Post"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("firstname"):
             errors.append({
@@ -70,8 +70,8 @@ class UserValidators(object):
 
 class MeetupValidators(object):
     """Validation done on Meetup data during posts"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("location"):
             errors.append({
@@ -94,8 +94,8 @@ class MeetupValidators(object):
 
 class QuestionValidators(object):
     """Validation done on Question data during Posts"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("createdBy"):
             errors.append({
@@ -118,8 +118,8 @@ class QuestionValidators(object):
 
 class RsvpValidators(object):
     """Vallidation done on Rsvp Data during post"""
-
-    def is_valid(self, item):
+    @classmethod
+    def is_valid(cls, item):
         errors = []
         if not item.get("user"):
             errors.append({
