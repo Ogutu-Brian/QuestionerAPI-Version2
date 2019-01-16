@@ -264,6 +264,7 @@ class TokenBlackList(BaseModel):
         """Saves a blacklist token into blacklst database"""
         database.cursor.execute(
             "INSERT INTO blacklist (token) VALUES(%s)", (self.token,))
+
     @classmethod
     def to_object(cls, query_dict):
         """Changes the query into a blacklist object"""
