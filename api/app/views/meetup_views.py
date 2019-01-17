@@ -16,7 +16,7 @@ def create_meetup():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
-                "data": errors,
+                "error": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
@@ -26,7 +26,7 @@ def create_meetup():
             user = User.query_by_field("email", user_mail)[0]
             if not user.is_admin.lower() == "true":
                 response = jsonify({
-                    "message": "You are not an admin",
+                    "error": "You are not an admin",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -45,7 +45,7 @@ def create_meetup():
                 }), Status.created
     else:
         response = jsonify({
-            "message": "The data should be JSON",
+            "error": "The data should be JSON",
             "status": Status.not_json
         }), Status.not_json
     return response
@@ -60,7 +60,7 @@ def get_meetup(meetup_id):
     response = None
     if not meetup:
         response = jsonify({
-            "message": "A meetup with that id does not exist",
+            "error": "A meetup with that id does not exist",
             "status": Status.not_found
         }), Status.not_found
     else:
@@ -82,7 +82,7 @@ def get_upcoming_meetups():
     meetups = Meetup.query_all()
     if not meetups:
         response = jsonify({
-            "message": "There are no meetups in the record",
+            "error": "There are no meetups in the record",
             "status": Status.success
         }), Status.success
     else:
@@ -106,7 +106,7 @@ def delete_meetup(meetup_id):
     response = None
     if not meetup:
         response = jsonify({
-            "message": "A meetup with that id does not exist",
+            "error": "A meetup with that id does not exist",
             "status": Status.not_found,
         }), Status.not_found
     else:
@@ -114,7 +114,7 @@ def delete_meetup(meetup_id):
         user = User.query_by_field("email", user_mail)[0]
         if not user.is_admin.lower() == "true":
             response = jsonify({
-                "message": "You are not an admin",
+                "error": "You are not an admin",
                 "status": Status.denied_access
             }), Status.denied_access
         else:

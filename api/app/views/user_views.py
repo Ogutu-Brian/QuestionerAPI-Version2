@@ -17,17 +17,17 @@ def sign_up():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
-                "data": errors,
+                "error": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif User.query_by_field("email", data.get("email")):
             response = jsonify({
-                "message": "The email address has already been taken",
+                "error": "The email address has already been taken",
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif User.query_by_field("username", data.get("username")):
             response = jsonify({
-                "message": "The username has already been taken",
+                "error": "The username has already been taken",
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
@@ -40,11 +40,11 @@ def sign_up():
             phone_number = data.get("phoneNumber")
             user_name = data.get("username")
             is_admin = "False"
-            if data.get("isAdmin").lower()=="true":
-                is_admin = "True" 
+            if data.get("isAdmin").lower() == "true":
+                is_admin = "True"
             password = bcrypt.hashpw(data.get("password").encode(
                 'utf8'), bcrypt.gensalt()).decode('utf8')
-            user = User(first_name=first_name, last_name=last_name,is_admin=is_admin,
+            user = User(first_name=first_name, last_name=last_name, is_admin=is_admin,
                         other_name=other_name, email=email, phone_number=phone_number, user_name=user_name, password=password)
             user.save()
             response = jsonify({
@@ -54,7 +54,7 @@ def sign_up():
             }), Status.created
     else:
         response = jsonify({
-            "message": "The data needs to be in JSON",
+            "error": "The data needs to be in JSON",
             "status": Status.not_json
         }), Status.not_json
     return response
@@ -71,12 +71,12 @@ def login():
         password = data.get("password")
         if not email and not username:
             response = jsonify({
-                "message": "provide either your username or password to log in",
+                "error": "provide either your username or password to log in",
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif not password:
             response = jsonify({
-                "message": "Provide your password",
+                "error": "Provide your password",
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif username:
@@ -84,7 +84,7 @@ def login():
             user = User.query_by_field("username", username)
             if not user:
                 response = jsonify({
-                    "message": "The username does not exist, plase sign up",
+                    "error": "The username does not exist, plase sign up",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -98,7 +98,7 @@ def login():
                     }), Status.success
                 else:
                     response = jsonify({
-                        "message": "Invalid password",
+                        "error": "Invalid password",
                         "status": Status.denied_access
                     }), Status.denied_access
         else:
@@ -106,7 +106,7 @@ def login():
             user = User.query_by_field("email", email)
             if not user:
                 response = jsonify({
-                    "message": "A user with that mail does not exist, plase sign up",
+                    "error": "A user with that mail does not exist, plase sign up",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -120,12 +120,12 @@ def login():
                     }), Status.success
                 else:
                     response = jsonify({
-                        "message": "Invalid password",
+                        "error": "Invalid password",
                         "status": Status.denied_access
                     }), Status.denied_access
     else:
         response = jsonify({
-            "message": "The data needs to be in JSON",
+            "error": "The data needs to be in JSON",
             "status": Status.not_json
         }), Status.not_json
     return response
