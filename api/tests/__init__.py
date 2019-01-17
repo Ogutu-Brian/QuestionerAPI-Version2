@@ -355,9 +355,3 @@ class UserData(object):
         "email": "testmaiddl.@gmail.com",
         "password": "password12#B"
     }
-
-
-user_data = UserData()
-rsvp_data = RsvpData()
-meetup_data = MeetupData()
-question_data = QuestionData()
