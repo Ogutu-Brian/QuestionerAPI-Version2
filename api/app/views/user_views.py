@@ -39,9 +39,12 @@ def sign_up():
             email = data.get("email")
             phone_number = data.get("phoneNumber")
             user_name = data.get("username")
+            is_admin = "False"
+            if data.get("isAdmin").lower()=="true":
+                is_admin = "True" 
             password = bcrypt.hashpw(data.get("password").encode(
                 'utf8'), bcrypt.gensalt()).decode('utf8')
-            user = User(first_name=first_name, last_name=last_name,
+            user = User(first_name=first_name, last_name=last_name,is_admin=is_admin,
                         other_name=other_name, email=email, phone_number=phone_number, user_name=user_name, password=password)
             user.save()
             response = jsonify({
@@ -87,7 +90,7 @@ def login():
             else:
                 user = user[0]
                 if bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
-                    token = create_access_token(identity=user.user_name)
+                    token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
                         "token": token,

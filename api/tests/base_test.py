@@ -2,7 +2,7 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from .import UserData
+from .import UserData, MeetupData
 
 
 class BaseTest(unittest.TestCase):
@@ -18,6 +18,7 @@ class BaseTest(unittest.TestCase):
         self.url_prefix = "/api/v2/"
         DbMigrations.makemigrations()
         self.user_data = UserData()
+        self.meetup_data = MeetupData()
 
     def complete_url(self, url=""):
         """Returns complete url endpoint that is tested by the view"""
@@ -43,7 +44,19 @@ class BaseTest(unittest.TestCase):
             "users/log-in"), data=self.user_data.data, headers=self.json_headers)
         return result
 
+    def create_meetup(self):
+        """Successfully creates a meetup Record"""
+        self.sign_up()
+        result = self.login()
+        token = result["token"]
+        print(token)
+        self.json_headers["Authorization"]='Bearer {}'.format(token)
+        result = self.post_data(url=self.complete_url("meetups"),
+                                data=self.meetup_data.data, headers=self.json_headers)
+        return result
+
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
         DbMigrations.tear_down()
         self.user_data = UserData()
+        self.meetup_data = MeetupData()

@@ -25,7 +25,7 @@ class User(BaseModel):
     """A model for user information"""
 
     def __init__(self, id_="", created_on=datetime.date.today(), first_name="", last_name="",
-                 other_name="", email="", phone_number="", user_name="", is_admin=False, password=""):
+                 other_name="", email="", phone_number="", user_name="", is_admin="False", password=""):
         super().__init__(id_=id_, created_on=created_on)
         self.first_name = first_name
         self.last_name = last_name
