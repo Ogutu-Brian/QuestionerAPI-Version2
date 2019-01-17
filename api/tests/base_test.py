@@ -31,6 +31,12 @@ class BaseTest(unittest.TestCase):
         result = self.client().post(url, data=json.dumps(data), headers=headers)
         return json.loads(result.get_data(as_text=True))
 
+    def get_data(self, url):
+        """used to get data at given urls"""
+        result = json.loads(self.client().get(
+            self.complete_url(url)).get_data(as_text=True))
+        return result
+
     def sign_up(self):
         """Signs up a user into the system"""
         result = self.post_data(url=self.complete_url(
@@ -50,7 +56,7 @@ class BaseTest(unittest.TestCase):
         result = self.login()
         token = result["token"]
         print(token)
-        self.json_headers["Authorization"]='Bearer {}'.format(token)
+        self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         result = self.post_data(url=self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result
