@@ -67,7 +67,7 @@ def get_meetup(meetup_id):
         meetup = meetup[0]
         response = jsonify({
             "message": "A meetup was successfully found",
-            "data": meetup.to_dictionary(),
+            "data": [meetup.to_dictionary()],
             "status": Status.success
         }), Status.success
     return response
