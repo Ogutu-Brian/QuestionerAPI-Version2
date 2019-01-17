@@ -55,7 +55,6 @@ class BaseTest(unittest.TestCase):
         self.sign_up()
         result = self.login()
         token = result["token"]
-        print(token)
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         result = self.post_data(url=self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.json_headers)
