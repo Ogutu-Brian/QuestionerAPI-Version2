@@ -61,6 +61,13 @@ class BaseTest(unittest.TestCase):
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result
 
+    def authorize_with_jwt(self):
+        """Generates token that is used to secure endpoints"""
+        self.sign_up()
+        token = self.login()["token"]
+        self.json_headers["Authorization"] = 'Bearer {}'.format(token)
+        self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
+
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
         DbMigrations.tear_down()

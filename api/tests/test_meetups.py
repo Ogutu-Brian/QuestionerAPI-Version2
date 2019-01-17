@@ -39,10 +39,7 @@ class TestMeetups(BaseTest):
 
     def test_invalid_post_object(self):
         """Tests if the data being posted is actually json"""
-        self.sign_up()
-        result = self.login()
-        token = result["token"]
-        self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
+        self.authorize_with_jwt()
         result = self.post_data(self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.not_json_header)
         self.assertEqual(Status.not_json, result.get("status"))
@@ -52,3 +49,5 @@ class TestMeetups(BaseTest):
         meetup_id = self.create_meetup()["data"][0].get("id")
         result = self.get_data("meetups/{}".format(meetup_id))
         self.assertEqual(Status.success, result.get("status"))
+    def test_all_upming_meetups(self):
+        
