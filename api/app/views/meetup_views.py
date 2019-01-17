@@ -101,7 +101,7 @@ def get_upcoming_meetups():
 @jwt_required
 def delete_meetup(meetup_id):
     """A delete endpoint for deleting meetups"""
-    from api.app.models.models import Meetup
+    from api.app.models.models import Meetup, User
     meetup = Meetup.query_by_field("id", int(meetup_id))
     response = None
     if not meetup:
@@ -110,10 +110,18 @@ def delete_meetup(meetup_id):
             "status": Status.not_found,
         }), Status.not_found
     else:
-        meetup = meetup[0]
-        meetup.delete()
-        response = jsonify({
-            "message": "Successfully deleted the meetup",
-            "status": Status.success
-        }), Status.success
+        user_mail = get_jwt_identity()
+        user = User.query_by_field("email", user_mail)[0]
+        if not user.is_admin.lower() == "true":
+            response = jsonify({
+                "message": "You are not an admin",
+                "status": Status.denied_access
+            }), Status.denied_access
+        else:
+            meetup = meetup[0]
+            meetup.delete()
+            response = jsonify({
+                "message": "Successfully deleted the meetup",
+                "status": Status.success
+            }), Status.success
     return response

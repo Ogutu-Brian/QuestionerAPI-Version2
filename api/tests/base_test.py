@@ -64,7 +64,6 @@ class BaseTest(unittest.TestCase):
 
     def authorize_with_jwt(self):
         """Generates token that is used to secure endpoints"""
-        self.sign_up()
         result = self.login()
         token = result["token"]
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
