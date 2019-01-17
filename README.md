@@ -67,12 +67,8 @@ $ flask run
 ## Endpoints
 All endpoints can be now accessed from the following url on your local computer
 ```
-http://localhost:5000/api/v1/
-```
-Or from Heroku
-```
-https://quest-ioner.herokuapp.com/api/v1/
-```
+http://localhost:5000/api/v2/
+``````
 
 ## Testing
 After successfully installing the application, the endpoints can be tested by running.
