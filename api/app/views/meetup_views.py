@@ -52,6 +52,7 @@ def create_meetup():
 
 
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
+@jwt_required
 def get_meetup(meetup_id):
     """ A get endpoint for getting a specific meetup given an id"""
     from api.app.models.models import Meetup
@@ -67,6 +68,30 @@ def get_meetup(meetup_id):
         response = jsonify({
             "message": "A meetup was successfully found",
             "data": meetup.to_dictionary(),
+            "status": Status.success
+        }), Status.success
+    return response
+
+
+@meetup_view.route("/meetups/upcoming/", methods=["GET"])
+@jwt_required
+def get_upcoming_meetups():
+    """A GET endpoint for getting all the upcoming meetups"""
+    from api.app.models.models import Meetup
+    response = None
+    meetups = Meetup.query_all()
+    if not meetups:
+        response = jsonify({
+            "message": "There are no meetups in the record",
+            "status": Status.success
+        }), Status.success
+    else:
+        result_set = []
+        for meetup in meetups:
+            result_set.append(meetup.to_dictionary())
+        response = jsonify({
+            "mesage": "Successfullyy got all upcoming meetups",
+            "data": result_set,
             "status": Status.success
         }), Status.success
     return response
