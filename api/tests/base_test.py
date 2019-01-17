@@ -43,6 +43,9 @@ class BaseTest(unittest.TestCase):
             "users/log-in"), data=self.user_data.data, headers=self.json_headers)
         return result
 
+    def create_meetup(self):
+        """Successfully creates a meetup"""
+
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
         DbMigrations.tear_down()
