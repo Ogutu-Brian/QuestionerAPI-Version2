@@ -65,6 +65,6 @@ def create_app(application_config):
 
 
 app = create_app("DEVELOPMENT")
-DbMigrations.tear_down()
+DbMigrations.makemigrations()
 if __name__ == "__main__":
     app.run()

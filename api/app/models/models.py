@@ -105,7 +105,7 @@ class User(V1user, BaseModel):
         user.email = query_dict.get("email")
         user.phone_number = query_dict.get("phone")
         user.user_name = query_dict.get("username")
-        user.is_admin = bool(query_dict.get("role"))
+        user.is_admin = query_dict.get("role")
         user.password = query_dict.get("password")
         return user
 

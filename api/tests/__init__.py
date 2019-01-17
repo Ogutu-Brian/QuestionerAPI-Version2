@@ -45,5 +45,6 @@ class UserData(object):
             "phoneNumber": "0703812914",
             "username": "Brian",
             "email": "codingbrian58@gmail.com",
-            "password": "password12#B"
+            "password": "password12#B",
+            "isAdmin":"True"
         }
