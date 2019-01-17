@@ -207,6 +207,12 @@ class Rsvp(V1Rsvp, BaseModel):
         ))
         super().save()
 
+    def delete(self):
+        """Deletes item from tje table"""
+        database.cursor.execute(
+            "DELETE FROM {} WHERE id = %s".format(self.table_name), (self.id))
+        database.connection.commit()
+
 
 class Meetup(V1Meetup, BaseModel):
     table_name = "meetups"

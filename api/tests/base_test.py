@@ -39,7 +39,7 @@ class BaseTest(unittest.TestCase):
 
     def delete_data(self, url, headers={}):
         result = json.loads(self.client().delete(
-            url, headers=headers).get_data(as_text=True))
+            self.complete_url(url), headers=headers).get_data(as_text=True))
         return result
 
     def sign_up(self):

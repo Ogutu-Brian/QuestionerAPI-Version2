@@ -95,3 +95,25 @@ def get_upcoming_meetups():
             "status": Status.success
         }), Status.success
     return response
+
+
+@meetup_view.route("/meetups/<meetup_id>", methods=["DELETE"])
+@jwt_required
+def delete_meetup(meetup_id):
+    """A delete endpoint for deleting meetups"""
+    from api.app.models.models import Meetup
+    meetup = Meetup.query_by_field("id", int(meetup_id))
+    response = None
+    if not meetup:
+        response = jsonify({
+            "message": "A meetup with that id does not exist",
+            "status": Status.not_found,
+        }), Status.not_found
+    else:
+        meetup = meetup[0]
+        meetup.delete()
+        response = jsonify({
+            "message": "Successfully deleted the meetup",
+            "status": Status.success
+        }), Status.success
+    return response
