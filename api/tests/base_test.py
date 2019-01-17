@@ -2,8 +2,7 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from api.app.models.object_models import User
-from .import meetup_data, user_data
+from .import UserData
 
 
 class BaseTest(unittest.TestCase):
@@ -17,24 +16,34 @@ class BaseTest(unittest.TestCase):
         self.migration = DbMigrations()
         self.json_headers = {"Content-Type": "application/json"}
         self.url_prefix = "/api/v2/"
-        self.migration.makemigrations()
+        DbMigrations.makemigrations()
+        self.user_data = UserData()
 
     def complete_url(self, url=""):
         """Returns complete url endpoint that is tested by the view"""
         return self.url_prefix+url
 
+    def post_data(self, url="", data={}, headers={}):
+        """
+        Posts data to various endpoints
+        """
+        result = self.client().post(url, data=json.dumps(data), headers=headers)
+        return json.loads(result.get_data(as_text=True))
+
     def sign_up(self):
-        data = json.dumps(user_data.valid_user_data.get("sign_up"))
-        result = json.loads(self.client().post(self.complete_url(
-            "users/sign-up"), data=data, headers=self.json_headers).get_data(as_text=True))
+        """Signs up a user into the system"""
+        result = self.post_data(url=self.complete_url(
+            "users/sign-up"), data=self.user_data.data, headers=self.json_headers)
         return result
 
-    def create_meetup(self):
-        data = meetup_data.valid_meetup_data.get("data")
-        result = json.loads(self.client().post(self.complete_url(
-            "/meetups"), data=data, headers=self.json_headers).get_data(as_text=True))
+    def login(self):
+        """Logs in auser into the system"""
+        self.sign_up()
+        result = self.post_data(url=self.complete_url(
+            "users/log-in"), data=self.user_data.data, headers=self.json_headers)
         return result
 
     def tearDown(self):
-        """Clears all the content in database tables"""
-        self.migration.tear_down()
+        """Clears all the content in database tables and instantiates data objects"""
+        DbMigrations.tear_down()
+        self.user_data = UserData()
