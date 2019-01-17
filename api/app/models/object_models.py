@@ -36,6 +36,7 @@ class User(BaseModel):
         self.registred = self.created_date()
         self.is_admin = is_admin
         self.password = password
+        self.id = id_
 
     def __str__(self):
         return self.first_name + " "+self.last_name
@@ -67,6 +68,7 @@ class Meetup(BaseModel):
         self.location = location
         self.images = images
         self.created_by = creaed_by
+        self.id = id_
 
     def to_dictionary(self)->Dict:
         """
@@ -95,6 +97,7 @@ class Question(BaseModel):
         self.title = title
         self.body = body
         self.votes = votes
+        self.id = id_
 
     def __str__(self):
         return self.body
@@ -124,6 +127,7 @@ class Rsvp(BaseModel):
         self.user = user
         self.response = response
         self.primary = (self.meetup, self.user)
+        self.id = id_
 
     def to_dictionary(self)->Dict:
         """Overrides the basemodel method to represent an Rsvp object in a dictionary format"""

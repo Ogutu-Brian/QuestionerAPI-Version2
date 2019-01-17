@@ -73,7 +73,7 @@ def get_meetup(meetup_id):
     return response
 
 
-@meetup_view.route("/meetups/upcoming", methods=["GET"])
+@meetup_view.route("/meetups/upcoming/", methods=["GET"])
 @jwt_required
 def get_upcoming_meetups():
     """A GET endpoint for getting all the upcoming meetups"""
