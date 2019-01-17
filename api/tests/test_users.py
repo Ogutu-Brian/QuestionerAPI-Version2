@@ -86,4 +86,4 @@ class UserTest(BaseTest):
     def test_successful_user_login(self):
         self.sign_up()
         result = self.login()
-        self.assertEqual(Status.success, result.get("stataus"))
+        self.assertEqual(Status.success, result.get("status"))
