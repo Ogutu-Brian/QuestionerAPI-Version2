@@ -2,7 +2,7 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from .import UserData, MeetupData
+from .import UserData, MeetupData, QuestionData
 
 
 class BaseTest(unittest.TestCase):
@@ -19,6 +19,7 @@ class BaseTest(unittest.TestCase):
         DbMigrations.makemigrations()
         self.user_data = UserData()
         self.meetup_data = MeetupData()
+        self.questions_data = QuestionData()
 
     def complete_url(self, url=""):
         """Returns complete url endpoint that is tested by the view"""
@@ -68,11 +69,22 @@ class BaseTest(unittest.TestCase):
         token = result["data"][0].get("token")
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
+        return result["data"][0]["user"]
+
+    def create_question(self):
+        meetup_id = self.create_meetup()["data"][0].get("id")
+        user_id = self.authorize_with_jwt()["id"]
+        self.questions_data.data["createdBy"] = user_id
+        self.questions_data.data["meetup"] = meetup_id
+        result = self.post_data("questions", data=self.questions_data,
+                                headers=self.json_headers)
+        return result
 
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
         DbMigrations.tear_down()
         self.user_data = UserData()
         self.meetup_data = MeetupData()
+        self.questions_data = QuestionData()
         self.json_headers = {"Content-Type": "application/json"}
         self.not_json_header = {}
