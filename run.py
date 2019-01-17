@@ -6,6 +6,7 @@ from flask import jsonify,Blueprint
 from api.app.views import Status
 from api.app.views.user_views import user_view
 from api.app.views.meetup_views import meetup_view
+
 database = PostgresDatabase()
 
 from migrtions import DbMigrations
