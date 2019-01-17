@@ -83,8 +83,8 @@ def get_upcoming_meetups():
     if not meetups:
         response = jsonify({
             "message": "There are no meetups in the record",
-            "status": Status.no_content
-        }), Status.no_content
+            "status": Status.success
+        }), Status.success
     else:
         result_set = []
         for meetup in meetups:
