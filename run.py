@@ -1,14 +1,13 @@
+from migrtions import DbMigrations
 from flask import Flask
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
 from flask_jwt_extended import JWTManager
-from flask import jsonify,Blueprint
+from flask import jsonify, Blueprint
 from api.app.views import Status
 from api.app.views.user_views import user_view
 
 database = PostgresDatabase()
-
-from migrtions import DbMigrations
 
 
 def create_app(application_config):
