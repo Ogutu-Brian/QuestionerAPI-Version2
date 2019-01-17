@@ -16,7 +16,7 @@ def create_meetup():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
-                "data": errors,
+                "error": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
@@ -26,7 +26,7 @@ def create_meetup():
             user = User.query_by_field("email", user_mail)[0]
             if not user.is_admin.lower() == "true":
                 response = jsonify({
-                    "message": "You are not an admin",
+                    "error": "You are not an admin",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -45,7 +45,7 @@ def create_meetup():
                 }), Status.created
     else:
         response = jsonify({
-            "message": "The data should be JSON",
+            "error": "The data should be JSON",
             "status": Status.not_json
         }), Status.not_json
     return response
@@ -60,14 +60,14 @@ def get_meetup(meetup_id):
     response = None
     if not meetup:
         response = jsonify({
-            "message": "A meetup with that id does not exist",
+            "error": "A meetup with that id does not exist",
             "status": Status.not_found
         }), Status.not_found
     else:
         meetup = meetup[0]
         response = jsonify({
             "message": "A meetup was successfully found",
-            "data": meetup.to_dictionary(),
+            "data": [meetup.to_dictionary()],
             "status": Status.success
         }), Status.success
     return response
@@ -82,7 +82,7 @@ def get_upcoming_meetups():
     meetups = Meetup.query_all()
     if not meetups:
         response = jsonify({
-            "message": "There are no meetups in the record",
+            "error": "There are no meetups in the record",
             "status": Status.success
         }), Status.success
     else:
@@ -94,4 +94,34 @@ def get_upcoming_meetups():
             "data": result_set,
             "status": Status.success
         }), Status.success
+    return response
+
+
+@meetup_view.route("/meetups/<meetup_id>", methods=["DELETE"])
+@jwt_required
+def delete_meetup(meetup_id):
+    """A delete endpoint for deleting meetups"""
+    from api.app.models.models import Meetup, User
+    meetup = Meetup.query_by_field("id", int(meetup_id))
+    response = None
+    if not meetup:
+        response = jsonify({
+            "error": "A meetup with that id does not exist",
+            "status": Status.not_found,
+        }), Status.not_found
+    else:
+        user_mail = get_jwt_identity()
+        user = User.query_by_field("email", user_mail)[0]
+        if not user.is_admin.lower() == "true":
+            response = jsonify({
+                "error": "You are not an admin",
+                "status": Status.denied_access
+            }), Status.denied_access
+        else:
+            meetup = meetup[0]
+            meetup.delete()
+            response = jsonify({
+                "data": ["Successfully deleted the meetup"],
+                "status": Status.success
+            }), Status.success
     return response
