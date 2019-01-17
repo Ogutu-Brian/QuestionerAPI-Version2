@@ -45,14 +45,14 @@ class BaseTest(unittest.TestCase):
     def sign_up(self):
         """Signs up a user into the system"""
         result = self.post_data(url=self.complete_url(
-            "users/sign-up"), data=self.user_data.data, headers=self.json_headers)
+            "auth/signup"), data=self.user_data.data, headers=self.json_headers)
         return result
 
     def login(self):
         """Logs in auser into the system"""
         self.sign_up()
         result = self.post_data(url=self.complete_url(
-            "users/log-in"), data=self.user_data.data, headers=self.json_headers)
+            "auth/login"), data=self.user_data.data, headers=self.json_headers)
         return result
 
     def create_meetup(self):
@@ -65,7 +65,7 @@ class BaseTest(unittest.TestCase):
     def authorize_with_jwt(self):
         """Generates token that is used to secure endpoints"""
         result = self.login()
-        token = result["token"]
+        token = result["data"][0].get("token")
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
 

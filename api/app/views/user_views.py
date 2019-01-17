@@ -6,7 +6,7 @@ import bcrypt
 from flask_jwt_extended import create_access_token
 
 
-@user_view.route("/sign-up", methods=["POST"])
+@user_view.route("/signup", methods=["POST"])
 def sign_up():
     """A post endpoint for creating a user account"""
     from api.app.models.models import User
@@ -60,7 +60,7 @@ def sign_up():
     return response
 
 
-@user_view.route("/log-in", methods=["POST"])
+@user_view.route("/login", methods=["POST"])
 def login():
     """A post endpoint for logging a user into questioner"""
     response = None
@@ -93,7 +93,10 @@ def login():
                     token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
-                        "token": token,
+                        "data":[{
+                            "token":token,
+                            "user":user.to_dictionary()
+                        }],
                         "status": Status.success
                     }), Status.success
                 else:
@@ -115,7 +118,10 @@ def login():
                     token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
-                        "token": token,
+                         "data":[{
+                            "token":token,
+                            "user":user.to_dictionary()
+                        }],
                         "status": Status.success
                     }), Status.success
                 else:

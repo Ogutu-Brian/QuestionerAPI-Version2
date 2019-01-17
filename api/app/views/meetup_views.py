@@ -121,7 +121,7 @@ def delete_meetup(meetup_id):
             meetup = meetup[0]
             meetup.delete()
             response = jsonify({
-                "message": "Successfully deleted the meetup",
+                "data": ["Successfully deleted the meetup"],
                 "status": Status.success
             }), Status.success
     return response

@@ -18,7 +18,7 @@ def create_app(application_config):
     app.config.from_object(app_config.get(application_config))
     database.initialize_application(app)
     jwt = JWTManager(app)
-    app.register_blueprint(user_view, url_prefix="/api/v2/users")
+    app.register_blueprint(user_view, url_prefix="/api/v2/auth")
     app.register_blueprint(meetup_view,url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
