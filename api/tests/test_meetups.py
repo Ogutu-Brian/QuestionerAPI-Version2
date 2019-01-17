@@ -59,7 +59,14 @@ class TestMeetups(BaseTest):
         self.create_meetup()
         result = self.get_data("meetups/upcoming/", self.json_headers)
         self.assertEqual(Status.success, result.get("status"))
+
     def test_no_meetup_records(self):
         self.authorize_with_jwt()
         result = self.get_data("meetups/upcoming/", self.json_headers)
+        self.assertEqual(Status.success, result.get("status"))
+
+    def test_delete_meetup(self):
+        """Test for delete meetup endpoint"""
+        meetup_id = self.create_meetup()["data"][0]["id"]
+        result=self.delete_data("meetups/{}".format(meetup_id))
         self.assertEqual(Status.success, result.get("status"))
