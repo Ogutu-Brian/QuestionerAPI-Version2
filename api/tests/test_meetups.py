@@ -42,3 +42,9 @@ class TestMeetups(BaseTest):
         self.json_headers = self.not_json_header
         result = self.create_meetup()
         self.assertEqual(Status.not_json, result.get("status"))
+
+    def test_get_meetup_record(self):
+        """Tests for get request for a specific meetup given a meetup id"""
+        self.create_meetup()
+        result = self.get_data("meetups/1")
+        self.assertEqual(Status.success, result.get("status"))
