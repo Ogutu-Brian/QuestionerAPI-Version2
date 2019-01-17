@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask import jsonify,Blueprint
 from api.app.views import Status
 from api.app.views.user_views import user_view
-
+from api.app.views.meetup_views import meetup_view
 database = PostgresDatabase()
 
 from migrtions import DbMigrations
@@ -18,6 +18,7 @@ def create_app(application_config):
     database.initialize_application(app)
     jwt = JWTManager(app)
     app.register_blueprint(user_view, url_prefix="/api/v2/users")
+    app.register_blueprint(meetup_view,url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
     def is_valid_token(token):
@@ -64,6 +65,6 @@ def create_app(application_config):
 
 
 app = create_app("DEVELOPMENT")
-DbMigrations.makemigrations()
+DbMigrations.tear_down()
 if __name__ == "__main__":
     app.run()

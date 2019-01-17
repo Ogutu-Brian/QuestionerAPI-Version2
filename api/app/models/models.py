@@ -217,8 +217,7 @@ class Meetup(V1Meetup, BaseModel):
             happening_date varchar,
             tags varchar,
             location varchar,
-            images varchar,
-            creator integer
+            images varchar
         )""")
         database.connection.commit()
 
@@ -230,18 +229,16 @@ class Meetup(V1Meetup, BaseModel):
         meetup.happening_on = query_dict.get("happening_date")
         meetup.location = query_dict.get("location")
         meetup.images = query_dict.get("images")
-        meetup.created_by = query_dict.get("creator")
         return meetup
 
     def save(self):
         """Saves the meetup object into the database"""
-        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images,creator) VALUES(%s,%s,%s,%s,%s,%s)", (
+        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s)", (
             self.topic,
             self.happening_on,
             self.tags,
             self.location,
-            self.images,
-            self.created_by
+            self.images
         ))
         database.connection.commit()
 

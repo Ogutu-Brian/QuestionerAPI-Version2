@@ -48,6 +48,7 @@ class BaseTest(unittest.TestCase):
         """Successfully creates a meetup Record"""
         self.sign_up()
         self.login()
+        print(self.complete_url("meetups"))
         result = self.post_data(url=self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result
