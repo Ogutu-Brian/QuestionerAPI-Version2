@@ -78,13 +78,14 @@ def login():
             }), Status.invalid_data
         elif username:
             from api.app.models.models import User
-            user = User.query_by_field("username", username)[0]
+            user = User.query_by_field("username", username)
             if not user:
                 response = jsonify({
                     "message": "The username does not exist, plase sign up",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
+                user = user[0]
                 if bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
                     token = create_access_token(identity=user.user_name)
                     response = jsonify({
@@ -99,13 +100,14 @@ def login():
                     }), Status.denied_access
         else:
             from api.app.models.models import User
-            user = User.query_by_field("email", email)[0]
+            user = User.query_by_field("email", email)
             if not user:
                 response = jsonify({
                     "message": "A user with that mail does not exist, plase sign up",
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
+                user = user[0]
                 if bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
                     token = create_access_token(identity=user.email)
                     response = jsonify({

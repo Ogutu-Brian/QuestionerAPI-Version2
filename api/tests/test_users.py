@@ -124,3 +124,9 @@ class UserTest(BaseTest):
         self.sign_up()
         result = self.login()
         self.assertEqual(Status.not_json, result.get("status"))
+
+    def test_token_generation(self):
+        """Tests whether a token is generated during login"""
+        self.sign_up()
+        result = self.login()
+        self.assertEqual((result.get("token") != None), True)
