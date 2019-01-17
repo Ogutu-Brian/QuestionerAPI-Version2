@@ -1,13 +1,13 @@
-from migrtions import DbMigrations
 from flask import Flask
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
 from flask_jwt_extended import JWTManager
-from flask import jsonify, Blueprint
+from flask import jsonify,Blueprint
 from api.app.views import Status
 from api.app.views.user_views import user_view
-
 database = PostgresDatabase()
+
+from migrtions import DbMigrations
 
 
 def create_app(application_config):
@@ -52,17 +52,11 @@ def create_app(application_config):
             "message": "Resource unavalable in the url",
             "status": Status.not_found
         }), Status.not_found
-
-    @app.errorhandler(400)
-    def bad_request(error):
-        return jsonify({
-            "message": "Please check the request method you are using",
-            "status": Status.bad_requst
-        }), Status.bad_requst
     return app
 
 
 app = create_app("DEVELOPMENT")
 DbMigrations.makemigrations()
+#DbMigrations.tear_down()
 if __name__ == "__main__":
     app.run()
