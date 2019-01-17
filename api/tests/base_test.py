@@ -2,7 +2,6 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from api.app.models.object_models import User
 from .import UserData
 
 
