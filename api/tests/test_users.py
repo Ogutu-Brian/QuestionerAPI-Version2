@@ -9,14 +9,6 @@ class UserTest(BaseTest):
 
     def setUp(self):
         super().setUp()
-
-    def post_data(self, url, data={}, headers={}):
-        """
-        Posts data to various endpoints
-        """
-        result = self.client().post(url, data=json.dumps(data), headers=headers)
-        return json.loads(result.get_data(as_text=True))
-
     def test_successful_sign_up(self):
         """Tests for a successful sign up by user"""
         result = self.sign_up()
@@ -95,3 +87,5 @@ class UserTest(BaseTest):
         result = self.post_data(url=self.complete_url(
             "users/sign-up"), data=self.user_data.complete_data, headers=self.json_headers)
         self.assertEqual(Status.invalid_data, result.get("status"))
+    def test_successful_user_login(self):
+        pass

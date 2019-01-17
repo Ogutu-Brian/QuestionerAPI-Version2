@@ -24,11 +24,22 @@ class BaseTest(unittest.TestCase):
         """Returns complete url endpoint that is tested by the view"""
         return self.url_prefix+url
 
+    def post_data(self, url, data={}, headers={}):
+        """
+        Posts data to various endpoints
+        """
+        result = self.client().post(url, data=json.dumps(data), headers=headers)
+        return json.loads(result.get_data(as_text=True))
+
     def sign_up(self):
         data = json.dumps(self.user_data.valid_user_data.get("sign_up"))
         result = json.loads(self.client().post(self.complete_url(
             "users/sign-up"), data=data, headers=self.json_headers).get_data(as_text=True))
         return result
+
+    def login(self):
+        self.sign_up()
+
 
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
