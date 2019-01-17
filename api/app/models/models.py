@@ -232,6 +232,7 @@ class Meetup(V1Meetup, BaseModel):
         meetup.happening_on = query_dict.get("happening_date")
         meetup.location = query_dict.get("location")
         meetup.images = query_dict.get("images")
+        meetup.id = query_dict.get("id")
         return meetup
 
     def save(self):
