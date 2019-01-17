@@ -52,6 +52,7 @@ def create_meetup():
 
 
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
+@jwt_required
 def get_meetup(meetup_id):
     """ A get endpoint for getting a specific meetup given an id"""
     from api.app.models.models import Meetup

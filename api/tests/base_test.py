@@ -31,11 +31,9 @@ class BaseTest(unittest.TestCase):
         result = self.client().post(url, data=json.dumps(data), headers=headers)
         return json.loads(result.get_data(as_text=True))
 
-    def get_data(self, url):
+    def get_data(self, url="", headers={}):
         """used to get data at given urls"""
-        result = json.loads(self.client().get(
-            self.complete_url(url)).get_data(as_text=True))
-        print(self.complete_url(url=url))
+        result = json.loads(self.client().get(self.complete_url(url),headers=headers).get_data(as_text=True))
         return result
 
     def sign_up(self):
@@ -53,10 +51,7 @@ class BaseTest(unittest.TestCase):
 
     def create_meetup(self):
         """Successfully creates a meetup Record"""
-        self.sign_up()
-        result = self.login()
-        token = result["token"]
-        self.json_headers["Authorization"] = 'Bearer {}'.format(token)
+        self.authorize_with_jwt()
         result = self.post_data(url=self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result
@@ -64,7 +59,8 @@ class BaseTest(unittest.TestCase):
     def authorize_with_jwt(self):
         """Generates token that is used to secure endpoints"""
         self.sign_up()
-        token = self.login()["token"]
+        result = self.login()
+        token = result["token"]
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
 
@@ -73,3 +69,5 @@ class BaseTest(unittest.TestCase):
         DbMigrations.tear_down()
         self.user_data = UserData()
         self.meetup_data = MeetupData()
+        self.json_headers = {"Content-Type": "application/json"}
+        self.not_json_header = {}
