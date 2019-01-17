@@ -16,7 +16,7 @@ class BaseTest(unittest.TestCase):
         self.migration = DbMigrations()
         self.json_headers = {"Content-Type": "application/json"}
         self.url_prefix = "/api/v2/"
-        self.migration.makemigrations()
+        DbMigrations.makemigrations()
         self.user_data = UserData()
 
     def complete_url(self, url=""):
@@ -45,5 +45,5 @@ class BaseTest(unittest.TestCase):
 
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
-        self.migration.tear_down()
+        DbMigrations.tear_down()
         self.user_data = UserData()
