@@ -36,3 +36,9 @@ class TestMeetups(BaseTest):
         self.meetup_data.data["images"] = ""
         result = self.create_meetup()
         self.assertEqual(Status.created, result.get("status"))
+
+    def test_invalid_post_object(self):
+        """Tests if the data being posted is actually json"""
+        self.json_headers = self.not_json_header
+        result = self.create_meetup()
+        self.assertEqual(Status.not_json, result.get("status"))
