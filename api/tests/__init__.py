@@ -4,9 +4,9 @@ class MeetupData(object):
     def __init__(self):
         self.data = {
             "location": "Andela Campus",
-            "images": """["/images/important", "/images/meetup"]""",
+            "images": "['/images/important', '/images/meetup']",
             "topic": "Responsive Web Design",
-            "Tags": """["User Interface", "Responsive Design"]""",
+            "Tags": "['User Interface', 'Responsive Design']",
             "happeningOn": "2018-04-23T18:25:43.511Z"
         }
 

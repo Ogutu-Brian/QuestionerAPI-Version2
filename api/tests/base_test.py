@@ -47,8 +47,9 @@ class BaseTest(unittest.TestCase):
     def create_meetup(self):
         """Successfully creates a meetup Record"""
         self.sign_up()
-        self.login()
+        token=self.login()["token"]
         print(self.complete_url("meetups"))
+        self.json_headers["Authorization"]='Bearer {}'.format(token)
         result = self.post_data(url=self.complete_url("meetups"),
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result

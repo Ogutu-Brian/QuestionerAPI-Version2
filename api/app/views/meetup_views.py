@@ -2,9 +2,10 @@ from .import meetup_view
 from flask import request, jsonify
 from api.app.views import Status
 from api.app.utils.validators import MeetupValidators
-
+from flask_jwt_extended import jwt_required
 
 @meetup_view.route("/meetups", methods=["POST"])
+@jwt_required
 def create_meetup():
     """A post endpoint for creating a meetup by an administrator"""
     response = None
