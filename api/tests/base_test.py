@@ -24,7 +24,7 @@ class BaseTest(unittest.TestCase):
         """Returns complete url endpoint that is tested by the view"""
         return self.url_prefix+url
 
-    def post_data(self, url, data={}, headers={}):
+    def post_data(self, url="", data={}, headers={}):
         """
         Posts data to various endpoints
         """
@@ -40,6 +40,9 @@ class BaseTest(unittest.TestCase):
     def login(self):
         """Logs in auser into the system"""
         self.sign_up()
+        result = self.post_data(url=self.complete_url(
+            "users/log-in"), data=self.user_data.data, headers=self.json_headers)
+        return result
 
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
