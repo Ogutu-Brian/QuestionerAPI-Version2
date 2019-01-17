@@ -16,6 +16,7 @@ def create_meetup():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
+                "data": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
@@ -62,8 +63,10 @@ def get_meetup(meetup_id):
             "status": Status.not_found
         }), Status.not_found
     else:
+        meetup = meetup[0]
         response = jsonify({
             "message": "A meetup was successfully found",
             "data": meetup.to_dictionary(),
+            "status": Status.success
         }), Status.success
     return response

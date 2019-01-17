@@ -35,6 +35,7 @@ class BaseTest(unittest.TestCase):
         """used to get data at given urls"""
         result = json.loads(self.client().get(
             self.complete_url(url)).get_data(as_text=True))
+        print(self.complete_url(url=url))
         return result
 
     def sign_up(self):
