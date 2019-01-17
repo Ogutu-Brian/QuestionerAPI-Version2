@@ -54,6 +54,8 @@ class TestMeetups(BaseTest):
 
     def test_all_upming_meetups(self):
         """Tests for the getting all upcoming meetups"""
-        self.authorize_with_jwt()
+        self.create_meetup()
+        self.create_meetup()
+        self.create_meetup()
         result = self.get_data("meetups/upcoming", self.json_headers)
-        self.assertEqual(result, result.get("status"))
+        self.assertEqual(Status.success, result.get("status"))
