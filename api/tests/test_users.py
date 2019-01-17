@@ -87,3 +87,40 @@ class UserTest(BaseTest):
         self.sign_up()
         result = self.login()
         self.assertEqual(Status.success, result.get("status"))
+
+    def test_missing_log_in_username_and_email(self):
+        """Tests log in without the provision of both username and email"""
+        self.sign_up()
+        self.user_data.data["email"] = ""
+        self.user_data.data["username"] = ""
+        result = self.login()
+        self.assertEqual(result.get("status"), Status.invalid_data)
+
+    def test_missing_login_password(self):
+        """Tests for missing password during login"""
+        self.sign_up()
+        self.user_data.data["password"] = ""
+        result = self.login()
+        self.assertEqual(Status.invalid_data, result.get("status"))
+
+    def test_wrong_login_password(self):
+        """Tests for invalid password during login"""
+        self.sign_up()
+        self.user_data.data["password"] = "efnoewnfonw@134A"
+        result = self.login()
+        self.assertEqual(Status.denied_access, result.get("status"))
+
+    def test_unexisting_username(self):
+        """Tests attempt to log in with unexisting username"""
+        self.sign_up()
+        self.user_data.data["email"] = ""
+        self.user_data.data["username"] = "TestUser"
+        result = self.login()
+        self.assertEqual(Status.denied_access, result.get("status"))
+
+    def test_non_json_login_data(self):
+        """tests if the post data is json"""
+        self.json_headers = self.not_json_header
+        self.sign_up()
+        result = self.login()
+        self.assertEqual(Status.not_json, result.get("status"))
