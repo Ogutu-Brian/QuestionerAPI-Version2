@@ -33,7 +33,8 @@ class BaseTest(unittest.TestCase):
 
     def get_data(self, url="", headers={}):
         """used to get data at given urls"""
-        result = json.loads(self.client().get(self.complete_url(url),headers=headers).get_data(as_text=True))
+        result = json.loads(self.client().get(self.complete_url(
+            url), headers=headers).get_data(as_text=True))
         return result
 
     def sign_up(self):

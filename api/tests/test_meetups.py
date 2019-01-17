@@ -47,8 +47,13 @@ class TestMeetups(BaseTest):
     def test_get_meetup_record(self):
         """Tests for get request for a specific meetup given a meetup id"""
         meetup_id = self.create_meetup()["data"][0].get("id")
-        result = self.get_data("meetups/{}".format(meetup_id),headers=self.json_headers)
+        result = self.get_data(
+            "meetups/{}".format(meetup_id), headers=self.json_headers)
         print(result)
         self.assertEqual(Status.success, result.get("status"))
-    # def test_all_upming_meetups(self):
-    #     pass
+
+    def test_all_upming_meetups(self):
+        """Tests for the getting all upcoming meetups"""
+        self.authorize_with_jwt()
+        result = self.get_data("meetups/upcoming", self.json_headers)
+        self.assertEqual(result, result.get("status"))
