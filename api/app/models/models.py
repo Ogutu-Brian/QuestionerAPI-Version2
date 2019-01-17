@@ -69,7 +69,10 @@ class BaseModel(V1Base):
         """
         Saves an item into the databasw, it is to be overridden by child classes
         """
-        pass
+        item = database.cursor.fetchone()
+        if item:
+            self.id = item['id']
+        database.connection.commit()
 
 
 class User(V1user, BaseModel):
@@ -114,7 +117,7 @@ class User(V1user, BaseModel):
         Saves a user object into database
         """
         database.cursor.execute(
-            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", (
+            "INSERT INTO users(firstname,lastname,othernames,email,phone,username,password,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id", (
                 self.first_name,
                 self.last_name,
                 self.other_name,
@@ -124,7 +127,7 @@ class User(V1user, BaseModel):
                 self.password,
                 self.is_admin
             ))
-        database.connection.commit()
+        super().save()
 
 
 class Question(V1Question, BaseModel):
@@ -159,7 +162,7 @@ class Question(V1Question, BaseModel):
 
     def save(self):
         """Saves a question object into the database"""
-        database.cursor.execute("INSEER INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s)", (
+        database.cursor.execute("INSEER INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
             self.created_date,
             self.created_by,
             self.meet_up,
@@ -167,7 +170,7 @@ class Question(V1Question, BaseModel):
             self.body,
             self.votes
         ))
-        database.connection.commit()
+        super().save()
 
 
 class Rsvp(V1Rsvp, BaseModel):
@@ -196,13 +199,13 @@ class Rsvp(V1Rsvp, BaseModel):
 
     def save(self):
         """Saves Rsvp object to database"""
-        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user_id,response) VALUES(%s,%s,%s,%s)", (
+        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user_id,response) VALUES(%s,%s,%s,%s) RETURNING id", (
             self.created_date,
             self.meetup,
             self.user,
             self.response
         ))
-        database.connection.commit()
+        super().save()
 
 
 class Meetup(V1Meetup, BaseModel):
@@ -233,14 +236,14 @@ class Meetup(V1Meetup, BaseModel):
 
     def save(self):
         """Saves the meetup object into the database"""
-        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s)", (
+        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
             self.topic,
             self.happening_on,
             self.tags,
             self.location,
             self.images
         ))
-        database.connection.commit()
+        super().save()
 
 
 class TokenBlackList(V1BlackList, BaseModel):
@@ -259,7 +262,8 @@ class TokenBlackList(V1BlackList, BaseModel):
     def save(self):
         """Saves a blacklist token into blacklst database"""
         database.cursor.execute(
-            "INSERT INTO blacklist (token) VALUES(%s)", (self.token,))
+            "INSERT INTO blacklist (token) VALUES(%s) RETURNING id", (self.token,))
+        super().save()
 
     @classmethod
     def to_object(cls, query_dict):

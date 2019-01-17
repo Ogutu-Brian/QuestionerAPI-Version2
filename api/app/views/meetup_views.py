@@ -2,7 +2,8 @@ from .import meetup_view
 from flask import request, jsonify
 from api.app.views import Status
 from api.app.utils.validators import MeetupValidators
-from flask_jwt_extended import jwt_required,get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 @meetup_view.route("/meetups", methods=["POST"])
 @jwt_required
@@ -15,20 +16,19 @@ def create_meetup():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
+                "data": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
             from api.app.models.models import Meetup
             from api.app.models.models import User
             user_mail = get_jwt_identity()
-            print(user_mail)
-            user = User.query_by_field("email",user_mail)[0]
-            print(user.is_admin)
-            if not user.is_admin.lower()=="true" :
+            user = User.query_by_field("email", user_mail)[0]
+            if not user.is_admin.lower() == "true":
                 response = jsonify({
-                    "message":"You are not an admin",
-                    "status":Status.denied_access
-                }),Status.denied_access
+                    "message": "You are not an admin",
+                    "status": Status.denied_access
+                }), Status.denied_access
             else:
                 location = data.get("location")
                 images = data.get("images")
@@ -48,4 +48,25 @@ def create_meetup():
             "message": "The data should be JSON",
             "status": Status.not_json
         }), Status.not_json
+    return response
+
+
+@meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
+def get_meetup(meetup_id):
+    """ A get endpoint for getting a specific meetup given an id"""
+    from api.app.models.models import Meetup
+    meetup = Meetup.query_by_field("id", int(meetup_id))
+    response = None
+    if not meetup:
+        response = jsonify({
+            "message": "A meetup with that id does not exist",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        meetup = meetup[0]
+        response = jsonify({
+            "message": "A meetup was successfully found",
+            "data": meetup.to_dictionary(),
+            "status": Status.success
+        }), Status.success
     return response
