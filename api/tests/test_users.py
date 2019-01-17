@@ -66,7 +66,7 @@ class UserTest(BaseTest):
 
     def test_data_not_json(self):
         """tests for data that is not in json format"""
-        self.json_headers=self.not_json_header
+        self.json_headers = self.not_json_header
         result = self.sign_up()
         self.assertEqual(Status.not_json, result.get("status"))
 

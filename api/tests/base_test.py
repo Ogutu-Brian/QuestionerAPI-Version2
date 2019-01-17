@@ -32,12 +32,13 @@ class BaseTest(unittest.TestCase):
         return json.loads(result.get_data(as_text=True))
 
     def sign_up(self):
-        data = json.dumps(self.user_data.data)
-        result = json.loads(self.client().post(self.complete_url(
-            "users/sign-up"), data=data, headers=self.json_headers).get_data(as_text=True))
+        """Signs up a user into the system"""
+        result = self.post_data(url=self.complete_url(
+            "users/sign-up"), data=self.user_data.data, headers=self.json_headers)
         return result
 
     def login(self):
+        """Logs in auser into the system"""
         self.sign_up()
 
     def tearDown(self):
