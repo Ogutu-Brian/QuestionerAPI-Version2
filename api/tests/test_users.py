@@ -3,7 +3,6 @@ from api.app.views import Status
 from .import UserData, user_data
 import json
 
-
 class UserTest(BaseTest):
     """Tests sign up endpoint"""
 
@@ -84,12 +83,12 @@ class UserTest(BaseTest):
 
     def test_taken_username(self):
         """Tests if a given username is already taken by another user"""
-        result = self.post_data(url=user_data.valid_user_data.get(
-            "sign_up_url"), data=user_data.complete_data, headers=self.json_headers)
-        self.assertEqual(Status.created, result.get("status"))
+        self.sign_up()
         user_data.complete_data["email"] = "test@gmail.com"
+        user_data.complete_data["username"]="Brian"
         result = self.post_data(url=user_data.valid_user_data.get(
             "sign_up_url"), data=user_data.complete_data, headers=self.json_headers)
+        print(result)
         self.assertEqual(Status.invalid_data, result.get("status"))
 
     def test_taken_email(self):

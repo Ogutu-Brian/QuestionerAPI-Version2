@@ -3,7 +3,7 @@ import json
 from run import create_app
 from migrtions import DbMigrations
 from api.app.models.object_models import User
-from .import meetup_data, user_data
+from .import meetup_data, user_data, UserData
 
 
 class BaseTest(unittest.TestCase):
@@ -24,15 +24,10 @@ class BaseTest(unittest.TestCase):
         return self.url_prefix+url
 
     def sign_up(self):
+        user_data = UserData()
         data = json.dumps(user_data.valid_user_data.get("sign_up"))
         result = json.loads(self.client().post(self.complete_url(
             "users/sign-up"), data=data, headers=self.json_headers).get_data(as_text=True))
-        return result
-
-    def create_meetup(self):
-        data = meetup_data.valid_meetup_data.get("data")
-        result = json.loads(self.client().post(self.complete_url(
-            "/meetups"), data=data, headers=self.json_headers).get_data(as_text=True))
         return result
 
     def tearDown(self):
