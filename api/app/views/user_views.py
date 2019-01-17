@@ -16,6 +16,7 @@ def sign_up():
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
+                "data":errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif User.query_by_field("email", data.get("email")):
