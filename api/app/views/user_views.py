@@ -85,8 +85,8 @@ def login():
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
-                if bcrypt.checkpw(password.decode("utf"), user.password.encode("utf8")):
-                    token = create_access_token(identity=user.username)
+                if bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
+                    token = create_access_token(identity=user.user_name)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
                         "token": token,
@@ -106,7 +106,7 @@ def login():
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
-                if bcrypt.checkpw(password.decode("utf"), user.password.encode("utf8")):
+                if bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
                     token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",

@@ -13,7 +13,6 @@ class UserTest(BaseTest):
     def test_successful_sign_up(self):
         """Tests for a successful sign up by user"""
         result = self.sign_up()
-        print(result)
         self.assertEqual(Status.created, result.get("status"))
 
     def test_missing_email(self):
