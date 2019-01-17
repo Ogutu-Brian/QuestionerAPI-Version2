@@ -48,3 +48,22 @@ def create_meetup():
             "status": Status.not_json
         }), Status.not_json
     return response
+
+
+@meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
+def get_meetup(meetup_id):
+    """ A get endpoint for getting a specific meetup given an id"""
+    from api.app.models.models import Meetup
+    meetup = Meetup.query_by_field("id", int(meetup_id))
+    response = None
+    if not meetup:
+        response = jsonify({
+            "message": "A meetup with that id does not exist",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        response = jsonify({
+            "message": "A meetup was successfully found",
+            "data": meetup.to_dictionary(),
+        }), Status.success
+    return response
