@@ -20,7 +20,7 @@ def create_app(application_config):
     jwt = JWTManager(app)
     app.register_blueprint(user_view, url_prefix="/api/v2/auth")
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
-    app.register_blueprint(meetup_view, url_prefix="/api/v2")
+    app.register_blueprint(question_view, url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
     def is_valid_token(token):
@@ -31,7 +31,7 @@ def create_app(application_config):
     @jwt.invalid_token_loader
     def unauthorired_access(error):
         return jsonify({
-            "message": "The token provided is not valid",
+            "error": "The token provided is not valid",
             "status": Status.denied_access,
         }), Status.denied_access
 
@@ -39,28 +39,28 @@ def create_app(application_config):
     def expired_token_result():
         """Checks if toen has expired"""
         return jsonify({
-            "message": "Your token has expired",
+            "error": "Your token has expired",
             "status": Status.denied_access
         }), Status.denied_access
 
     @jwt.unauthorized_loader
     def unauthoriszed(error):
         return jsonify({
-            "message": "Token Bearer not given",
+            "error": "Token Bearer not given",
             "status": Status.denied_access
         }), Status.denied_access
 
     @app.errorhandler(404)
     def resource_not_found(error):
         return jsonify({
-            "message": "Resource unavalable in the url",
+            "error": "Resource unavalable in the url",
             "status": Status.not_found
         }), Status.not_found
 
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
-            "message": "Please check the request method you are using",
+            "error": "Please check the request method you are using",
             "status": Status.bad_requst
         }), Status.bad_requst
     return app

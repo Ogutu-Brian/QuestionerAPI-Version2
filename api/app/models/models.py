@@ -162,8 +162,8 @@ class Question(V1Question, BaseModel):
 
     def save(self):
         """Saves a question object into the database"""
-        database.cursor.execute("INSEER INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
-            self.created_date,
+        database.cursor.execute("INSERT INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
+            self.created_date(),
             self.created_by,
             self.meet_up,
             self.title,

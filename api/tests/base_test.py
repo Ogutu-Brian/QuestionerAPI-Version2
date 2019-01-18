@@ -76,7 +76,7 @@ class BaseTest(unittest.TestCase):
         user_id = self.authorize_with_jwt()["id"]
         self.questions_data.data["createdBy"] = user_id
         self.questions_data.data["meetup"] = meetup_id
-        result = self.post_data("questions", data=self.questions_data,
+        result = self.post_data(self.complete_url("questions"), data=self.questions_data.data,
                                 headers=self.json_headers)
         return result
 

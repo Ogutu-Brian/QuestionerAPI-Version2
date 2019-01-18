@@ -99,9 +99,6 @@ class Question(BaseModel):
         self.votes = votes
         self.id = id_
 
-    def __str__(self):
-        return self.body
-
     def to_dictionary(self)->Dict:
         """
         Overrides the BaseModel's method to return a dictionary representation of question

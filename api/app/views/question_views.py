@@ -24,13 +24,13 @@ def create_question():
             meetup = data.get("meetup")
             title = data.get("title")
             body = data.get("body")
-            from api.app.models.models import Question
-            if not Question.query_by_field("id", created_by):
+            from api.app.models.models import User,Meetup,Question
+            if not User.query_by_field("id", created_by):
                 response = jsonify({
                     "error": "A user with that id does not exist",
                     "status": Status.invalid_data
                 }), Status.invalid_data
-            elif Question.query_by_field("id", meetup):
+            elif not Meetup.query_by_field("id", meetup):
                 response = jsonify({
                     "error": "A meetup with that id does not exist",
                     "status": Status.invalid_data
