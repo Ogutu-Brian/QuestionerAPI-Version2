@@ -42,6 +42,7 @@ class TestQuestion(BaseTest):
         self.questions_data.data["meetup"] = ""
         result = self.create_question()
         self.assertEqual(Status.invalid_data, result.get("status"))
+
     def test_invalid_user(self):
         """Tests if a user with an id exists in the database"""
         self.create_question_intials()
@@ -55,3 +56,8 @@ class TestQuestion(BaseTest):
         self.questions_data.data["meetup"] = -338738748
         result = self.create_question()
         self.assertEqual(Status.invalid_data, result.get("status"))
+
+    def test_successful_upvote(self):
+        """Tests the endpoint for upvoting a question in questioner"""
+        result = self.upvote()
+        self.assertEqual(Status.created, result.get("status"))
