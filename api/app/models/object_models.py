@@ -138,6 +138,8 @@ class Rsvp(BaseModel):
 
 
 class BlackList(BaseModel):
+    """Stores blacklisted token"""
+
     def __init__(self, id="", created_on=date.today(), token=""):
         super().__init__(id_=id, created_on=created_on)
         self.token = token
