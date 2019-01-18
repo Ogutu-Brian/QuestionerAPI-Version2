@@ -32,7 +32,7 @@ class BaseTest(unittest.TestCase):
         result = self.client().post(url, data=json.dumps(data), headers=headers)
         return json.loads(result.get_data(as_text=True))
 
-    def path_data(self, url="", headers={}):
+    def patch_data(self, url="", headers={}):
         """Performs the patch operations on data"""
         result = self.client().patch(url, headers=headers)
         return json.loads(result.get_data(as_text=True))
@@ -93,13 +93,13 @@ class BaseTest(unittest.TestCase):
         """Upvotes a question"""
         self.create_question_intials()
         question_id = self.create_question()["data"][0]["id"]
-        result = self.path_data(url=self.complete_url(
+        result = self.patch_data(url=self.complete_url(
             "questions/{}/upvote".format(question_id)), headers=self.json_headers)
         return result
 
     def downvote(self):
         self.create_question_intials()
-        question_id = self.create_question()["data"]["id"]
+        question_id = self.create_question()["data"][0]["id"]
         result = self.post_data(url=self.complete_url(
             "questions/{}/downvote".format(question_id)), headers=self.json_headers)
         return result
