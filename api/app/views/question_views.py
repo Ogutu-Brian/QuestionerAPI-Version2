@@ -74,3 +74,23 @@ def upvote(question_id):
             "data": [question.to_dictionary()]
         }), Status.created
     return response
+@question_view.route("/questions/<question_id>/downvote",methods=["PATCH"])
+@jwt_required
+def downvote(question_id):
+    from api.app.models.models import Question
+    response = None
+    question = Question.query_by_field("id",int(question_id))
+    if not question:
+        response = jsonify({
+            "error":"A question with that id does not exist",
+            "status":Status.not_found
+        }),Status.not_found
+    else:
+        question = question[0]
+        question.votes-=1
+        question.update()
+        response = jsonify({
+            "message":"Successfully downvoted a question",
+            "status":Status.created
+        }),Status.created
+    return response
