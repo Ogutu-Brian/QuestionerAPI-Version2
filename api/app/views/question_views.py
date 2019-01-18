@@ -65,8 +65,9 @@ def upvote(question_id):
             "status": Status.not_found
         }), Status.not_found
     else:
-        question=question[0]
+        question = question[0]
         question.votes += 1
+        question.update()
         response = jsonify({
             "message": "successfully upvoted",
             "status": Status.created,
