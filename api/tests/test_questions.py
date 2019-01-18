@@ -65,11 +65,20 @@ class TestQuestion(BaseTest):
     def test_unexsiting_upvote_question(self):
         """Tests for a patch to a question that does not exist"""
         question_id = -7878
+        self.authorize_with_jwt()
         result = self.patch_data(url=self.complete_url(
             "questions/{}/upvote".format(question_id)), headers=self.json_headers)
-        self.assertGreaterEqual(Status.not_found, result.get("status"))
+        self.assertEqual(Status.not_found, result.get("status"))
 
     def test_successful_downvote(self):
         """Tests test for downvote of a question"""
         result = self.downvote()
         self.assertEqual(Status.created, result.get("status"))
+
+    def test_unexsiting_downvote_question(self):
+        """Tess if the id provided for downvoting a question exists"""
+        question_id = -24434
+        self.authorize_with_jwt()
+        result = self.patch_data(url=self.complete_url(
+            url="questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        self.assertEqual(Status.not_found,result.get("status"))
