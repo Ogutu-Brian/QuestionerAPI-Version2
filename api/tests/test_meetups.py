@@ -92,3 +92,8 @@ class TestMeetups(BaseTest):
         result = self.delete_data(
             "meetups/{}".format(meetup_id), headers=self.json_headers)
         self.assertEqual(Status.denied_access, result.get("status"))
+
+    def test_successful_rsvp_response(self):
+        """Tests for successful rsvp response"""
+        result = self.create_rsvp()
+        self.assertEqual(Status.success, result.get("status"))
