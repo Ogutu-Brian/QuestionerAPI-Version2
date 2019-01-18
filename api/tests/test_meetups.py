@@ -87,7 +87,7 @@ class TestMeetups(BaseTest):
         from api.app.models.models import User
         meetup_id = self.create_meetup()["data"][0]["id"]
         User.clear()
-        self.user_data.data["isAdmin"]="False"
+        self.user_data.data["isAdmin"] = "False"
         self.authorize_with_jwt()
         result = self.delete_data(
             "meetups/{}".format(meetup_id), headers=self.json_headers)
