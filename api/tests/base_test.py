@@ -91,11 +91,17 @@ class BaseTest(unittest.TestCase):
 
     def upvote(self):
         """Upvotes a question"""
-        self.authorize_with_jwt()
         self.create_question_intials()
         question_id = self.create_question()["data"][0]["id"]
         result = self.path_data(url=self.complete_url(
             "questions/{}/upvote".format(question_id)), headers=self.json_headers)
+        return result
+
+    def downvote(self):
+        self.create_question_intials()
+        question_id = self.create_question()["data"]["id"]
+        result = self.post_data(url=self.complete_url(
+            "questions/{}/downvote".format(question_id)), headers=self.json_headers)
         return result
 
     def tearDown(self):

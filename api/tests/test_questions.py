@@ -68,3 +68,8 @@ class TestQuestion(BaseTest):
         result = self.path_data(url=self.complete_url(
             "questions/{}/upvote".format(question_id)), headers=self.json_headers)
         self.assertGreaterEqual(Status.not_found, result.get("status"))
+
+    def test_successful_downvote(self):
+        """Tests test for downvote of a question"""
+        result = self.downvote()
+        self.assertEqual(Status.created, result.get("status"))
