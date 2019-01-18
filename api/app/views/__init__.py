@@ -13,6 +13,7 @@ class Status(object):
     denied_access = 401
     timeout = 408
     bad_requst = 400
+    internal_server_error = 500
 
 
 user_view = Blueprint('views.userviews', '__name__')

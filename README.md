@@ -79,15 +79,17 @@ pytest tests/*
 ## Available endpoints
 | Method        |  Endpoint                                   |  Description                                           |
 | ------------- |  -------------                              |  -------------                                         |
-| `POST`        | `/api/v2/meetups`                           |  Creates a meetup record                               |
+| `POST`        | `/api/v2/meetups`                           |  Creates a meetup record by admin                              |
 | `GET`         | `/api/v2/meetups/<meetup-id>`               |  Fetch a specific meetup record                        |
 | `GET`         | `/api/v2/meetups/upcomng/`                  |  Fetch all upcoming meetup records                     |
 | `POST`        | `/api/v2/questions`                         |  Create a question for a specific meetup               |
 | `PATCH`       | `/api/v2/questions/<question-id>/upvote`    |  Upvotes a specific question                           |
 | `PATCH`       | `/api/v2/questions/<question-id>/downvote`  |  Downvotest a specific question                        |
 | `POST`        | `/api/v2/meetups/<meetup-id>/rsvps`         |  Responds to a meetup Rsvp                             |
-| `POST`        | `/api/v2/users/sign-up`                     |  Creates a new user to Questioner                      |
-| `POST`        | `/api/v2/users/log-in`                      |  Allows a user with an account to log in               |
+| `POST`        | `/api/v2/auth/signup`                       |  Creates a new user to Questioner              
+| `POST`        | `/api/v2/auth/login`                        |  Allows a user with an account to log in       
+| `DELETE`      | `/api/v2/meetups/<meetup-id>`               |  Allows an admin to delete a meetup   
+
 # Resources and Documentation
 
 ### Pivotal Tracker Project
