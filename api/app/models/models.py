@@ -74,6 +74,10 @@ class BaseModel(V1Base):
             self.id = item['id']
         database.connection.commit()
 
+    def update(self):
+        """Updtes the item in the database, to be overriddedn by child classes"""
+        pass
+
 
 class User(V1user, BaseModel):
     """ 
@@ -171,6 +175,14 @@ class Question(V1Question, BaseModel):
             self.votes
         ))
         super().save()
+
+    def update(self):
+        """Updates question"""
+        database.cursor.execute("UPDATE questions SET votes = %s WHERE id = %s", (
+            self.votes,
+            self.id
+        ))
+        database.connection.commit()
 
 
 class Rsvp(V1Rsvp, BaseModel):

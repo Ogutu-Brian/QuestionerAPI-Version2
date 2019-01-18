@@ -32,6 +32,11 @@ class BaseTest(unittest.TestCase):
         result = self.client().post(url, data=json.dumps(data), headers=headers)
         return json.loads(result.get_data(as_text=True))
 
+    def path_data(self, url="", headers={}):
+        """Performs the patch operations on data"""
+        result = self.client().patch(url, headers=headers)
+        return json.loads(result.get_data(as_text=True))
+
     def get_data(self, url="", headers={}):
         """used to get data at given urls"""
         result = json.loads(self.client().get(self.complete_url(
@@ -82,6 +87,15 @@ class BaseTest(unittest.TestCase):
         """A method for creating a question after settomg up question intials"""
         result = self.post_data(self.complete_url("questions"), data=self.questions_data.data,
                                 headers=self.json_headers)
+        return result
+
+    def upvote(self):
+        """Upvotes a question"""
+        self.authorize_with_jwt()
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        result = self.path_data(url=self.complete_url(
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
         return result
 
     def tearDown(self):
