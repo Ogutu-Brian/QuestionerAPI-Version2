@@ -93,9 +93,9 @@ class BaseTest(unittest.TestCase):
         """Upvotes a question"""
         self.authorize_with_jwt()
         self.create_question_intials()
-        question_id = self.create_question()["data"]["id"]
+        question_id = self.create_question()["data"][0]["id"]
         result = self.path_data(url=self.complete_url(
-            "questions/{}".format(question_id)), headers=self.json_headers)
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
         return result
 
     def tearDown(self):

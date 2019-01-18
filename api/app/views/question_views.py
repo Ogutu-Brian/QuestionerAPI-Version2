@@ -24,7 +24,7 @@ def create_question():
             meetup = data.get("meetup")
             title = data.get("title")
             body = data.get("body")
-            from api.app.models.models import User,Meetup,Question
+            from api.app.models.models import User, Meetup, Question
             if not User.query_by_field("id", created_by):
                 response = jsonify({
                     "error": "A user with that id does not exist",
@@ -49,4 +49,27 @@ def create_question():
             "error": "The data must be in JSOn",
             "status": Status.not_json
         }), Status.not_json
+    return response
+
+
+@question_view.route('/questions/<question_id>/upvote', methods=["PATCH"])
+@jwt_required
+def upvote(question_id):
+    from api.app.models.models import Question
+    """Increates a question's vote by 1"""
+    response = None
+    question = Question.query_by_field("id", int(question_id))
+    if not question:
+        response = jsonify({
+            "error": "A question with that id does not exist",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        question=question[0]
+        question.votes += 1
+        response = jsonify({
+            "message": "successfully upvoted",
+            "status": Status.created,
+            "data": [question.to_dictionary()]
+        }), Status.created
     return response
