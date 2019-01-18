@@ -100,7 +100,7 @@ class BaseTest(unittest.TestCase):
     def downvote(self):
         self.create_question_intials()
         question_id = self.create_question()["data"][0]["id"]
-        result = self.post_data(url=self.complete_url(
+        result = self.patch_data(url=self.complete_url(
             "questions/{}/downvote".format(question_id)), headers=self.json_headers)
         return result
 
