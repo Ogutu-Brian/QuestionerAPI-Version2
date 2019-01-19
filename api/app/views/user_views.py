@@ -138,7 +138,7 @@ def login()->Tuple:
     return response
 
 
-@user_view.route("/lgout", methods=["DELETE"])
+@user_view.route("/logout", methods=["DELETE"])
 @jwt_required
 def logout()->Tuple:
     """Logs out a user from Questioner"""
