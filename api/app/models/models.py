@@ -283,6 +283,7 @@ class Comment(V1Comment, BaseModel):
     @classmethod
     def migrate(cls)->None:
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS comments(
+            id serial PRIMARY KEY,
             question integer,
             user_id integer,
             comment varchar,

@@ -2,7 +2,7 @@ from flask import Flask
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
 from flask_jwt_extended import JWTManager
-from flask import jsonify,Blueprint
+from flask import jsonify, Blueprint
 from api.app.views import Status
 from api.app.views.user_views import user_view
 from api.app.views.meetup_views import meetup_view
@@ -13,7 +13,6 @@ database = PostgresDatabase()
 
 from migrtions import DbMigrations
 
-
 def create_app(application_config):
     """main flask application"""
     app = Flask(__name__, instance_relative_config=True)
@@ -23,7 +22,7 @@ def create_app(application_config):
     app.register_blueprint(user_view, url_prefix="/api/v2/auth")
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
     app.register_blueprint(question_view, url_prefix="/api/v2")
-    app.register_blueprint(comment_view,url_prefix="/api/v2")
+    app.register_blueprint(comment_view, url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
     def is_valid_token(token):
@@ -63,7 +62,7 @@ def create_app(application_config):
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
-            "error": "Please check the request method you are using",
+            "error": "bad request",
             "status": Status.bad_requst
         }), Status.bad_requst
     return app

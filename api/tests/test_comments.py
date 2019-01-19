@@ -10,5 +10,5 @@ class TestComments(BaseTest):
 
     def test_successful_comment(self)->None:
         """Tests succesful creation of comments"""
-        result = self.create_commet()
+        result = self.create_comment()
         self.assertEqual(Status.created, result.get("status"))
