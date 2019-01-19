@@ -114,7 +114,7 @@ class BaseTest(unittest.TestCase):
             url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
         return result
 
-    def post_commet(self):
+    def create_commet(self):
         """Posts a comment to a given question"""
         question_id = self.create_question()["data"][0]["id"]
         self.comment_data.data["question"] = question_id
