@@ -1,8 +1,12 @@
 import re
+from typing import Tuple, Dict
+
+
 class UserValidators(object):
     """ Checks done on User data during Post"""
     @classmethod
-    def is_valid(cls, item):
+    def is_valid(cls, item: Dict)->Tuple:
+        """Validates post User data"""
         errors = []
         if not item.get("firstname"):
             errors.append({
@@ -56,7 +60,8 @@ class UserValidators(object):
 class MeetupValidators(object):
     """Validation done on Meetup data during posts"""
     @classmethod
-    def is_valid(cls, item):
+    def is_valid(cls, item: Dict)->Tuple:
+        """Validates post Meetup data"""
         errors = []
         if not item.get("location"):
             errors.append({
@@ -80,7 +85,8 @@ class MeetupValidators(object):
 class QuestionValidators(object):
     """Validation done on Question data during Posts"""
     @classmethod
-    def is_valid(cls, item):
+    def is_valid(cls, item: Dict)->Tuple:
+        """validates Post Question data"""
         errors = []
         if not item.get("createdBy"):
             errors.append({
@@ -104,7 +110,8 @@ class QuestionValidators(object):
 class RsvpValidators(object):
     """Vallidation done on Rsvp Data during post"""
     @classmethod
-    def is_valid(cls, item):
+    def is_valid(cls, item: Dict)->Tuple:
+        """Validates a post Rsvp data"""
         errors = []
         if not item.get("response"):
             errors.append({
@@ -113,5 +120,22 @@ class RsvpValidators(object):
         elif item.get("response").lower() not in ["yes", "no", "maybe"]:
             errors.append({
                 "message": "The response should be either yes, no or maybe"
+            })
+        return len(errors) == 0, errors
+
+
+class CommentValidators(object):
+    """Validates Comment data during Posting"""
+    @classmethod
+    def is_valid(cls, item: Dict)->Tuple:
+        """validates a post comment data"""
+        errors = []
+        if not item.get("question"):
+            errors.append({
+                "message": "You need to provide the question id"
+            })
+        elif not item.get("comment"):
+            errors.append({
+                "message": "You need to provide a comment to the question"
             })
         return len(errors) == 0, errors
