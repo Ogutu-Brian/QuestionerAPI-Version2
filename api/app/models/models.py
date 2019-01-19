@@ -299,6 +299,7 @@ class Comment(V1Comment, BaseModel):
         ))
         super().save()
 
+
 class TokenBlackList(V1BlackList, BaseModel):
     """Hodls blacklisted jwt tokens"""
     table_name = "blacklist"
