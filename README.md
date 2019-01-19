@@ -95,6 +95,7 @@ pytest tests/*
 | `DELETE`|     | `/api/v2/auth/logout`                       |  Allows a logged in user to logout   
       
 # Resources and Documentation
+1. [PostmanDocumentation](https://documenter.getpostman.com/view/5179699/RznLHcQ2)
 
 ### Pivotal Tracker Project
 You can view the [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2235331)
