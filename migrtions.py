@@ -21,6 +21,16 @@ class DbMigrations(object):
         Comment.clear()
 
     @classmethod
+    def drop_tables(cls)->None:
+        """Drops all the tables in the database"""
+        User.drop_table()
+        Question.drop_table()
+        Meetup.drop_table()
+        Rsvp.drop_table()
+        TokenBlackList.drop_table()
+        Comment.drop_table()
+
+    @classmethod
     def makemigrations(cls)->None:
         """Creates tables in QUestioner database"""
         User.migrate()
