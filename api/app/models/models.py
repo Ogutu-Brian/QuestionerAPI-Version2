@@ -6,6 +6,7 @@ from api.app.models.object_models import Meetup as V1Meetup
 from api.app.models.object_models import Rsvp as V1Rsvp
 from api.app.models.object_models import BlackList as V1BlackList
 from api.app.models.object_models import Comment as V1Comment
+from api.app.models.object_models import Vote as V1Vote
 from run import database
 
 
@@ -347,3 +348,46 @@ class TokenBlackList(V1BlackList, BaseModel):
         blacklist_token.id = query_dict.get("id")
         blacklist_token.token = query_dict.get("token")
         return blacklist_token
+
+
+class Vote(V1Vote, BaseModel):
+    """Handles the persistent data in Questioner"""
+    table_name = "votes"
+
+    @classmethod
+    def migrate(cls)->None:
+        """Creates a vote table"""
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS votes(
+            id serial PRIMARY KEY,
+            question integer,
+            user_id integer,
+            value integer
+            )""")
+        database.connection.comment()
+
+    def save(self)->None:
+        """"Saves a Voye object"""
+        database.cursor.execute("INSERT INTO votes(question,user_id,value) VALUES(%s,%s,%s) RETURNING id", (
+            self.question,
+            self.user,
+            self.value
+        ))
+        super().save()
+
+    @classmethod
+    def to_object(cls, query_dict: Dict):
+        """Changes a query statement to a vote object"""
+        vote = Vote()
+        vote.question = query_dict.get("question")
+        vote.user = query_dict.get("user_id")
+        vote.value = query_dict.get("value")
+        vote.id = query_dict
+        return vote
+
+    def update(self)->None:
+        """Alters value during upvote or downvote"""
+        database.cursor.execute("UPDATE votes SET value = %s WHERE id = %s",(
+            self.value,
+            self.id
+        ))
+        database.connection.commit()
