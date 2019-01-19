@@ -130,3 +130,9 @@ class UserTest(BaseTest):
         self.sign_up()
         result = self.login()
         self.assertEqual((result["data"][0].get("token") != None), True)
+
+    def test_successful_logout(self)->None:
+        """Tests when a user successfully logs out"""
+        self.authorize_with_jwt()
+        result = self.logout()
+        self.assertEqual(Status.success, result.get("status"))

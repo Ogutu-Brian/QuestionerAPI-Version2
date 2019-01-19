@@ -79,22 +79,21 @@ pytest tests/*
 ## Available endpoints
 | Method        |  Endpoint                                   |  Description                                           |
 | ------------- |  -------------                              |  -------------                                         |
-| `POST`        | `/api/v2/meetups`                           |  Creates a meetup record by admin                              |
+| `POST`        | `/api/v2/meetups`                           |  Creates a meetup record by admin                      |
 | `GET`         | `/api/v2/meetups/<meetup-id>`               |  Fetch a specific meetup record                        |
 | `GET`         | `/api/v2/meetups/upcomng/`                  |  Fetch all upcoming meetup records                     |
 | `POST`        | `/api/v2/questions`                         |  Create a question for a specific meetup               |
 | `PATCH`       | `/api/v2/questions/<question-id>/upvote`    |  Upvotes a specific question                           |
 | `PATCH`       | `/api/v2/questions/<question-id>/downvote`  |  Downvotest a specific question                        |
-| `POST`        | `/api/v2/meetups/<meetup-id>/rsvps`         |  Responds to a meetup Rsvp                             
-| `POST`  |     | `/api/v2/auth/signup`                       |  Creates a new user to Questioner              
-| `POST`  |     | `/api/v2/auth/login`                        |  Allows a user with an account to log in       
-| `DELETE`|     | `/api/v2/meetups/<meetup-id>`               |  Allows an admin to delete a meetup   
-
-| `POST`  |     | `/api/v2/comments/`                         |  Allows a user to make comments   
-
-| `DELETE`|     | `/api/v2/auth/logout`                       |  Allows a logged in user to logout   
+| `POST`        | `/api/v2/meetups/<meetup-id>/rsvps`         |  Responds to a meetup Rsvp                             |
+| `POST`        | `/api/v2/auth/signup`                       |  Creates a new user to Questioner                      | 
+| `POST`        | `/api/v2/auth/login`                        |  Allows a user with an account to log in               |
+| `DELETE`      | `/api/v2/meetups/<meetup-id>`               |  Allows an admin to delete a meetup                    |
+| `POST`        | `/api/v2/comments/`                         |  Allows a user to make comments                        |
+| `DELETE`      | `/api/v2/auth/logout`                       |  Allows a logged in user to logout                     |
       
 # Resources and Documentation
+1. [PostmanDocumentation](https://documenter.getpostman.com/view/5179699/RznLHcQ2)
 
 ### Pivotal Tracker Project
 You can view the [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2235331)

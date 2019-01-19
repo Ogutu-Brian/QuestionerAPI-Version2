@@ -25,20 +25,24 @@ def create_app(application_config):
     app.register_blueprint(comment_view, url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
-    def is_valid_token(token):
+    def token_in_blaclist(token):
         """Checks if the token exists in the black list table"""
         from api.app.models.models import TokenBlackList
-        return len(TokenBlackList.query_by_field("token", token['jti'])) == 0
+        response = False
+        jti = token["jti"]
+        if TokenBlackList.query_by_field("token", jti):
+            response = True
+        return response
 
     @jwt.invalid_token_loader
-    def unauthorired_access(error):
+    def invalid_token(error):
         return jsonify({
             "error": "The token provided is not valid",
             "status": Status.denied_access,
         }), Status.denied_access
 
     @jwt.expired_token_loader
-    def expired_token_result():
+    def expired_token():
         """Checks if toen has expired"""
         return jsonify({
             "error": "Your token has expired",

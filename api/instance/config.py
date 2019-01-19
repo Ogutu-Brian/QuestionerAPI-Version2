@@ -13,6 +13,8 @@ class BaseConfig(object):
     JWT_SECRET_KEY = os.getenv("SECRET_KEY")
     SECRET_KEY = os.getenv("SECRET_KEY")
     DATABASE_HOST = os.getenv("DATABASE_HOST")
+    JWT_BLACKLIST_ENABLED =True
+    JWT_BLACKLIST_TOKEN_CHECKS=['access','refresh']
 
 
 class DevConfig(BaseConfig):
