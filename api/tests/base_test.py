@@ -108,12 +108,9 @@ class BaseTest(unittest.TestCase):
 
     def create_rsvp(self):
         """Successfully creates an rsvp"""
-        from api.app.models.models import User
         meetup_id = self.create_meetup()["data"][0]["id"]
-        user = User.query_by_field("email", get_jwt_identity())[0]
-        self.meetup_data.data["user"] = user.id
         result = self.post_data(url=self.complete_url(
-            url="meetups/{}/rsvps".format(meetup_id)), data=self.meetup_data, headers=self.json_headers)
+            url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
         return result
 
     def tearDown(self):

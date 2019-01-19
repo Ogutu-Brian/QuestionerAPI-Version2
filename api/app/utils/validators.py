@@ -106,10 +106,6 @@ class RsvpValidators(object):
     @classmethod
     def is_valid(cls, item):
         errors = []
-        if not item.get("user"):
-            errors.append({
-                "message": "A user responding to rsvp must be provided",
-            })
         if not item.get("response"):
             errors.append({
                 "message": "A response must be provided"

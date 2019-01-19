@@ -96,4 +96,4 @@ class TestMeetups(BaseTest):
     def test_successful_rsvp_response(self):
         """Tests for successful rsvp response"""
         result = self.create_rsvp()
-        self.assertEqual(Status.success, result.get("status"))
+        self.assertEqual(Status.created, result.get("status"))

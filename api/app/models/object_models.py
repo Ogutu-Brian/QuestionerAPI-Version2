@@ -118,8 +118,8 @@ class Question(BaseModel):
 class Rsvp(BaseModel):
     """Defines attributes specific to Rsvp object"""
 
-    def __init__(self, id_="", creatd_om=date.today(), meetup="", user="", response=""):
-        super().__init__(id_=id_, created_on=creatd_om)
+    def __init__(self, id_="", creatd_on=date.today(), meetup="", user="", response=""):
+        super().__init__(id_=id_, created_on=creatd_on)
         self.meetup = meetup
         self.user = user
         self.response = response

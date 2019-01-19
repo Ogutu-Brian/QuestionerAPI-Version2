@@ -1,7 +1,7 @@
 from .import meetup_view
 from flask import request, jsonify
 from .import Status
-from api.app.utils.validators import MeetupValidators
+from api.app.utils.validators import MeetupValidators,RsvpValidators
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -124,4 +124,57 @@ def delete_meetup(meetup_id):
                 "data": ["Successfully deleted the meetup"],
                 "status": Status.success
             }), Status.success
+    return response
+
+
+@meetup_view.route("/meetups/<meetup_id>/rsvps", methods=["POST"])
+@jwt_required
+def create_rsvp(meetup_id):
+    """Endpoint for creatong Rsvp"""
+    from api.app.models.models import Meetup, Rsvp, User
+    response = None
+    if request.is_json:
+        data = request.json
+        valid, errors = RsvpValidators.is_valid(data)
+        if not valid:
+            response = jsonify({
+                "error": "You encountered {} errors".format(len(errors)),
+                "data": errors,
+                "status": Status.invalid_data
+            }), Status.invalid_data
+        else:
+            meetup = Meetup.query_by_field("id", int(meetup_id))
+            if not meetup:
+                response = jsonify({
+                    "error": "A meetup with that id does not exist",
+                    "status": Status.not_found
+                }), Status.not_found
+            else:
+                meetup = meetup[0]
+                update = False
+                user = User.query_by_field("email", get_jwt_identity())[0]
+                rsvp = Rsvp(meetup=meetup.id, user=user.id,
+                            response=data.get("response"))
+                for item in Rsvp.query_all():
+                    if user.id == item.user and meetup.id == item.meetup:
+                        item.response = data.get("response")
+                        rsvp = item
+                        update = True
+                        rsvp.update()
+                if not update:
+                    rsvp.save()
+                response = jsonify({
+                    "message": "Successfully submitted your Rsvp",
+                    "status": Status.created,
+                    "data": [{
+                        "meetup": rsvp.meetup,
+                        "topic": meetup.to_dictionary().get("topic"),
+                        "status": rsvp.response
+                    }]
+                }), Status.created
+    else:
+        response = jsonify({
+            "error": "The data needs to ne in JSON",
+            "status": Status.not_json
+        }), Status.not_json
     return response

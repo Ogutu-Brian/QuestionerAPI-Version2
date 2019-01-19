@@ -30,7 +30,6 @@ class RsvpData(object):
         self.data = {
             "user": 1,
             "response": "yes",
-            "url": ""
         }
 
 
@@ -46,5 +45,5 @@ class UserData(object):
             "username": "Brian",
             "email": "codingbrian58@gmail.com",
             "password": "password12#B",
-            "isAdmin":"True"
+            "isAdmin": "True"
         }
