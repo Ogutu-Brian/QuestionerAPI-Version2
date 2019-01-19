@@ -3,8 +3,9 @@ from flask import request, jsonify
 from api.app.utils.validators import UserValidators
 from .import Status
 import bcrypt
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (create_access_token, jwt_required, get_raw_jwt)
 from typing import Tuple
+
 
 @user_view.route("/signup", methods=["POST"])
 def sign_up()->Tuple:
@@ -93,9 +94,9 @@ def login()->Tuple:
                     token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
-                        "data":[{
-                            "token":token,
-                            "user":user.to_dictionary()
+                        "data": [{
+                            "token": token,
+                            "user": user.to_dictionary()
                         }],
                         "status": Status.success
                     }), Status.success
@@ -118,9 +119,9 @@ def login()->Tuple:
                     token = create_access_token(identity=user.email)
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
-                         "data":[{
-                            "token":token,
-                            "user":user.to_dictionary()
+                        "data": [{
+                            "token": token,
+                            "user": user.to_dictionary()
                         }],
                         "status": Status.success
                     }), Status.success
@@ -135,3 +136,17 @@ def login()->Tuple:
             "status": Status.not_json
         }), Status.not_json
     return response
+
+
+@user_view.route("/lgout", methods=["DELETE"])
+@jwt_required
+def logout()->Tuple:
+    """Logs out a user from Questioner"""
+    from api.app.models.models import TokenBlackList
+    token = get_raw_jwt()["jti"]
+    revoked_token = TokenBlackList(token=token)
+    revoked_token.save()
+    return jsonify({
+        "message": "You have successfully logged out of questioner",
+        "status": Status.success
+    }), Status.success

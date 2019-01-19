@@ -65,6 +65,12 @@ class BaseTest(unittest.TestCase):
             "auth/login"), data=self.user_data.data, headers=self.json_headers)
         return result
 
+    def logout(self):
+        """Logs out a user"""
+        self.authorize_with_jwt()
+        result = self.delete_data(url="auth/logout", headers=self.json_headers)
+        return result
+
     def create_meetup(self):
         """Successfully creates a meetup Record"""
         self.authorize_with_jwt()
