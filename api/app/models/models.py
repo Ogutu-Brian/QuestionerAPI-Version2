@@ -5,6 +5,7 @@ from api.app.models.object_models import Question as V1Question
 from api.app.models.object_models import Meetup as V1Meetup
 from api.app.models.object_models import Rsvp as V1Rsvp
 from api.app.models.object_models import BlackList as V1BlackList
+from api.app.models.object_models import Comment as V1Comment
 from run import database
 
 
@@ -272,6 +273,31 @@ class Meetup(V1Meetup, BaseModel):
         ))
         super().save()
 
+
+class Comment(V1Comment, BaseModel):
+    """A class that handles persistence of comment data"""
+    table_name = "comments"
+
+    @classmethod
+    def migrate(cls):
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS comments(
+            question integer,
+            user_id integer,
+            comment varchar,
+            title varchar,
+            body varchar
+            )""")
+        database.connection.commit()
+
+    def save(self):
+        database.cursor.execute("INSERT INTO comments(question,user_id,comment,title,body) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
+            self.question,
+            self.user,
+            self.comment,
+            self.title,
+            self.body
+        ))
+        super().save()
 
 class TokenBlackList(V1BlackList, BaseModel):
     """Hodls blacklisted jwt tokens"""
