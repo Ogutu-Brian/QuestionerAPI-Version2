@@ -7,6 +7,8 @@ from api.app.views import Status
 from api.app.views.user_views import user_view
 from api.app.views.meetup_views import meetup_view
 from api.app.views.question_views import question_view
+from api.app.views.comment_views import comment_view
+
 database = PostgresDatabase()
 
 from migrtions import DbMigrations
@@ -21,6 +23,7 @@ def create_app(application_config):
     app.register_blueprint(user_view, url_prefix="/api/v2/auth")
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
     app.register_blueprint(question_view, url_prefix="/api/v2")
+    app.register_blueprint(comment_view,url_prefix="/api/v2")
 
     @jwt.token_in_blacklist_loader
     def is_valid_token(token):

@@ -19,3 +19,4 @@ class Status(object):
 user_view = Blueprint('views.userviews', '__name__')
 meetup_view = Blueprint('views.meetupviews', '__name__')
 question_view = Blueprint('views.questionviews', '__name__')
+comment_view = Blueprint('views.commentviews', '__name__')
