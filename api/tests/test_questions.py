@@ -81,4 +81,4 @@ class TestQuestion(BaseTest):
         self.authorize_with_jwt()
         result = self.patch_data(url=self.complete_url(
             url="questions/{}/downvote".format(question_id)), headers=self.json_headers)
-        self.assertEqual(Status.not_found,result.get("status"))
+        self.assertEqual(Status.not_found, result.get("status"))

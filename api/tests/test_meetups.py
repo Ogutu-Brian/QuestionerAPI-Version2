@@ -104,3 +104,12 @@ class TestMeetups(BaseTest):
         result = self.post_data(url=self.complete_url(
             url="meetups/{}/rsvps".format(-1234)), data=self.rsvp_data.data, headers=self.json_headers)
         self.assertEqual(Status.not_found, result.get("status"))
+
+    def test_post_data_not_json(self):
+        """Checking if rsvp data being posted is in JSON format"""
+
+        meetup_id = self.create_meetup()["data"][0]["id"]
+        self.json_headers = self.not_json_header
+        result = self.post_data(url=self.complete_url(
+            url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
+        self.assertEqual(Status.not_json, result.get("status"))
