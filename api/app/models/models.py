@@ -79,6 +79,13 @@ class BaseModel(V1Base):
         """Updtes the item in the database, to be overriddedn by child classes"""
         pass
 
+    @classmethod
+    def drop_table(cls)->None:
+        """Drops a given table"""
+        database.cursor.execute(
+            "DROP TABLE IF EXISTS {}".format(cls.table_name))
+        database.connection.commit()
+
 
 class User(V1user, BaseModel):
     """ 
