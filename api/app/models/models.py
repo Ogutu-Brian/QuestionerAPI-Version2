@@ -386,7 +386,7 @@ class Vote(V1Vote, BaseModel):
 
     def update(self)->None:
         """Alters value during upvote or downvote"""
-        database.cursor.execute("UPDATE votes SET value = %s WHERE id = %s",(
+        database.cursor.execute("UPDATE votes SET value = %s WHERE id = %s", (
             self.value,
             self.id
         ))
