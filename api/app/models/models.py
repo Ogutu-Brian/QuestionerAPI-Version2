@@ -363,7 +363,7 @@ class Vote(V1Vote, BaseModel):
             user_id integer,
             value integer
             )""")
-        database.connection.comment()
+        database.connection.commit()
 
     def save(self)->None:
         """"Saves a Voye object"""

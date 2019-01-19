@@ -4,7 +4,7 @@ from flask import request, jsonify
 from .import Status
 from api.app.utils.validators import QuestionValidators
 from typing import Tuple
-
+from flask_jwt_extended import get_jwt_identity
 @question_view.route('/questions', methods=["POST"])
 @jwt_required
 def create_question()->Tuple:
@@ -56,7 +56,7 @@ def create_question()->Tuple:
 @jwt_required
 def upvote(question_id:str)->Tuple:
     """Increates a question's vote by 1"""
-    from api.app.models.models import Question
+    from api.app.models.models import Question,User,Vote
     response = None
     question = Question.query_by_field("id", int(question_id))
     if not question:
@@ -66,8 +66,21 @@ def upvote(question_id:str)->Tuple:
         }), Status.not_found
     else:
         question = question[0]
-        question.votes += 1
-        question.update()
+        existing_vote = False
+        user = User.query_by_field("email",get_jwt_identity())[0]
+        for vote in Vote.query_all():
+            if vote.question == question.id and vote.user== user.id:
+                existing_vote = True
+                if vote.value == -1:
+                    vote.value = 1
+                    question.votes +=1
+                    vote.update()
+                    question.update()
+        if not existing_vote:
+            vote = Vote(user=user.id,question=question.id,value=1)
+            vote.save()  
+            question.votes += 1
+            question.update()
         response = jsonify({
             "message": "successfully upvoted",
             "status": Status.created,
