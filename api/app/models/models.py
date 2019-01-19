@@ -5,6 +5,7 @@ from api.app.models.object_models import Question as V1Question
 from api.app.models.object_models import Meetup as V1Meetup
 from api.app.models.object_models import Rsvp as V1Rsvp
 from api.app.models.object_models import BlackList as V1BlackList
+from api.app.models.object_models import Comment as V1Comment
 from run import database
 
 
@@ -32,7 +33,7 @@ class BaseModel(V1Base):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query):
+    def to_object(cls, query_dict: Dict):
         """
         a method that converts a queried item into an object
         """
@@ -74,9 +75,16 @@ class BaseModel(V1Base):
             self.id = item['id']
         database.connection.commit()
 
-    def update(self):
+    def update(self)->None:
         """Updtes the item in the database, to be overriddedn by child classes"""
         pass
+
+    @classmethod
+    def drop_table(cls)->None:
+        """Drops a given table"""
+        database.cursor.execute(
+            "DROP TABLE IF EXISTS {}".format(cls.table_name))
+        database.connection.commit()
 
 
 class User(V1user, BaseModel):
@@ -86,7 +94,7 @@ class User(V1user, BaseModel):
     table_name = "users"
 
     @classmethod
-    def migrate(cls):
+    def migrate(cls)->None:
         """creates users table"""
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS users(
             id serial PRIMARY KEY,
@@ -102,7 +110,7 @@ class User(V1user, BaseModel):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query_dict):
+    def to_object(cls, query_dict: Dict):
         """Returns queried value as an object"""
         user = User()
         user.id = query_dict.get("id")
@@ -116,7 +124,7 @@ class User(V1user, BaseModel):
         user.password = query_dict.get("password")
         return user
 
-    def save(self):
+    def save(self)->None:
         """
         Saves a user object into database
         """
@@ -139,7 +147,7 @@ class Question(V1Question, BaseModel):
     table_name = "questions"
 
     @classmethod
-    def migrate(cls):
+    def migrate(cls)->None:
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS questions (
             id serial PRIMARY KEY,
             created_date varchar,
@@ -152,7 +160,7 @@ class Question(V1Question, BaseModel):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query_dict):
+    def to_object(cls, query_dict: Dict):
         """Converts query string into a question object"""
         question = Question()
         question.id = query_dict.get("id")
@@ -164,7 +172,7 @@ class Question(V1Question, BaseModel):
         question.votes = query_dict.get("votes")
         return question
 
-    def save(self):
+    def save(self)->None:
         """Saves a question object into the database"""
         database.cursor.execute("INSERT INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
             self.created_date(),
@@ -176,7 +184,7 @@ class Question(V1Question, BaseModel):
         ))
         super().save()
 
-    def update(self):
+    def update(self)->None:
         """Updates question"""
         database.cursor.execute("UPDATE questions SET votes = %s WHERE id = %s", (
             self.votes,
@@ -186,10 +194,11 @@ class Question(V1Question, BaseModel):
 
 
 class Rsvp(V1Rsvp, BaseModel):
+    """Handles the SQL operations on Rsvp"""
     table_name = "rsvps"
 
     @classmethod
-    def migrate(cls):
+    def migrate(cls)->None:
         """Creates the rsvp table during migrations"""
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS rsvps (
             creatd_date varchar,
@@ -201,7 +210,7 @@ class Rsvp(V1Rsvp, BaseModel):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query_dict):
+    def to_object(cls, query_dict: Dict)->None:
         """Converts the query into Rsvp object"""
         rsvp = Rsvp()
         rsvp.meetup = query_dict.get("meetup")
@@ -209,7 +218,7 @@ class Rsvp(V1Rsvp, BaseModel):
         rsvp.response = query_dict.get("response")
         return rsvp
 
-    def save(self):
+    def save(self)->None:
         """Saves Rsvp object to database"""
         database.cursor.execute("INSERT INTO rsvps(meetup,user_id,response) VALUES(%s,%s,%s) RETURNING (meetup,user_id)", (
             self.meetup,
@@ -218,13 +227,13 @@ class Rsvp(V1Rsvp, BaseModel):
         ))
         database.connection.commit()
 
-    def delete(self):
+    def delete(self)->None:
         """Deletes item from tje table"""
         database.cursor.execute(
             "DELETE FROM {} WHERE id = %s".format(self.table_name), (self.id))
         database.connection.commit()
 
-    def update(self):
+    def update(self)->None:
         """Updates the response to a given rsvp"""
         database.cursor.execute("UPDATE rsvps SET response = %s WHERE meetup = %s AND user_id = %s", (
             self.response,
@@ -235,6 +244,7 @@ class Rsvp(V1Rsvp, BaseModel):
 
 
 class Meetup(V1Meetup, BaseModel):
+    """A blueprint for Meetup data"""
     table_name = "meetups"
 
     @classmethod
@@ -251,7 +261,7 @@ class Meetup(V1Meetup, BaseModel):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query_dict):
+    def to_object(cls, query_dict: Dict):
         """used to convert queries into meetup objects"""
         meetup = Meetup()
         meetup.topic = query_dict.get("topic")
@@ -261,7 +271,7 @@ class Meetup(V1Meetup, BaseModel):
         meetup.id = query_dict.get("id")
         return meetup
 
-    def save(self):
+    def save(self)->None:
         """Saves the meetup object into the database"""
         database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
             self.topic,
@@ -273,12 +283,50 @@ class Meetup(V1Meetup, BaseModel):
         super().save()
 
 
+class Comment(V1Comment, BaseModel):
+    """A class that handles persistence of comment data"""
+    table_name = "comments"
+
+    @classmethod
+    def migrate(cls)->None:
+        database.cursor.execute("""CREATE TABLE IF NOT EXISTS comments(
+            id serial PRIMARY KEY,
+            question integer,
+            user_id integer,
+            comment varchar,
+            title varchar,
+            body varchar
+            )""")
+        database.connection.commit()
+
+    def save(self)->None:
+        database.cursor.execute("INSERT INTO comments(question,user_id,comment,title,body) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
+            self.question,
+            self.user,
+            self.comment,
+            self.title,
+            self.body
+        ))
+        super().save()
+
+    @classmethod
+    def to_object(cls, query_dict: Dict):
+        """Object representation of Rsvp data after querying the database"""
+        comment = Comment()
+        comment.question = query_dict.get("question")
+        comment.user = query_dict.get("user_id")
+        comment.comment = query_dict.get("comment")
+        comment.title = query_dict.get("title")
+        comment.body = query_dict.get("body")
+        return comment
+
+
 class TokenBlackList(V1BlackList, BaseModel):
     """Hodls blacklisted jwt tokens"""
     table_name = "blacklist"
 
     @classmethod
-    def migrate(cls):
+    def migrate(cls)->None:
         """Creates table for holding blacklisted tokens"""
         database.cursor.execute("""CREATE TABLE IF NOT EXISTS blacklist(
             id serial PRIMARY KEY,
@@ -286,14 +334,14 @@ class TokenBlackList(V1BlackList, BaseModel):
         )""")
         database.connection.commit()
 
-    def save(self):
+    def save(self)->None:
         """Saves a blacklist token into blacklst database"""
         database.cursor.execute(
             "INSERT INTO blacklist (token) VALUES(%s) RETURNING id", (self.token,))
         super().save()
 
     @classmethod
-    def to_object(cls, query_dict):
+    def to_object(cls, query_dict: Dict):
         """Changes the query into a blacklist object"""
         blacklist_token = TokenBlackList()
         blacklist_token.id = query_dict.get("id")

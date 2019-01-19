@@ -137,6 +137,27 @@ class Rsvp(BaseModel):
         }
 
 
+class Comment(BaseModel):
+    """Defines a template object class for Questions"""
+
+    def __init__(self, created_on=date.today(), question="", user="", comment="", title="", body=""):
+        super().__init__(created_on=created_on)
+        self.question = question
+        self.comment = comment
+        self.user = user
+        self.title = title
+        self.body = body
+
+    def to_dictionary(self):
+        """Displays the object in a dictionary format"""
+        return {
+            "question": self.question,
+            "title": self.title,
+            "body": self.body,
+            "comment": self.comment
+        }
+
+
 class BlackList(BaseModel):
     """Stores blacklisted token"""
 

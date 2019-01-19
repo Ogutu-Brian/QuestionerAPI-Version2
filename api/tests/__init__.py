@@ -47,3 +47,13 @@ class UserData(object):
             "password": "password12#B",
             "isAdmin": "True"
         }
+
+
+class CommentData(object):
+    """a blueprint of comment test data"""
+
+    def __init__(self):
+        self.data = {
+            "question": 1,
+            "comment": "That is a good question"
+        }

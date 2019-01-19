@@ -3,11 +3,11 @@ from flask_jwt_extended import jwt_required
 from flask import request, jsonify
 from .import Status
 from api.app.utils.validators import QuestionValidators
-
+from typing import Tuple
 
 @question_view.route('/questions', methods=["POST"])
 @jwt_required
-def create_question():
+def create_question()->Tuple:
     """A post endpoint for creating a question for a given meetup"""
     response = None
     if request.is_json:
@@ -54,9 +54,9 @@ def create_question():
 
 @question_view.route('/questions/<question_id>/upvote', methods=["PATCH"])
 @jwt_required
-def upvote(question_id):
-    from api.app.models.models import Question
+def upvote(question_id:str)->Tuple:
     """Increates a question's vote by 1"""
+    from api.app.models.models import Question
     response = None
     question = Question.query_by_field("id", int(question_id))
     if not question:
@@ -78,7 +78,8 @@ def upvote(question_id):
 
 @question_view.route("/questions/<question_id>/downvote", methods=["PATCH"])
 @jwt_required
-def downvote(question_id):
+def downvote(question_id:str)->Tuple:
+    """Downvotes question endpoint by decreamenting the number of votes"""
     from api.app.models.models import Question
     response = None
     question = Question.query_by_field("id", int(question_id))

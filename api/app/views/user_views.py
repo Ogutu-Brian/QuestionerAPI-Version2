@@ -4,10 +4,10 @@ from api.app.utils.validators import UserValidators
 from .import Status
 import bcrypt
 from flask_jwt_extended import create_access_token
-
+from typing import Tuple
 
 @user_view.route("/signup", methods=["POST"])
-def sign_up():
+def sign_up()->Tuple:
     """A post endpoint for creating a user account"""
     from api.app.models.models import User
     response = None
@@ -61,7 +61,7 @@ def sign_up():
 
 
 @user_view.route("/login", methods=["POST"])
-def login():
+def login()->Tuple:
     """A post endpoint for logging a user into questioner"""
     response = None
     if request.is_json:
