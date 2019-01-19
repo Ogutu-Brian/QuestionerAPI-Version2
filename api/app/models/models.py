@@ -381,7 +381,7 @@ class Vote(V1Vote, BaseModel):
         vote.question = query_dict.get("question")
         vote.user = query_dict.get("user_id")
         vote.value = query_dict.get("value")
-        vote.id = query_dict
+        vote.id = query_dict.get("id")
         return vote
 
     def update(self)->None:
