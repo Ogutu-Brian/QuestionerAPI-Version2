@@ -19,7 +19,7 @@ Questioner is an application used by meetup organizers to plan well for meetups 
 # Installation and Setup
 Clone the repository.
 ```bash
-git clone https://github.com/Ogutu-Brian/Questioner
+git https://github.com/Ogutu-Brian/QuestionerAPI-Version2
 ```
 
 ## Create a virtual environment

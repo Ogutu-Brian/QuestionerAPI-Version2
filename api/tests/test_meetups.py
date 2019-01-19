@@ -92,3 +92,15 @@ class TestMeetups(BaseTest):
         result = self.delete_data(
             "meetups/{}".format(meetup_id), headers=self.json_headers)
         self.assertEqual(Status.denied_access, result.get("status"))
+
+    def test_successful_rsvp_response(self):
+        """Tests for successful rsvp response"""
+        result = self.create_rsvp()
+        self.assertEqual(Status.created, result.get("status"))
+
+    def test_invalid_meetup_for_rsvp(self):
+        """Tests for invalid meetup id during creation of rsvp"""
+        self.create_meetup()
+        result = self.post_data(url=self.complete_url(
+            url="meetups/{}/rsvps".format(-1234)), data=self.rsvp_data.data, headers=self.json_headers)
+        self.assertEqual(Status.not_found, result.get("status"))

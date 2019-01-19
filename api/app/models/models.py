@@ -211,18 +211,26 @@ class Rsvp(V1Rsvp, BaseModel):
 
     def save(self):
         """Saves Rsvp object to database"""
-        database.cursor.execute("INSERT INTO rsvps(created_date,meetup,user_id,response) VALUES(%s,%s,%s,%s) RETURNING id", (
-            self.created_date,
+        database.cursor.execute("INSERT INTO rsvps(meetup,user_id,response) VALUES(%s,%s,%s) RETURNING (meetup,user_id)", (
             self.meetup,
             self.user,
             self.response
         ))
-        super().save()
+        database.connection.commit()
 
     def delete(self):
         """Deletes item from tje table"""
         database.cursor.execute(
             "DELETE FROM {} WHERE id = %s".format(self.table_name), (self.id))
+        database.connection.commit()
+
+    def update(self):
+        """Updates the response to a given rsvp"""
+        database.cursor.execute("UPDATE rsvps SET response = %s WHERE meetup = %s AND user_id = %s", (
+            self.response,
+            self.meetup,
+            self.user
+        ))
         database.connection.commit()
 
 

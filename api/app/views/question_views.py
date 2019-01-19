@@ -94,6 +94,6 @@ def downvote(question_id):
         response = jsonify({
             "message": "Successfully downvoted a question",
             "status": Status.created,
-            "data":[question.to_dictionary()]
+            "data": [question.to_dictionary()]
         }), Status.created
     return response

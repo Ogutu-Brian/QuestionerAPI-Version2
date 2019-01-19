@@ -2,7 +2,8 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from .import UserData, MeetupData, QuestionData
+from .import UserData, MeetupData, QuestionData, RsvpData
+from flask_jwt_extended import get_jwt_identity
 
 
 class BaseTest(unittest.TestCase):
@@ -20,6 +21,7 @@ class BaseTest(unittest.TestCase):
         self.user_data = UserData()
         self.meetup_data = MeetupData()
         self.questions_data = QuestionData()
+        self.rsvp_data = RsvpData()
 
     def complete_url(self, url=""):
         """Returns complete url endpoint that is tested by the view"""
@@ -102,6 +104,13 @@ class BaseTest(unittest.TestCase):
         question_id = self.create_question()["data"][0]["id"]
         result = self.patch_data(url=self.complete_url(
             "questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        return result
+
+    def create_rsvp(self):
+        """Successfully creates an rsvp"""
+        meetup_id = self.create_meetup()["data"][0]["id"]
+        result = self.post_data(url=self.complete_url(
+            url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
         return result
 
     def tearDown(self):
