@@ -49,7 +49,7 @@ class UserData(object):
         }
 
 
-class CommtData(object):
+class CommentData(object):
     """a blueprint of comment test data"""
 
     def __init__(self):

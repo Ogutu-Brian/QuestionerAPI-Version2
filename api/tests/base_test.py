@@ -2,14 +2,14 @@ import unittest
 import json
 from run import create_app
 from migrtions import DbMigrations
-from .import UserData, MeetupData, QuestionData, RsvpData
+from .import UserData, MeetupData, QuestionData, RsvpData,CommentData
 from flask_jwt_extended import get_jwt_identity
-
+from typing import Dict
 
 class BaseTest(unittest.TestCase):
     """Defines a Base template class for performing unit testst"""
 
-    def setUp(self):
+    def setUp(self)->None:
         """Sets up a test client for the application"""
         self.app = create_app("TESTING")
         self.client = self.app.test_client
@@ -22,30 +22,31 @@ class BaseTest(unittest.TestCase):
         self.meetup_data = MeetupData()
         self.questions_data = QuestionData()
         self.rsvp_data = RsvpData()
+        self.comment_data = CommentData()
 
-    def complete_url(self, url=""):
+    def complete_url(self, url:str="")->str:
         """Returns complete url endpoint that is tested by the view"""
         return self.url_prefix+url
 
-    def post_data(self, url="", data={}, headers={}):
+    def post_data(self, url:str="", data={}, headers:Dict={}):
         """
         Posts data to various endpoints
         """
         result = self.client().post(url, data=json.dumps(data), headers=headers)
         return json.loads(result.get_data(as_text=True))
 
-    def patch_data(self, url="", headers={}):
+    def patch_data(self, url:str="", headers:Dict={}):
         """Performs the patch operations on data"""
         result = self.client().patch(url, headers=headers)
         return json.loads(result.get_data(as_text=True))
 
-    def get_data(self, url="", headers={}):
+    def get_data(self, url:str="", headers:Dict={}):
         """used to get data at given urls"""
         result = json.loads(self.client().get(self.complete_url(
             url=url), headers=headers).get_data(as_text=True))
         return result
 
-    def delete_data(self, url, headers={}):
+    def delete_data(self, url:str="", headers:Dict={}):
         result = json.loads(self.client().delete(
             self.complete_url(url), headers=headers).get_data(as_text=True))
         return result
@@ -70,7 +71,7 @@ class BaseTest(unittest.TestCase):
                                 data=self.meetup_data.data, headers=self.json_headers)
         return result
 
-    def authorize_with_jwt(self):
+    def authorize_with_jwt(self)->Dict:
         """Generates token that is used to secure endpoints"""
         result = self.login()
         token = result["data"][0].get("token")
@@ -113,11 +114,21 @@ class BaseTest(unittest.TestCase):
             url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
         return result
 
+    def post_commet(self):
+        """Posts a comment to a given question"""
+        question_id = self.create_question()["data"][0]["id"]
+        self.comment_data.data["question"] = question_id
+        result = self.post_data(url=self.complete_url(url="comments/"),
+                                data=self.comment_data.data, headers=self.json_headers)
+        return result
+
     def tearDown(self):
         """Clears all the content in database tables and instantiates data objects"""
         DbMigrations.tear_down()
         self.user_data = UserData()
         self.meetup_data = MeetupData()
         self.questions_data = QuestionData()
+        self.rsvp_data=RsvpData()
+        self.comment_data= CommentData()
         self.json_headers = {"Content-Type": "application/json"}
         self.not_json_header = {}

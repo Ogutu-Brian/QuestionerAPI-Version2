@@ -3,11 +3,11 @@ from flask import request, jsonify
 from .import Status
 from api.app.utils.validators import MeetupValidators,RsvpValidators
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
+from typing import Tuple
 
 @meetup_view.route("/meetups", methods=["POST"])
 @jwt_required
-def create_meetup():
+def create_meetup()->Tuple:
     """A post endpoint for creating a meetup by an administrator"""
     response = None
     if request.is_json:
@@ -53,7 +53,7 @@ def create_meetup():
 
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
 @jwt_required
-def get_meetup(meetup_id):
+def get_meetup(meetup_id:str)->Tuple:
     """ A get endpoint for getting a specific meetup given an id"""
     from api.app.models.models import Meetup
     meetup = Meetup.query_by_field("id", int(meetup_id))
@@ -75,7 +75,7 @@ def get_meetup(meetup_id):
 
 @meetup_view.route("/meetups/upcoming/", methods=["GET"])
 @jwt_required
-def get_upcoming_meetups():
+def get_upcoming_meetups()->Tuple:
     """A GET endpoint for getting all the upcoming meetups"""
     from api.app.models.models import Meetup
     response = None
@@ -99,7 +99,7 @@ def get_upcoming_meetups():
 
 @meetup_view.route("/meetups/<meetup_id>", methods=["DELETE"])
 @jwt_required
-def delete_meetup(meetup_id):
+def delete_meetup(meetup_id:str)->Tuple:
     """A delete endpoint for deleting meetups"""
     from api.app.models.models import Meetup, User
     meetup = Meetup.query_by_field("id", int(meetup_id))
@@ -129,7 +129,7 @@ def delete_meetup(meetup_id):
 
 @meetup_view.route("/meetups/<meetup_id>/rsvps", methods=["POST"])
 @jwt_required
-def create_rsvp(meetup_id):
+def create_rsvp(meetup_id:str)->Tuple:
     """Endpoint for creatong Rsvp"""
     from api.app.models.models import Meetup, Rsvp, User
     response = None
