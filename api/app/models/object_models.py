@@ -171,3 +171,13 @@ class BlackList(BaseModel):
             "id": self.id,
             "token": self.token
         }
+
+
+class Vote(BaseModel):
+    """A bluprint for Vote object"""
+
+    def __init__(self, created_on=date.today(), user="", question="", value=0):
+        super().__init__(created_on=created_on)
+        self.user = user
+        self.question = question
+        self.value = value

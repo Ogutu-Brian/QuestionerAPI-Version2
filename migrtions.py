@@ -3,7 +3,7 @@ Creates a database Schema
 When the file is run directly it clears data in all the tables
 """
 from api.app.models.models import (
-    User, Question, Rsvp, Meetup, TokenBlackList, Comment)
+    User, Question, Rsvp, Meetup, TokenBlackList, Comment, Vote)
 
 
 class DbMigrations(object):
@@ -19,6 +19,7 @@ class DbMigrations(object):
         Rsvp.clear()
         TokenBlackList.clear()
         Comment.clear()
+        Vote.clear()
 
     @classmethod
     def drop_tables(cls)->None:
@@ -29,6 +30,7 @@ class DbMigrations(object):
         Rsvp.drop_table()
         TokenBlackList.drop_table()
         Comment.drop_table()
+        Vote.drop_table()
 
     @classmethod
     def makemigrations(cls)->None:
@@ -39,6 +41,7 @@ class DbMigrations(object):
         Rsvp.migrate()
         TokenBlackList.migrate()
         Comment.migrate()
+        Vote.migrate()
 
 
 if __name__ == "__main__":
