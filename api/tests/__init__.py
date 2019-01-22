@@ -41,7 +41,7 @@ class UserData(object):
             "firstname": "Ogutu",
             "lastname": "Brian",
             "othername": "Okinyi",
-            "phoneNumber": "0703812914",
+            "phoneNumber": "+2540703812914",
             "username": "Brian",
             "email": "codingbrian58@gmail.com",
             "password": "password12#B",
