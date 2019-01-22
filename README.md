@@ -70,7 +70,10 @@ All endpoints can be now accessed from the following url on your local computer
 ```
 http://localhost:5000/api/v2/
 ``````
-
+Or from Heroku
+```
+https://questioner-api-v2.herokuapp.com/
+```
 ## Testing
 After successfully installing the application, the endpoints can be tested by running.
 ```bash
