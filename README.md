@@ -1,7 +1,8 @@
 # Questioner
 Questioner API using Python Flask and PostgreSQL  
 [![Build Status](https://travis-ci.com/Ogutu-Brian/QuestionerAPI-Version2.svg?branch=develop)](https://travis-ci.com/Ogutu-Brian/QuestionerAPI-Version2)
-[![Coverage Status](https://coveralls.io/repos/github/Ogutu-Brian/QuestionerAPI-Version2/badge.svg?branch=develop)](https://coveralls.io/github/Ogutu-Brian/QuestionerAPI-Version2?branch=develop)   
+[![Coverage Status](https://coveralls.io/repos/github/Ogutu-Brian/QuestionerAPI-Version2/badge.svg?branch=develop)](https://coveralls.io/github/Ogutu-Brian/QuestionerAPI-Version2?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8689fc6f2c1aae58a9f4/maintainability)](https://codeclimate.com/github/Ogutu-Brian/QuestionerAPI-Version2/maintainability)   
 ## Project Overview
 Questioner is an application used by meetup organizers to plan well for meetups and to prioritize what to discuss during the meetup.
 

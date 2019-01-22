@@ -1,0 +1,88 @@
+
+    tags:
+      - Users
+    parameters:
+     - in: body
+       name: user
+       schema:
+        id: login_data
+        properties:
+            email:
+              type: string
+              description: The email address of the user
+            password: 
+              type: string
+              description: The password of the user
+    responses:
+      406:
+        description: Error on failure to pass the validations
+        schema:
+          id: invalid_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 406
+              description: the status code returned
+      422:
+        description: Error on post of non json object
+        schema:
+          id: non_json_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 422
+              description: the status code returned
+
+      200:
+        description: successful login
+        schema:
+          id: login
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The token generated during log in
+                  message: 
+                    type: string
+                    description: The success message given after the login
+                  user:
+                    type: object
+                    properties:
+                      email: 
+                        type: string
+                        description: The email address of the user
+                      firstname:
+                        type: string
+                        description: The first name of the user
+                      lastname: 
+                        type: string
+                        description: The last name of the user
+                      othername:
+                        type: string
+                        description: The other name distinct from first name and last name
+                      isAdmin:
+                        type: string
+                        description: The role of the user
+                      phoneNumber:
+                        type: string
+                        description: The phone number of the user
+                      registered:
+                        type: string
+                        description: The date of registration of the user
+            message: 
+              type: string
+              description: The success message on log in
+            status:
+              type: integer
+              description: The status code
+              default: 201

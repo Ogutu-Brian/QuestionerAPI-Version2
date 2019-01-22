@@ -3,10 +3,11 @@ from typing import Tuple
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.app.utils.validators import CommentValidators
+from flasgger import swag_from
 
-
-@comment_view.route("/comments/",methods=["POST"])
+@comment_view.route("/comments/", methods=["POST"])
 @jwt_required
+@swag_from('.comments.yml')
 def create_comment()->Tuple:
     """Creates a comment to a Question"""
     response = None
@@ -29,10 +30,10 @@ def create_comment()->Tuple:
                 comment = Comment(question=question.id, user=user.id, comment=data.get(
                     "comment"), title=question.title, body=question.body)
                 comment.save()
-                response=jsonify({
-                    "data":comment.to_dictionary(),
-                    "status":Status.created
-                }),Status.created
+                response = jsonify({
+                    "data": comment.to_dictionary(),
+                    "status": Status.created
+                }), Status.created
         else:
             response = jsonify({
                 "message": "You encoutered {} error(s)".format(len(errors)),

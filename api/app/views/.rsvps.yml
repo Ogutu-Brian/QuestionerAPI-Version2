@@ -1,0 +1,65 @@
+
+    tags:
+      - meetups
+    parameters:
+     - in: body
+       name: rsvp_data
+       schema:
+        id: rsvp
+        properties:
+          response:
+            type: string
+            description: The response message
+    responses:
+      406:
+        description: On failure to pass the validations
+        schema:
+          id: invalid_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 406
+              description: the status code returned
+      404:
+        description: On failure to get a meetup id
+        schema:
+          id: missing_meetup
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 404
+              description: the status code returned
+      201:
+        description: succesful creation of rsvp
+        schema:
+          id: rsvp
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  meetup:
+                    type: integer
+                    description: The id of the meetup
+                  status: 
+                    type: string
+                    description: The response message
+                  topic:
+                    type: string
+                    description: The title of the meetup
+            message: 
+              type: string
+              description: The success message on log in
+            status:
+              type: integer
+              description: The status code
+              default: 201
+              
+  

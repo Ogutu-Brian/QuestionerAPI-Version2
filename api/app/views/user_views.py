@@ -5,9 +5,10 @@ from .import Status
 import bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_raw_jwt)
 from typing import Tuple
-
+from flasgger import swag_from
 
 @user_view.route("/signup", methods=["POST"])
+@swag_from('.signup.yml')
 def sign_up()->Tuple:
     """A post endpoint for creating a user account"""
     from api.app.models.models import User
@@ -62,6 +63,7 @@ def sign_up()->Tuple:
 
 
 @user_view.route("/login", methods=["POST"])
+@swag_from('.login.yml')
 def login()->Tuple:
     """A post endpoint for logging a user into questioner"""
     response = None

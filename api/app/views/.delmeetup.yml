@@ -1,0 +1,29 @@
+
+    tags:
+      - meetups
+    responses:
+      404:
+        description: When a meetup with a given id does not exist
+        schema:
+          id: missing_meetup
+          properties:
+            error:
+              type: string
+              description: Error message displayed when meetup does not exist
+            status:
+              type: integer
+              description: The status code returned when the meetup is missing
+      200:
+        description: Successful deletion of the meetup
+        schema:
+          id: meetup_deletion
+          properties:
+            data:
+              type: array
+              items:
+                type: string
+                description: the success message on deletion
+            status:
+              type: integer
+              description: The status code
+              default: 201
