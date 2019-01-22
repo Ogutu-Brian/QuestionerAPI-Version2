@@ -5,14 +5,20 @@
      - in: body
        name: post-question
        schema:
-        id: comment_data
+        id: question_data
         properties:
-            question:
-              type: integer
-              description: The id of the questin 
-            comment:
+            title:
               type: string
-              description: The comment message
+              description: The title of the question 
+            createdBy:
+              type: string
+              description: The creator of the question
+            body:
+              type: string
+              description: The body fo the question being asked
+            meetup:
+              type: integer
+              description: The id of the meetup against which the question is posted
     responses:
       406:
         description: On failure to pass the validations
@@ -26,10 +32,22 @@
               type: integer
               default: 406
               description: the status code returned
+      401:
+        description: error when token has expired
+        schema:
+          id: expired token
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 401
+              description: the status code returned
       201:
         description: Successful post of question
         schema:
-          id: comment
+          id: question
           properties:
             data:
               type: object
@@ -37,19 +55,28 @@
                 body:
                   type: string
                   description: "The body of the question"
-                comment:
-                  type: string
-                  description: "The messagge in the comment"
+                createdBy:
+                  type: integer
+                  description: "The id of the author of question"
                 title:
                   type: string
                   description: "The title of the question"
                 question:
-                  type: integer
+                  id: integer
                   description: "The id of the question"
                 status:
                    type: integer
                    description: The status code
                    default: 201
-            comment:
-              type: string
-              description: The comment message
+                votes:
+                  type: integer
+                  description: The number of votes against a question
+                meetup:
+                  type: integer
+                  description: The id of the meetup
+                createdOn:
+                  type: string
+                  description: The date of creation of the question
+                message:
+                  type: string
+                  description: The success message after successful creation of question

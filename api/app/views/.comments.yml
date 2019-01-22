@@ -26,6 +26,18 @@
               type: integer
               default: 406
               description: the status code returned
+      401:
+        description: error when token has expired
+        schema:
+          id: expired token
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 401
+              description: the status code returned
       201:
         description: Successful post of question
         schema:
