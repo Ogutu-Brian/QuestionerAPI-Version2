@@ -54,7 +54,6 @@ def create_meetup()->Tuple:
 
 
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
-@jwt_required
 @swag_from('.getspecmeetup.yml')
 def get_meetup(meetup_id: str)->Tuple:
     """ A get endpoint for getting a specific meetup given an id"""
