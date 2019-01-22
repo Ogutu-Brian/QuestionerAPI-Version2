@@ -2,6 +2,7 @@ import re
 from typing import Tuple, Dict
 from validate_email import validate_email
 
+
 class UserValidators(object):
     """ Checks done on User data during Post"""
     @classmethod
@@ -20,9 +21,9 @@ class UserValidators(object):
             errors.append({
                 "message": "email must be provided"
             })
-        elif not validate_email(item.get("email"),verify=True):
+        if not re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', item.get("email")):
             errors.append({
-                "message":"That is not a valid email address"
+                "message": "The email address is not valid"
             })
         if not item.get("phoneNumber"):
             errors.append({
