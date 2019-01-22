@@ -1,6 +1,6 @@
 import re
 from typing import Tuple, Dict
-
+from validate_email import validate_email
 
 class UserValidators(object):
     """ Checks done on User data during Post"""
@@ -19,6 +19,10 @@ class UserValidators(object):
         if not item.get("email"):
             errors.append({
                 "message": "email must be provided"
+            })
+        elif not validate_email(item.get("email"),verify=True):
+            errors.append({
+                "message":"That is not a valid email address"
             })
         if not item.get("phoneNumber"):
             errors.append({
