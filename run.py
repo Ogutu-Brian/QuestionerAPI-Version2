@@ -8,11 +8,13 @@ from api.app.views.meetup_views import meetup_view
 from api.app.views.question_views import question_view
 from api.app.views.comment_views import comment_view
 from flasgger import Swagger
+from dotenv import load_dotenv
 
 database = PostgresDatabase()
 
 from migrtions import DbMigrations
 
+load_dotenv()
 def create_app(application_config):
     """main flask application"""
     app = Flask(__name__, instance_relative_config=True)
