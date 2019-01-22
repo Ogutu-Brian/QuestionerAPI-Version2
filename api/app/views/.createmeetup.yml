@@ -3,16 +3,25 @@
       - meetups
     parameters:
      - in: body
-       name: Comment
+       name: meetup_data
        schema:
-        id: comment_data
+        id: meetup_data
         properties:
-            question:
-              type: integer
-              description: The id of the questin 
-            comment:
+            location:
               type: string
-              description: The comment message
+              description: The location where the meetup will be held 
+            images:
+              type: string
+              description: The directory path of the images location
+            topic:
+              type: string
+              description: The title of the meetup
+            Tags:
+              type: string
+              description: The meetup tags
+            happeningOn:
+              type: string
+              description: The date of the meetup
     responses:
       406:
         description: On failure to pass the validations
@@ -26,30 +35,50 @@
               type: integer
               default: 406
               description: the status code returned
-      201:
-        description: Successful post of question
+      422:
+        description: Error on post of non json object
         schema:
-          id: comment
+          id: non_json_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 422
+              description: the status code returned
+      201:
+        description: Successful creation of the meetup
+        schema:
+          id: meetup_post
           properties:
             data:
-              type: object
-              properties:
-                body:
-                  type: string
-                  description: "The body of the question"
-                comment:
-                  type: string
-                  description: "The messagge in the comment"
-                title:
-                  type: string
-                  description: "The title of the question"
-                question:
-                  type: integer
-                  description: "The id of the question"
-                status:
-                   type: integer
-                   description: The status code
-                   default: 201
-            comment:
+              type: array
+              items:
+                type: object
+                properties:
+                  createdOn:
+                    type: string
+                    description: The date the meetup is created
+                  happeningOn:
+                    type: string
+                    description: The date the meetup is to happen
+                  id:
+                    type: integer
+                    description: The id of the meetup
+                  location:
+                    type: string
+                    description: The location of the meetup
+                  tags:
+                    type: string
+                    description: The tags of the meetup
+                  topic:
+                    type: string
+                    description: The topic of the meetup
+            message:
               type: string
-              description: The comment message
+              description: The message on successful creation of meetup
+            status:
+              type: integer
+              description: The status code
+              default: 201

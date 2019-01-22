@@ -52,10 +52,6 @@
                   token:
                     type: string
                     description: The token generated during log in
-                  status:
-                    type: integer
-                    description: The satatus code returned after successful login
-                    default: 200
                   message: 
                     type: string
                     description: The success message given after the login
@@ -83,3 +79,10 @@
                       registered:
                         type: string
                         description: The date of registration of the user
+            message: 
+              type: string
+              description: The success message on log in
+            status:
+              type: integer
+              description: The status code
+              default: 201

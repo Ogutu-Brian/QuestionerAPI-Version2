@@ -50,33 +50,35 @@
           id: question
           properties:
             data:
-              type: object
-              properties:
-                body:
-                  type: string
-                  description: "The body of the question"
-                createdBy:
-                  type: integer
-                  description: "The id of the author of question"
-                title:
-                  type: string
-                  description: "The title of the question"
-                question:
-                  id: integer
-                  description: "The id of the question"
-                status:
-                   type: integer
-                   description: The status code
-                   default: 201
-                votes:
-                  type: integer
-                  description: The number of votes against a question
-                meetup:
-                  type: integer
-                  description: The id of the meetup
-                createdOn:
-                  type: string
-                  description: The date of creation of the question
-                message:
-                  type: string
-                  description: The success message after successful creation of question
+              type: array
+              items:
+                type: object
+                properties:
+                  body:
+                    type: string
+                    description: "The body of the question"
+                  createdBy:
+                    type: integer
+                    description: "The id of the author of question"
+                  title:
+                    type: string
+                    description: "The title of the question"
+                  question:
+                    id: integer
+                    description: "The id of the question"
+                  votes:
+                    type: integer
+                    description: The number of votes against a question
+                  meetup:
+                    type: integer
+                    description: The id of the meetup
+                  createdOn:
+                    type: string
+                    description: The date of creation of the question
+                  message:
+                    type: string
+                    description: The success message after successful creation of question
+            status:
+              type: integer
+              description: The status code
+              default: 201

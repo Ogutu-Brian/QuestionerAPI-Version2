@@ -1,55 +1,39 @@
 
     tags:
       - meetups
-    parameters:
-     - in: body
-       name: upcomingmeetups
-       schema:
-        id: comment_data
-        properties:
-            question:
-              type: integer
-              description: The id of the questin 
-            comment:
-              type: string
-              description: The comment message
     responses:
-      406:
-        description: On failure to pass the validations
-        schema:
-          id: invalid_data
-          properties:
-             error:
-              type: string
-              description: The error message
-             status:
-              type: integer
-              default: 406
-              description: the status code returned
       201:
-        description: Successful post of question
+        description: Successful retrieval of all meetups
         schema:
-          id: comment
+          id: meetup_post
           properties:
             data:
-              type: object
-              properties:
-                body:
-                  type: string
-                  description: "The body of the question"
-                comment:
-                  type: string
-                  description: "The messagge in the comment"
-                title:
-                  type: string
-                  description: "The title of the question"
-                question:
-                  type: integer
-                  description: "The id of the question"
-                status:
-                   type: integer
-                   description: The status code
-                   default: 201
-            comment:
+              type: array
+              items:
+                type: object
+                properties:
+                  createdOn:
+                    type: string
+                    description: The date the meetup is created
+                  happeningOn:
+                    type: string
+                    description: The date the meetup is to happen
+                  id:
+                    type: integer
+                    description: The id of the meetup
+                  location:
+                    type: string
+                    description: The location of the meetup
+                  tags:
+                    type: string
+                    description: The tags of the meetup
+                  topic:
+                    type: string
+                    description: The topic of the meetup
+            message:
               type: string
-              description: The comment message
+              description: The message on successful creation of meetup
+            status:
+              type: integer
+              description: The status code
+              default: 201

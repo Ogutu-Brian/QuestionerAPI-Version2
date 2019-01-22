@@ -3,16 +3,13 @@
       - meetups
     parameters:
      - in: body
-       name: meetup data
+       name: rsvp_data
        schema:
-        id: comment_data
+        id: rsvp
         properties:
-            question:
-              type: integer
-              description: The id of the questin 
-            comment:
-              type: string
-              description: The comment message
+          response:
+            type: string
+            description: The response message
     responses:
       406:
         description: On failure to pass the validations
@@ -26,30 +23,43 @@
               type: integer
               default: 406
               description: the status code returned
-      201:
-        description: Successful post of question
+      404:
+        description: On failure to get a meetup id
         schema:
-          id: comment
+          id: missing_meetup
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 404
+              description: the status code returned
+      201:
+        description: succesful creation of rsvp
+        schema:
+          id: rsvp
           properties:
             data:
-              type: object
-              properties:
-                body:
-                  type: string
-                  description: "The body of the question"
-                comment:
-                  type: string
-                  description: "The messagge in the comment"
-                title:
-                  type: string
-                  description: "The title of the question"
-                question:
-                  type: integer
-                  description: "The id of the question"
-                status:
-                   type: integer
-                   description: The status code
-                   default: 201
-            comment:
+              type: array
+              items:
+                type: object
+                properties:
+                  meetup:
+                    type: integer
+                    description: The id of the meetup
+                  status: 
+                    type: string
+                    description: The response message
+                  topic:
+                    type: string
+                    description: The title of the meetup
+            message: 
               type: string
-              description: The comment message
+              description: The success message on log in
+            status:
+              type: integer
+              description: The status code
+              default: 201
+              
+  
