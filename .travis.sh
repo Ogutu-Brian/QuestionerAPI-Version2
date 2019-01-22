@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 export DATABASE_NAME="questioner"
 export DATABASE_USER="postgres"
-export TEST_DATABASE = "questioner_test"
-export SECRET_KEY = "my_awesome_key"
+export TEST_DATABASE ="questioner_test"
+export SECRET_KEY ="my_awesome_key"
 export DATABASE_HOST="localhost"
 export DATABASE_PASSWORD="password"
 export ENVIRONMENT="DEVELOPMENT"
