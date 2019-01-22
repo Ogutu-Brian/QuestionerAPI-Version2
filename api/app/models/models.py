@@ -211,7 +211,7 @@ class Rsvp(V1Rsvp, BaseModel):
         database.connection.commit()
 
     @classmethod
-    def to_object(cls, query_dict: Dict)->None:
+    def to_object(cls, query_dict: Dict):
         """Converts the query into Rsvp object"""
         rsvp = Rsvp()
         rsvp.meetup = query_dict.get("meetup")
