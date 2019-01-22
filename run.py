@@ -8,7 +8,6 @@ from api.app.views.meetup_views import meetup_view
 from api.app.views.question_views import question_view
 from api.app.views.comment_views import comment_view
 from flasgger import Swagger
-from flasgger.utils import swag_from
 
 database = PostgresDatabase()
 
@@ -24,6 +23,7 @@ def create_app(application_config):
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
     app.register_blueprint(question_view, url_prefix="/api/v2")
     app.register_blueprint(comment_view, url_prefix="/api/v2")
+    Swagger(app=app)
 
     @jwt.token_in_blacklist_loader
     def token_in_blaclist(token):
@@ -70,7 +70,6 @@ def create_app(application_config):
             "error": "bad request",
             "status": Status.bad_requst
         }), Status.bad_requst
-    Swagger(app=app)
     return app
 app = create_app("DEVELOPMENT")
 DbMigrations.makemigrations()
