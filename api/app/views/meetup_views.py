@@ -77,7 +77,6 @@ def get_meetup(meetup_id: str)->Tuple:
 
 
 @meetup_view.route("/meetups/upcoming/", methods=["GET"])
-@jwt_required
 @swag_from('.upcomingmeetup.yml')
 def get_upcoming_meetups()->Tuple:
     """A GET endpoint for getting all the upcoming meetups"""

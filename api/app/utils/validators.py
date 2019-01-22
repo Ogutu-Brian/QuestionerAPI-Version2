@@ -27,7 +27,7 @@ class UserValidators(object):
         password = item.get("password")
         email = item.get("email")
         phoneNumber = item.get("phoneNumber")
-        username = item.get("password")
+        username = item.get("username")
         if not firstname:
             errors.append({
                 "message": "First name must be provided"
@@ -106,9 +106,17 @@ class MeetupValidators(object):
             errors.append({
                 "message": "Location of meetup must be provided",
             })
+        elif not valid_input_string(item.get("location")):
+            errors.append({
+                "message": "The location you entered is not valid"
+            })
         if not item.get("topic"):
             errors.append({
                 "message": "topic must be provided"
+            })
+        elif not valid_input_string(item.get("topic")):
+            errors.append({
+                "message": "The topic is not valid"
             })
         if not item.get("Tags"):
             errors.append({
