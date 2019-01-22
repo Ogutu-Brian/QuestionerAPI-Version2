@@ -5,10 +5,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.app.utils.validators import CommentValidators
 from flasgger import swag_from
 
-
 @comment_view.route("/comments/", methods=["POST"])
 @jwt_required
-@swag_from('index.yml')
+@swag_from('.comments.yml')
 def create_comment()->Tuple:
     """Creates a comment to a Question"""
     response = None

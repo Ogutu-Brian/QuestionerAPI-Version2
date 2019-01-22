@@ -5,10 +5,11 @@ from .import Status
 from api.app.utils.validators import QuestionValidators
 from typing import Tuple
 from flask_jwt_extended import get_jwt_identity
-
+from flasgger import swag_from
 
 @question_view.route('/questions', methods=["POST"])
 @jwt_required
+@swag_from('.createquestion.yml')
 def create_question()->Tuple:
     """A post endpoint for creating a question for a given meetup"""
     response = None
@@ -56,6 +57,7 @@ def create_question()->Tuple:
 
 @question_view.route('/questions/<question_id>/upvote', methods=["PATCH"])
 @jwt_required
+@swag_from('.vote.yml')
 def upvote(question_id: str)->Tuple:
     """Increates a question's vote by 1"""
     from api.app.models.models import Question, User, Vote
@@ -93,6 +95,7 @@ def upvote(question_id: str)->Tuple:
 
 @question_view.route("/questions/<question_id>/downvote", methods=["PATCH"])
 @jwt_required
+@swag_from('.vote.yml')
 def downvote(question_id: str)->Tuple:
     """Downvotes question endpoint by decreamenting the number of votes"""
     from api.app.models.models import Question, User, Vote

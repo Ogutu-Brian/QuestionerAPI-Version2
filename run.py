@@ -9,7 +9,6 @@ from api.app.views.question_views import question_view
 from api.app.views.comment_views import comment_view
 from flasgger import Swagger
 from flasgger.utils import swag_from
-from api.instance import swagger_config
 
 database = PostgresDatabase()
 
@@ -19,7 +18,6 @@ def create_app(application_config):
     """main flask application"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config.get(application_config))
-    app.config["SWAGGER"]=swagger_config
     database.initialize_application(app)
     jwt = JWTManager(app)
     app.register_blueprint(user_view, url_prefix="/api/v2/auth")
@@ -72,10 +70,8 @@ def create_app(application_config):
             "error": "bad request",
             "status": Status.bad_requst
         }), Status.bad_requst
-    swag=Swagger(app)
+    Swagger(app=app)
     return app
-
-
 app = create_app("DEVELOPMENT")
 DbMigrations.makemigrations()
 if __name__ == "__main__":
