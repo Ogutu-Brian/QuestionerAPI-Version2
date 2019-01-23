@@ -31,13 +31,6 @@ class TestQuestion(BaseTest):
         result = self.create_question()
         self.assertEqual(Status.not_json, result.get("status"))
 
-    def test_missing_creator(self)->None:
-        """tests fir data that does not contain creator of the question"""
-        self.create_question_intials()
-        self.questions_data.data["createdBy"] = ""
-        result = self.create_question()
-        self.assertEqual(Status.invalid_data, result.get("status"))
-
     def test_missing_body(self)->None:
         """Tests for missing body during creation of a question"""
         self.create_question_intials()
@@ -49,13 +42,6 @@ class TestQuestion(BaseTest):
         """Tests for Question that is not linked to a meetup"""
         self.create_question_intials()
         self.questions_data.data["meetup"] = ""
-        result = self.create_question()
-        self.assertEqual(Status.invalid_data, result.get("status"))
-
-    def test_invalid_user(self)->None:
-        """Tests if a user with an id exists in the database"""
-        self.create_question_intials()
-        self.questions_data.data["createdBy"] = -78667
         result = self.create_question()
         self.assertEqual(Status.invalid_data, result.get("status"))
 

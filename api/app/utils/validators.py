@@ -164,10 +164,6 @@ class QuestionValidators(object):
     def is_valid(cls, item: Dict)->Tuple:
         """validates Post Question data"""
         errors = []
-        if not item.get("createdBy"):
-            errors.append({
-                "message": "User asking the question must be provided"
-            })
         if not item.get("meetup"):
             errors.append({
                 "message": "The meetup the question is for must be provided"

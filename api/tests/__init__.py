@@ -17,7 +17,6 @@ class QuestionData(object):
     def __init__(self):
         self.data = {
             "title": "Responnsive Web design",
-            "createdBy": 1,
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         }

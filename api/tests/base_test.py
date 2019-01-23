@@ -90,7 +90,6 @@ class BaseTest(unittest.TestCase):
         """Sets up intial variables needed for creation of a queestion"""
         meetup_id = self.create_meetup()["data"][0].get("id")
         user_id = self.authorize_with_jwt()["id"]
-        self.questions_data.data["createdBy"] = user_id
         self.questions_data.data["meetup"] = meetup_id
 
     def create_question(self):
