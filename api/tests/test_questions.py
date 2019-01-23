@@ -82,3 +82,17 @@ class TestQuestion(BaseTest):
         result = self.patch_data(url=self.complete_url(
             url="questions/{}/downvote".format(question_id)), headers=self.json_headers)
         self.assertEqual(Status.not_found, result.get("status"))
+
+    def test_get_individual_question(self)->None:
+        """"Tessts for successful get of question"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0].get("id")
+        result = self.get_data(
+            url="questions/{}".format(question_id), headers=self.json_headers)
+        self.assertEqual(Status.success, result.get("status"))
+
+    def test_get_unexisting_question(self)->None:
+        """Tests for a get of unexisting question"""
+        result = self.get_data(url="questions/-1334",
+                               headers=self.json_headers)
+        self.assertEqual(Status.not_found, result.get("status"))
