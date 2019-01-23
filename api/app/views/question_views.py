@@ -150,3 +150,22 @@ def get_specific_question(question_id)->Tuple:
             "status": Status.success
         }), Status.success
     return response
+
+
+@question_view.route("questions/", methods=["GET"])
+def get_all_questions():
+    """Gets all questions in the database"""
+    response = None
+    from api.app.models.models import Question
+    questions = Question.query_all()
+    if not questions:
+        response = jsonify({
+            "error": "There are no questions in the daatabase",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        response = jsonify({
+            "data": [question.to_dictionary() for question in questions],
+            "status": Status.success
+        }), Status.success
+    return response

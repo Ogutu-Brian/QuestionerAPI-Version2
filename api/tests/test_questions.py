@@ -96,3 +96,15 @@ class TestQuestion(BaseTest):
         result = self.get_data(url="questions/-1334",
                                headers=self.json_headers)
         self.assertEqual(Status.not_found, result.get("status"))
+
+    def test_get_all_questions(self)->None:
+        """Tests for the endpoint for get all questins"""
+        self.create_question_intials()
+        self.create_question()
+        result = self.get_data(url="questions/", headers=self.json_headers)
+        self.assertEqual(Status.success, result.get("status"))
+
+    def test_get_no_questions(self)->None:
+        """Tests for instance when there are no questions"""
+        result = self.get_data(url="questions/", headers=self.json_headers)
+        self.assertEqual(Status.not_found, result.get("status"))
