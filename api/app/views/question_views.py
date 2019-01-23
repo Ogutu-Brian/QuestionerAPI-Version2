@@ -181,7 +181,7 @@ def get_all_questions():
         }), Status.not_found
     else:
         response = jsonify({
-            "data": [question.to_dictionary() for question in questions],
+            "data": sorted([question.to_dictionary() for question in questions],key=lambda k: k['votes']),
             "status": Status.success
         }), Status.success
     return response
