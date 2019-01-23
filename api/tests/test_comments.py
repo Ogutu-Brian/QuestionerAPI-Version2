@@ -46,6 +46,6 @@ class TestComments(BaseTest):
     def test_zero_comments(self)->None:
         """Tests for zero comments on a question"""
         self.create_question_intials()
-        question_id = self.create_question()["data"]["id"]
+        question_id = self.create_question()["data"][0]["id"]
         result = self.get_data("comments/{}".format(question_id))
         self.assertEqual(Status.not_found, result.get("status"))

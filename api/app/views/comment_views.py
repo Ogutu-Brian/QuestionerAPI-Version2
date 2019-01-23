@@ -70,5 +70,5 @@ def get_all_comments(question_id):
         response = jsonify({
             "data": [comment.to_dictionary() for comment in comments],
             "status": Status.not_found
-        }), Status.not_found
+        }), Status.success
     return response
