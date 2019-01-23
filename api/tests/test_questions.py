@@ -62,6 +62,16 @@ class TestQuestion(BaseTest):
         result = self.upvote()
         self.assertEqual(Status.created, result.get("status"))
 
+    def test_multiple_upvote(self)->None:
+        """ Tests for multipple voting"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        self.patch_data(url=self.complete_url(
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
+        result = self.patch_data(url=self.complete_url(
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
+
     def test_unexsiting_upvote_question(self)->None:
         """Tests for a patch to a question that does not exist"""
         question_id = -7878
@@ -74,6 +84,16 @@ class TestQuestion(BaseTest):
         """Tests test for downvote of a question"""
         result = self.downvote()
         self.assertEqual(Status.created, result.get("status"))
+
+    def test_multiple_downvote(self)->None:
+        """ Tests for multipple voting"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        self.patch_data(url=self.complete_url(
+            "questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        result = self.patch_data(url=self.complete_url(
+            "questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
 
     def test_unexsiting_downvote_question(self)->None:
         """Tess if the id provided for downvoting a question exists"""

@@ -86,11 +86,16 @@ def upvote(question_id: str)->Tuple:
             vote.save()
             question.votes += 1
             question.update()
-        response = jsonify({
-            "message": "successfully upvoted",
-            "status": Status.created,
-            "data": [question.to_dictionary()]
-        }), Status.created
+            response = jsonify({
+                "message": "successfully upvoted",
+                "status": Status.created,
+                "data": [question.to_dictionary()]
+            }), Status.created
+        else:
+            response = jsonify({
+                "error":"You cannot upvote more than once",
+                "status":Status.denied_access
+            }),Status.denied_access
     return response
 
 
@@ -124,11 +129,16 @@ def downvote(question_id: str)->Tuple:
             vote.save()
             question.votes -= 1
             question.update()
-        response = jsonify({
-            "message": "Successfully downvoted a question",
-            "status": Status.created,
-            "data": [question.to_dictionary()]
-        }), Status.created
+            response = jsonify({
+                "message": "Successfully downvoted a question",
+                "status": Status.created,
+                "data": [question.to_dictionary()]
+            }), Status.created
+        else:
+            response = jsonify({
+                "error":"You cannot downvote a question more than once",
+                "status":Status.denied_access
+            }),Status.denied_access
     return response
 
 
