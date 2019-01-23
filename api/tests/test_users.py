@@ -15,6 +15,11 @@ class UserTest(BaseTest):
         result = self.sign_up()
         self.assertEqual(Status.created, result.get("status"))
 
+    def test_invalid_phone_number(self)->None:
+        self.user_data.data["phoneNumber"] = "2932329742749797492472"
+        result = self.sign_up()
+        self.assertEqual(Status.invalid_data, result.get("status"))
+
     def test_missing_email(self)->None:
         """Tets for data that does not contain an email"""
         self.user_data.data["email"] = ""

@@ -56,9 +56,28 @@ class UserValidators(object):
             errors.append({
                 "message": "Phone number must be provided"
             })
-        elif not re.match('[0-9]', phoneNumber.strip(phoneNumber[0])) or phoneNumber[0] != '+':
+        elif len(phoneNumber) == 9:
+            if phoneNumber[0] != '7':
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+                if not re.match('[0-9]', phoneNumber):
+                    errors.append({
+                        "message": "The phone number is invalid"
+                    })
+        elif len(phoneNumber) == 10:
+            if not re.match('[0-9]', phoneNumber):
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+        elif len(phoneNumber) == 13:
+            if not re.match('[0-9]', phoneNumber.strip(phoneNumber[0])) or phoneNumber[0] != '+':
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+        elif len(phoneNumber) >13:
             errors.append({
-                "message": "The phone number is invalid"
+                "message":"The phone number is invalid"
             })
         if not username:
             errors.append({
