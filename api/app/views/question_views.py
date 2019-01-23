@@ -20,7 +20,7 @@ def create_question()->Tuple:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
                 "data": errors,
-                "status": Status.invalid_data,
+                "status": Status.invalid_data
             }), Status.invalid_data
         else:
             from api.app.models.models import User
