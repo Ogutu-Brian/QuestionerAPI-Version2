@@ -97,7 +97,8 @@ pytest tests/*
 | `GET`         | `/api/v2/questions/question-id`             |  Gets a specific question from questione               |
       
 # Resources and Documentation
-1. [PostmanDocumentation](https://documenter.getpostman.com/view/5179699/RznLHcQ2)
+1. [Swagger UI documentation](http://questioner-api-v2.herokuapp.com/apidocs/) 
+2. [PostmanDocumentation](https://documenter.getpostman.com/view/5179699/RznLHcQ2)
 
 ### Pivotal Tracker Project
 You can view the [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2235331)
