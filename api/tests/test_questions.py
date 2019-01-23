@@ -89,7 +89,6 @@ class TestQuestion(BaseTest):
         question_id = self.create_question()["data"][0].get("id")
         result = self.get_data(
             url="questions/{}".format(question_id), headers=self.json_headers)
-        print(result)
         self.assertEqual(Status.success, result.get("status"))
 
     def test_get_unexisting_question(self)->None:
