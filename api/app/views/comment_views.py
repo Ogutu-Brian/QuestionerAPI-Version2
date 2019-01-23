@@ -46,3 +46,15 @@ def create_comment()->Tuple:
             "status": Status.not_json
         }), Status.not_json
     return response
+@comment_view.route("/comments/<question_id>",methods=["GET"])
+def get_all_comments():
+    """Gets all comments from the database"""
+    from api.app.models.models import Comment
+    response = None
+    comments = Comment.query_all()
+    if not comments:
+        response = jsonify({
+            "error":"There are no comments on any question"
+        })
+
+    return response
