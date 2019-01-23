@@ -68,6 +68,11 @@ class UserTest(BaseTest):
         result = self.sign_up()
         self.assertEqual(Status.invalid_data, result.get("status"))
 
+    def test_welcome_message(self)->None:
+        """tests the welcome message at the route of the root of that application"""
+        result = self.client().get("/")
+        self.assertEqual(Status.success, result.status_code)
+
     def test_invalid_input_of_names(self)->None:
         """Tests for invalid input of firstname"""
         self.user_data.data["firstname"] = "??????????"
