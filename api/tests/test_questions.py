@@ -105,5 +105,6 @@ class TestQuestion(BaseTest):
         self.assertEqual(Status.success, result.get("status"))
 
     def test_get_no_questions(self)->None:
+        """Tests for instance when there are no questions"""
         result = self.get_data(url="questions/", headers=self.json_headers)
         self.assertEqual(Status.success, result.get("status"))
