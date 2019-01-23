@@ -40,11 +40,11 @@ def create_question()->Tuple:
                     "status": Status.invalid_data
                 }), Status.invalid_data
             else:
-                if Question.query_by_field("meetup",meetup) and Question.query_by_field("body",body):
+                if Question.query_by_field("meetup", meetup) and Question.query_by_field("body", body):
                     response = jsonify({
-                        "error":"That question has been asked before",
-                        "status":Status.denied_access
-                    }),Status.denied_access
+                        "error": "That question has been asked before",
+                        "status": Status.denied_access
+                    }), Status.denied_access
                 else:
                     question = Question(created_by=created_by,
                                         meet_up=meetup, title=title, body=body)
@@ -99,9 +99,9 @@ def upvote(question_id: str)->Tuple:
             }), Status.created
         else:
             response = jsonify({
-                "error":"You cannot upvote more than once",
-                "status":Status.denied_access
-            }),Status.denied_access
+                "error": "You cannot upvote more than once",
+                "status": Status.denied_access
+            }), Status.denied_access
     return response
 
 
@@ -142,9 +142,9 @@ def downvote(question_id: str)->Tuple:
             }), Status.created
         else:
             response = jsonify({
-                "error":"You cannot downvote a question more than once",
-                "status":Status.denied_access
-            }),Status.denied_access
+                "error": "You cannot downvote a question more than once",
+                "status": Status.denied_access
+            }), Status.denied_access
     return response
 
 
@@ -182,7 +182,7 @@ def get_all_questions():
         }), Status.not_found
     else:
         response = jsonify({
-            "data": sorted([question.to_dictionary() for question in questions],key=lambda k: k['votes'],reverse=True),
+            "data": sorted([question.to_dictionary() for question in questions], key=lambda k: k['votes'], reverse=True),
             "status": Status.success
         }), Status.success
     return response

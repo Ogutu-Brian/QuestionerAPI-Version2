@@ -32,7 +32,8 @@ class TestComments(BaseTest):
 
     def test_unexisting_question(self)->None:
         """Checks for zero comments"""
-        result = self.get_data(url="comments/-34437", headers=self.json_headers)
+        result = self.get_data(url="comments/-34437",
+                               headers=self.json_headers)
         self.assertEqual(Status.not_found, result.get("status"))
 
     def test_existing_questions(self)->None:

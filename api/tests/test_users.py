@@ -67,6 +67,7 @@ class UserTest(BaseTest):
         self.user_data.data["username"] = ""
         result = self.sign_up()
         self.assertEqual(Status.invalid_data, result.get("status"))
+
     def test_invalid_input_of_names(self)->None:
         """Tests for invalid input of firstname"""
         self.user_data.data["firstname"] = "??????????"
@@ -81,6 +82,7 @@ class UserTest(BaseTest):
         self.user_data.data["lastname"] = "      "
         result = self.sign_up()
         self.assertGreaterEqual(Status.invalid_data, result.get("status"))
+
     def test_data_not_json(self)->None:
         """tests for data that is not in json format"""
         self.json_headers = self.not_json_header

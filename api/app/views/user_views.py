@@ -7,6 +7,7 @@ from flask_jwt_extended import (create_access_token, jwt_required, get_raw_jwt)
 from typing import Tuple
 from flasgger import swag_from
 
+
 @user_view.route("/signup", methods=["POST"])
 @swag_from('.signup.yml')
 def sign_up()->Tuple:

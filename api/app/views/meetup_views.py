@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from typing import Tuple
 from flasgger import swag_from
 
+
 @meetup_view.route("/meetups", methods=["POST"])
 @jwt_required
 @swag_from(".createmeetup.yml")
@@ -37,11 +38,11 @@ def create_meetup()->Tuple:
                 topic = data.get("topic")
                 happening_on = data.get("happeningOn")
                 tags = data.get("Tags")
-                if Meetup.query_by_field("location",location) and Meetup.query_by_field("topic",topic):
+                if Meetup.query_by_field("location", location) and Meetup.query_by_field("topic", topic):
                     response = jsonify({
-                        "error":"Sorry that meetup already exists",
-                        "status":Status.denied_access
-                    }),Status.denied_access
+                        "error": "Sorry that meetup already exists",
+                        "status": Status.denied_access
+                    }), Status.denied_access
                 else:
                     meetup = Meetup(location=location, images=images,
                                     topic=topic, happening_on=happening_on, tags=tags)
@@ -170,9 +171,9 @@ def create_rsvp(meetup_id: str)->Tuple:
                     if user.id == item.user and meetup.id == item.meetup:
                         if item.response == data.get("response"):
                             response = jsonify({
-                                "error":"You have already given that response",
-                                "status":Status.denied_access
-                            }),Status.denied_access
+                                "error": "You have already given that response",
+                                "status": Status.denied_access
+                            }), Status.denied_access
                             similar = True
                         else:
                             item.response = data.get("response")
@@ -191,14 +192,14 @@ def create_rsvp(meetup_id: str)->Tuple:
                 if not update and not similar:
                     rsvp.save()
                     response = jsonify({
-                    "message": "Successfully submitted your Rsvp",
-                    "status": Status.created,
-                    "data": [{
-                        "meetup": rsvp.meetup,
-                        "topic": meetup.to_dictionary().get("topic"),
-                        "status": rsvp.response
-                    }]
-                }), Status.created
+                        "message": "Successfully submitted your Rsvp",
+                        "status": Status.created,
+                        "data": [{
+                            "meetup": rsvp.meetup,
+                            "topic": meetup.to_dictionary().get("topic"),
+                            "status": rsvp.response
+                        }]
+                    }), Status.created
     else:
         response = jsonify({
             "error": "The data needs to ne in JSON",
