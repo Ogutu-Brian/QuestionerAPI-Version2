@@ -7,6 +7,7 @@ from typing import Tuple
 from flask_jwt_extended import get_jwt_identity
 from flasgger import swag_from
 
+
 @question_view.route('/questions', methods=["POST"])
 @jwt_required
 @swag_from('.createquestion.yml')
@@ -112,7 +113,7 @@ def downvote(question_id: str)->Tuple:
         existing_vote = False
         for vote in Vote.query_all():
             if vote.user == user.id and vote.question == question.id:
-                existing_vote=True
+                existing_vote = True
                 if vote.value == 1:
                     vote.value = -1
                     question.votes -= 1
@@ -128,4 +129,24 @@ def downvote(question_id: str)->Tuple:
             "status": Status.created,
             "data": [question.to_dictionary()]
         }), Status.created
+    return response
+
+
+@question_view.route("questions/<question_id>", methods=["GET"])
+def get_specific_question(question_id)->Tuple:
+    """Gets a specific question id"""
+    from api.app.models.models import Question
+    question_id = int(question_id)
+    response = None
+    question = Question.query_by_field("id", question_id)
+    if not question:
+        response = jsonify({
+            "error": "A question with that id does not exist",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        response = jsonify({
+            "data": [question[0].to_dictionary()],
+            "status": Status.success
+        }), Status.success
     return response
