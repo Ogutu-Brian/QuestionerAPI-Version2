@@ -29,3 +29,24 @@ class TestComments(BaseTest):
         result = self.post_data(url=self.complete_url(url="comments/"),
                                 data=self.comment_data.data, headers=self.not_json_header)
         self.assertEqual(Status.not_json, result.get("status"))
+
+    def test_unexisting_question(self)->None:
+        """Checks for zero comments"""
+        result = self.get_data(url="comments/-34437",
+                               headers=self.json_headers)
+        self.assertEqual(Status.not_found, result.get("status"))
+
+    def test_existing_questions(self)->None:
+        """Tests for existance of comments"""
+        comment = self.create_comment()
+        question_id = comment["data"]["question"]
+        result = self.get_data(
+            url="comments/{}".format(question_id), headers=self.json_headers)
+        self.assertEqual(Status.success, result.get("status"))
+
+    def test_zero_comments(self)->None:
+        """Tests for zero comments on a question"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        result = self.get_data("comments/{}".format(question_id))
+        self.assertEqual(Status.not_found, result.get("status"))

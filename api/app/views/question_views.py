@@ -20,37 +20,40 @@ def create_question()->Tuple:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
                 "data": errors,
-                "status": Status.invalid_data,
+                "status": Status.invalid_data
             }), Status.invalid_data
         else:
+            from api.app.models.models import User
             data = request.json
-            created_by = data.get("createdBy")
+            user_mail = get_jwt_identity()
+            user = User.query_by_field("email", user_mail)
             meetup = data.get("meetup")
             title = data.get("title")
             body = data.get("body")
-            from api.app.models.models import User, Meetup, Question
-            if not User.query_by_field("id", created_by):
-                response = jsonify({
-                    "error": "A user with that id does not exist",
-                    "status": Status.invalid_data
-                }), Status.invalid_data
-            elif not Meetup.query_by_field("id", meetup):
+            from api.app.models.models import Meetup, Question
+            if not Meetup.query_by_field("id", meetup):
                 response = jsonify({
                     "error": "A meetup with that id does not exist",
                     "status": Status.invalid_data
                 }), Status.invalid_data
             else:
-                question = Question(created_by=created_by,
-                                    meet_up=meetup, title=title, body=body)
-                question.save()
-                response = jsonify({
-                    "message": "Successfully created a question",
-                    "data": [question.to_dictionary()],
-                    "status": Status.created
-                }), Status.created
+                if Question.query_by_field("meetup", meetup) and Question.query_by_field("body", body):
+                    response = jsonify({
+                        "error": "That question has been asked before",
+                        "status": Status.denied_access
+                    }), Status.denied_access
+                else:
+                    question = Question(created_by=user[0].id,
+                                        meet_up=meetup, title=title, body=body)
+                    question.save()
+                    response = jsonify({
+                        "message": "Successfully created a question",
+                        "data": [question.to_dictionary()],
+                        "status": Status.created
+                    }), Status.created
     else:
         response = jsonify({
-            "error": "The data must be in JSOn",
+            "error": "The data must be in JSON",
             "status": Status.not_json
         }), Status.not_json
     return response
@@ -81,16 +84,26 @@ def upvote(question_id: str)->Tuple:
                     question.votes += 1
                     vote.update()
                     question.update()
+                    response = jsonify({
+                        "message": "successfully upvoted",
+                        "status": Status.created,
+                        "data": [question.to_dictionary()]
+                    }), Status.created
+                else:
+                    response = jsonify({
+                        "error": "You cannot upvote more than once",
+                        "status": Status.denied_access
+                    }), Status.denied_access
         if not existing_vote:
             vote = Vote(user=user.id, question=question.id, value=1)
             vote.save()
             question.votes += 1
             question.update()
-        response = jsonify({
-            "message": "successfully upvoted",
-            "status": Status.created,
-            "data": [question.to_dictionary()]
-        }), Status.created
+            response = jsonify({
+                "message": "successfully upvoted",
+                "status": Status.created,
+                "data": [question.to_dictionary()]
+            }), Status.created
     return response
 
 
@@ -119,20 +132,31 @@ def downvote(question_id: str)->Tuple:
                     question.votes -= 1
                     vote.update()
                     question.update()
+                    response = jsonify({
+                        "message": "Successfully downvoted a question",
+                        "status": Status.created,
+                        "data": [question.to_dictionary()]
+                    }), Status.created
+                else:
+                    response = jsonify({
+                        "error": "You cannot downvote a question more than once",
+                        "status": Status.denied_access
+                    }), Status.denied_access
         if not existing_vote:
             vote = Vote(user=user.id, question=question.id, value=-1)
             vote.save()
             question.votes -= 1
             question.update()
-        response = jsonify({
-            "message": "Successfully downvoted a question",
-            "status": Status.created,
-            "data": [question.to_dictionary()]
-        }), Status.created
+            response = jsonify({
+                "message": "Successfully downvoted a question",
+                "status": Status.created,
+                "data": [question.to_dictionary()]
+            }), Status.created
     return response
 
 
 @question_view.route("questions/<question_id>", methods=["GET"])
+@swag_from('.get_specific_question.yml')
 def get_specific_question(question_id)->Tuple:
     """Gets a specific question id"""
     from api.app.models.models import Question
@@ -153,6 +177,7 @@ def get_specific_question(question_id)->Tuple:
 
 
 @question_view.route("questions/", methods=["GET"])
+@swag_from('.get_all_questions.yml')
 def get_all_questions():
     """Gets all questions in the database"""
     response = None
@@ -165,7 +190,7 @@ def get_all_questions():
         }), Status.not_found
     else:
         response = jsonify({
-            "data": [question.to_dictionary() for question in questions],
+            "data": sorted([question.to_dictionary() for question in questions], key=lambda k: k['votes'], reverse=True),
             "status": Status.success
         }), Status.success
     return response

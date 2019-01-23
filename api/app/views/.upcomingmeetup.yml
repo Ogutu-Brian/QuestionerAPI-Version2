@@ -1,11 +1,10 @@
-
     tags:
       - meetups
     responses:
-      201:
+      200:
         description: Successful retrieval of all meetups
         schema:
-          id: meetup_post
+          id: all_meetup_data
           properties:
             data:
               type: array
@@ -32,8 +31,8 @@
                     description: The topic of the meetup
             message:
               type: string
-              description: The message on successful creation of meetup
+              description: The message on successful retrieval of meetups
             status:
               type: integer
               description: The status code
-              default: 201
+              default: 200

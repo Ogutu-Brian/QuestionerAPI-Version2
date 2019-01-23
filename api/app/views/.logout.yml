@@ -1,0 +1,15 @@
+    tags:
+      - Users
+    responses:
+      200:
+        description: successful logout
+        schema:
+          id: logout
+          properties:
+            message:
+              type: string
+              description: message on successful logout
+            status:
+              type: integer
+              description: The status code
+              default: 201

@@ -17,7 +17,6 @@ class QuestionData(object):
     def __init__(self):
         self.data = {
             "title": "Responnsive Web design",
-            "createdBy": 1,
             "body": "What is the best way of getting around responsiveness of a website",
             "meetup": 1
         }
@@ -41,11 +40,12 @@ class UserData(object):
             "firstname": "Ogutu",
             "lastname": "Brian",
             "othername": "Okinyi",
-            "phoneNumber": "+2540703812914",
+            "phoneNumber": "+254703812914",
             "username": "Brian",
             "email": "codingbrian58@gmail.com",
             "password": "password12#B",
-            "isAdmin": "True"
+            "isAdmin": "True",
+            "confirmpassword":"password12#B"
         }
 
 

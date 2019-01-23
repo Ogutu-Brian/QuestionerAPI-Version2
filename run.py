@@ -72,7 +72,17 @@ def create_app(application_config):
             "error": "bad request",
             "status": Status.bad_requst
         }), Status.bad_requst
+
+    @app.route('/')
+    def display_documentation():
+        """Renders the documentation on the index pange"""
+        return jsonify({
+            "message":"Welcome to Questioner API version2",
+            "status":Status.success
+        }),Status.success
     return app
+
+
 app = create_app("DEVELOPMENT")
 DbMigrations.makemigrations()
 if __name__ == "__main__":

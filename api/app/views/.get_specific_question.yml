@@ -1,0 +1,47 @@
+    tags:
+      - Questions
+    responses:
+      404:
+        description: When an id is invalid
+        schema:
+          id: missing_question_id
+          properties:
+            error:
+              type: string
+              description: Error message displayed when a question id is invalid
+            status:
+              type: integer
+              description: The status code returned when the id is invalid
+              default: 404
+      200:
+        description: Successful fetch of specific question
+        schema:
+          id: specific-get-question_data
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The id of the question
+                  createdOn:
+                    type: string
+                    description: The date when the question was created
+                  createdBy:
+                    type: integer
+                    description: The owner of the question
+                  title:
+                    type: string
+                    description: The title of the question
+                  body:
+                    type: string
+                    description: The body of the question
+                  meetup:
+                    type: integer
+                    description: The id of the meetup against which the question is asked
+            status:
+              type: integer
+              description: The status code
+              default: 200

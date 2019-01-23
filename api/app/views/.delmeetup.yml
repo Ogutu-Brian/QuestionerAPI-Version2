@@ -1,4 +1,3 @@
-
     tags:
       - meetups
     responses:
@@ -26,4 +25,4 @@
             status:
               type: integer
               description: The status code
-              default: 201
+              default: 200

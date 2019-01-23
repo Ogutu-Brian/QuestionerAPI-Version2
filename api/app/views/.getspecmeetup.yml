@@ -1,11 +1,22 @@
-
     tags:
       - meetups
     responses:
-      201:
+      404:
         description: Successful retrieval of meetup
         schema:
-          id: meetup_post
+          id: specific_meetup_data
+          properties:
+            error:
+              type: string
+              description: The Error message when a meetup with a given id does not exist
+            status:
+              type: integer
+              description: The status code
+              default: 404
+      200:
+        description: Successful retrieval of meetup
+        schema:
+          id: specific_meetup_data
           properties:
             data:
               type: array
@@ -32,8 +43,8 @@
                     description: The topic of the meetup
             message:
               type: string
-              description: The message on successful creation of meetup
+              description: The message on successful retrieval of meetup
             status:
               type: integer
               description: The status code
-              default: 201
+              default: 200

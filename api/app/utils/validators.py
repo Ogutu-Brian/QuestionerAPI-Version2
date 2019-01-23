@@ -25,6 +25,7 @@ class UserValidators(object):
         firstname = item.get("firstname")
         lastname = item.get("lastname")
         password = item.get("password")
+        confirmPassword = item.get("confirmpassword")
         email = item.get("email")
         phoneNumber = item.get("phoneNumber")
         username = item.get("username")
@@ -56,9 +57,28 @@ class UserValidators(object):
             errors.append({
                 "message": "Phone number must be provided"
             })
-        elif not re.match('[0-9]', phoneNumber.strip(phoneNumber[0])) or phoneNumber[0] != '+':
+        elif len(phoneNumber) == 9:
+            if phoneNumber[0] != '7':
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+                if not re.match('[0-9]', phoneNumber):
+                    errors.append({
+                        "message": "The phone number is invalid"
+                    })
+        elif len(phoneNumber) == 10:
+            if not re.match('[0-9]', phoneNumber):
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+        elif len(phoneNumber) == 13:
+            if not re.match('[0-9]', phoneNumber.strip(phoneNumber[0])) or phoneNumber[0] != '+':
+                errors.append({
+                    "message": "The phone number is invalid"
+                })
+        elif len(phoneNumber) >13:
             errors.append({
-                "message": "The phone number is invalid"
+                "message":"The phone number is invalid"
             })
         if not username:
             errors.append({
@@ -73,6 +93,15 @@ class UserValidators(object):
                 "message": "Password must be provided"
             })
         else:
+            if not confirmPassword:
+                errors.append({
+                    "message":"Please confirm password"
+                })
+            else:
+                if password !=confirmPassword:
+                    errors.append({
+                        "message":"The password does not match"
+                    })
             if len(password) < 6:
                 errors.append({
                     "message": "The password is too short"
@@ -135,10 +164,6 @@ class QuestionValidators(object):
     def is_valid(cls, item: Dict)->Tuple:
         """validates Post Question data"""
         errors = []
-        if not item.get("createdBy"):
-            errors.append({
-                "message": "User asking the question must be provided"
-            })
         if not item.get("meetup"):
             errors.append({
                 "message": "The meetup the question is for must be provided"

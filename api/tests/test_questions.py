@@ -15,19 +15,21 @@ class TestQuestion(BaseTest):
                                 headers=self.json_headers)
         self.assertEqual(Status.created, result.get("status"))
 
+    def test_similar_questions_on_meetup(self)->None:
+        """Tests if a question has been asked before on a given meetup"""
+        self.create_question_intials()
+        self.post_data(self.complete_url("questions"), data=self.questions_data.data,
+                       headers=self.json_headers)
+        result = self.post_data(self.complete_url("questions"), data=self.questions_data.data,
+                                headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
+
     def test_non_json_data(self)->None:
         """Tests for data that is not in json format"""
         self.create_question_intials()
         self.json_headers = self.not_json_header
         result = self.create_question()
         self.assertEqual(Status.not_json, result.get("status"))
-
-    def test_missing_creator(self)->None:
-        """tests fir data that does not contain creator of the question"""
-        self.create_question_intials()
-        self.questions_data.data["createdBy"] = ""
-        result = self.create_question()
-        self.assertEqual(Status.invalid_data, result.get("status"))
 
     def test_missing_body(self)->None:
         """Tests for missing body during creation of a question"""
@@ -43,13 +45,6 @@ class TestQuestion(BaseTest):
         result = self.create_question()
         self.assertEqual(Status.invalid_data, result.get("status"))
 
-    def test_invalid_user(self)->None:
-        """Tests if a user with an id exists in the database"""
-        self.create_question_intials()
-        self.questions_data.data["createdBy"] = -78667
-        result = self.create_question()
-        self.assertEqual(Status.invalid_data, result.get("status"))
-
     def test_invalid_meetup(self)->None:
         """Tests if a meetup with the given id exists in the database"""
         self.create_question_intials()
@@ -61,6 +56,16 @@ class TestQuestion(BaseTest):
         """Tests the endpoint for upvoting a question in questioner"""
         result = self.upvote()
         self.assertEqual(Status.created, result.get("status"))
+
+    def test_multiple_upvote(self)->None:
+        """ Tests for multipple voting"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        self.patch_data(url=self.complete_url(
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
+        result = self.patch_data(url=self.complete_url(
+            "questions/{}/upvote".format(question_id)), headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
 
     def test_unexsiting_upvote_question(self)->None:
         """Tests for a patch to a question that does not exist"""
@@ -74,6 +79,16 @@ class TestQuestion(BaseTest):
         """Tests test for downvote of a question"""
         result = self.downvote()
         self.assertEqual(Status.created, result.get("status"))
+
+    def test_multiple_downvote(self)->None:
+        """ Tests for multipple voting"""
+        self.create_question_intials()
+        question_id = self.create_question()["data"][0]["id"]
+        self.patch_data(url=self.complete_url(
+            "questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        result = self.patch_data(url=self.complete_url(
+            "questions/{}/downvote".format(question_id)), headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
 
     def test_unexsiting_downvote_question(self)->None:
         """Tess if the id provided for downvoting a question exists"""

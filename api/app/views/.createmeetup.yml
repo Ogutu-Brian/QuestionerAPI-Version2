@@ -1,11 +1,10 @@
-
     tags:
       - meetups
     parameters:
      - in: body
        name: meetup_data
        schema:
-        id: meetup_data
+        id: post-meetup-data
         properties:
             location:
               type: string
@@ -46,6 +45,18 @@
              status:
               type: integer
               default: 422
+              description: the status code returned
+      401:
+        description: Error on post of duplicate data and when user is not admin
+        schema:
+          id: duplicate_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 401
               description: the status code returned
       201:
         description: Successful creation of the meetup

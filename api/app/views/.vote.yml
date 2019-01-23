@@ -1,4 +1,3 @@
-
     tags:
       - Questions
     responses:
@@ -19,10 +18,10 @@
                     description: The id of the voter
                   title:
                     type: string
-                    description: "The title of the question"
+                    description: The title of the question
                   question:
                     type: integer
-                    description: "The id of the question"
+                    description: The id of the question
                   status:
                     type: integer
                     description: The status code
@@ -37,3 +36,27 @@
               type: integer
               description: The status code
               default: 201
+      404:
+        description: error when a question with the given id is not found
+        schema:
+          id: missing question
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 404
+              description: the status code returned
+      401:
+        description: error when token has expired and you try doing multipe voting on same question
+        schema:
+          id: multipe voting data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 401
+              description: the status code returned
