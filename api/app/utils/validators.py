@@ -25,6 +25,7 @@ class UserValidators(object):
         firstname = item.get("firstname")
         lastname = item.get("lastname")
         password = item.get("password")
+        confirmPassword = item.get("confirmpassword")
         email = item.get("email")
         phoneNumber = item.get("phoneNumber")
         username = item.get("username")
@@ -92,6 +93,15 @@ class UserValidators(object):
                 "message": "Password must be provided"
             })
         else:
+            if not confirmPassword:
+                errors.append({
+                    "message":"Please confirm password"
+                })
+            else:
+                if password !=confirmPassword:
+                    errors.append({
+                        "message":"The password does not match"
+                    })
             if len(password) < 6:
                 errors.append({
                     "message": "The password is too short"
