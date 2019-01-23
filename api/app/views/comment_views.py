@@ -50,6 +50,7 @@ def create_comment()->Tuple:
 
 
 @comment_view.route("/comments/<question_id>", methods=["GET"])
+@swag_from('.get_specific_comment.yml')
 def get_all_comments(question_id):
     """Gets all comments from the database"""
     from api.app.models.models import Comment, Question

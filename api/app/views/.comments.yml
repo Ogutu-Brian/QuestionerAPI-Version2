@@ -1,15 +1,14 @@
-
     tags:
-      - Questions
+      - Comments
     parameters:
      - in: body
        name: Comment
        schema:
-        id: comment_data
+        id: post-comment-data
         properties:
             question:
               type: integer
-              description: The id of the questin 
+              description: The id of the question 
             comment:
               type: string
               description: The comment message
@@ -17,7 +16,7 @@
       406:
         description: On failure to pass the validations
         schema:
-          id: invalid_data
+          id: invalid-data
           properties:
              error:
               type: string
@@ -29,7 +28,7 @@
       401:
         description: error when token has expired
         schema:
-          id: expired token
+          id: expired-token
           properties:
              error:
               type: string
@@ -38,10 +37,22 @@
               type: integer
               default: 401
               description: the status code returned
-      201:
-        description: Successful post of question
+      422:
+        description: Error on post of non json object
         schema:
-          id: comment
+          id: non_json_data
+          properties:
+             error:
+              type: string
+              description: The error message
+             status:
+              type: integer
+              default: 422
+              description: the status code returned
+      201:
+        description: Successful post of comment
+        schema:
+          id: post-comment-result
         description: successful signup
         schema:
           id: signup

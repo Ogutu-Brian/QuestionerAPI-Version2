@@ -143,6 +143,7 @@ def login()->Tuple:
 
 @user_view.route("/logout", methods=["DELETE"])
 @jwt_required
+@swag_from('.logout.yml')
 def logout()->Tuple:
     """Logs out a user from Questioner"""
     from api.app.models.models import TokenBlackList

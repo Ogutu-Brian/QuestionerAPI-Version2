@@ -1,6 +1,5 @@
-
     tags:
-      - questions
+      - Questions
     responses:
       404:
         description: When an id is invalid
@@ -13,10 +12,11 @@
             status:
               type: integer
               description: The status code returned when the id is invalid
+              default: 404
       200:
         description: Successful fetch of specific question
         schema:
-          id: question_data
+          id: specific-get-question_data
           properties:
             data:
               type: array

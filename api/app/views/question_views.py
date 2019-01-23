@@ -177,6 +177,7 @@ def get_specific_question(question_id)->Tuple:
 
 
 @question_view.route("questions/", methods=["GET"])
+@swag_from('.get_all_questions.yml')
 def get_all_questions():
     """Gets all questions in the database"""
     response = None
