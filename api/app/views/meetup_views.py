@@ -162,18 +162,35 @@ def create_rsvp(meetup_id: str)->Tuple:
             else:
                 meetup = meetup[0]
                 update = False
+                similar = False
                 user = User.query_by_field("email", get_jwt_identity())[0]
                 rsvp = Rsvp(meetup=meetup.id, user=user.id,
                             response=data.get("response"))
                 for item in Rsvp.query_all():
                     if user.id == item.user and meetup.id == item.meetup:
-                        item.response = data.get("response")
-                        rsvp = item
-                        update = True
-                        rsvp.update()
-                if not update:
+                        if item.response == data.get("response"):
+                            response = jsonify({
+                                "error":"You have already given that response",
+                                "status":Status.denied_access
+                            }),Status.denied_access
+                            similar = True
+                        else:
+                            item.response = data.get("response")
+                            rsvp = item
+                            update = True
+                            rsvp.update()
+                            response = jsonify({
+                                "message": "Successfully submitted your Rsvp",
+                                "status": Status.created,
+                                "data": [{
+                                    "meetup": rsvp.meetup,
+                                    "topic": meetup.to_dictionary().get("topic"),
+                                    "status": rsvp.response
+                                }]
+                            }), Status.created
+                if not update and not similar:
                     rsvp.save()
-                response = jsonify({
+                    response = jsonify({
                     "message": "Successfully submitted your Rsvp",
                     "status": Status.created,
                     "data": [{

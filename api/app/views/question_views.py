@@ -149,6 +149,7 @@ def downvote(question_id: str)->Tuple:
 
 
 @question_view.route("questions/<question_id>", methods=["GET"])
+@swag_from('.get_specific_question.yml')
 def get_specific_question(question_id)->Tuple:
     """Gets a specific question id"""
     from api.app.models.models import Question
@@ -181,7 +182,7 @@ def get_all_questions():
         }), Status.not_found
     else:
         response = jsonify({
-            "data": sorted([question.to_dictionary() for question in questions],key=lambda k: k['votes']),
+            "data": sorted([question.to_dictionary() for question in questions],key=lambda k: k['votes'],reverse=True),
             "status": Status.success
         }), Status.success
     return response

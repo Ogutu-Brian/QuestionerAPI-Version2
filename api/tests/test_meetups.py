@@ -98,6 +98,15 @@ class TestMeetups(BaseTest):
         result = self.create_rsvp()
         self.assertEqual(Status.created, result.get("status"))
 
+    def test_duplicate_rsvp_response(self)->None:
+        """Tests when a user gives similar Rsvp response to a single meetup"""
+        meetup_id = self.create_meetup()["data"][0]["id"]
+        self.post_data(url=self.complete_url(
+            url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
+        result = self.post_data(url=self.complete_url(
+            url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
+
     def test_invalid_meetup_for_rsvp(self)->None:
         """Tests for invalid meetup id during creation of rsvp"""
         self.create_meetup()
@@ -112,8 +121,9 @@ class TestMeetups(BaseTest):
         result = self.post_data(url=self.complete_url(
             url="meetups/{}/rsvps".format(meetup_id)), data=self.rsvp_data.data, headers=self.json_headers)
         self.assertEqual(Status.not_json, result.get("status"))
-    def test_duplicate_meetup(self):
+
+    def test_duplicate_meetup(self)->None:
         """Test if duplicate meetups have been created"""
         self.create_meetup()
         result = self.create_meetup()
-        self.assertEqual(Status.denied_access,result.get("status"))
+        self.assertEqual(Status.denied_access, result.get("status"))
