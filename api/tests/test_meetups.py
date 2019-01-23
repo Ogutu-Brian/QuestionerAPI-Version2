@@ -107,7 +107,6 @@ class TestMeetups(BaseTest):
 
     def test_post_data_not_json(self)->None:
         """Checking if rsvp data being posted is in JSON format"""
-
         meetup_id = self.create_meetup()["data"][0]["id"]
         self.json_headers = self.not_json_header
         result = self.post_data(url=self.complete_url(
