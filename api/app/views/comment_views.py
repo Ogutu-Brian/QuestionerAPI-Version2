@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.app.utils.validators import CommentValidators
 from flasgger import swag_from
 
+
 @comment_view.route("/comments/", methods=["POST"])
 @jwt_required
 @swag_from('.comments.yml')
@@ -46,15 +47,28 @@ def create_comment()->Tuple:
             "status": Status.not_json
         }), Status.not_json
     return response
-@comment_view.route("/comments/<question_id>",methods=["GET"])
-def get_all_comments():
-    """Gets all comments from the database"""
-    from api.app.models.models import Comment
-    response = None
-    comments = Comment.query_all()
-    if not comments:
-        response = jsonify({
-            "error":"There are no comments on any question"
-        })
 
+
+@comment_view.route("/comments/<question_id>", methods=["GET"])
+def get_all_comments(question_id):
+    """Gets all comments from the database"""
+    from api.app.models.models import Comment, Question
+    response = None
+    question_id = int(question_id)
+    comments = Comment.query_by_field("question", question_id)
+    if not Question.query_by_field("id", question_id):
+        response = jsonify({
+            "error": "There is no question with that id",
+            "status": Status.not_found
+        }), Status.not_found
+    elif not comments:
+        response = jsonify({
+            "error": "There are no comments for that question",
+            "status": Status.not_found
+        }), Status.not_found
+    else:
+        response = jsonify({
+            "data": [comment.to_dictionary() for comment in comments],
+            "status": Status.not_found
+        }), Status.not_found
     return response
