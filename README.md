@@ -16,6 +16,12 @@ Questioner is an application used by meetup organizers to plan well for meetups 
 7. A user should be able to get all meetup recods
 8. A user should be able to upvote or downvote a question
 9. A user should be able to give an rsvp for a meetup
+10. An admin should be able to delete a meetup
+11. A user should be able to log out of Questioner
+12. A user should be able to post comments
+13. An admin should be able to delete a meetup
+14. A client should be able to get all questions
+15. A client should be able to get a specific question from questioner
 
 # Installation and Setup
 Clone the repository.
@@ -94,7 +100,7 @@ pytest tests/*
 | `DELETE`      | `/api/v2/auth/logout`                       |  Allows a logged in user to logout                     |
 | `GET`         | `/api/v2/comments/question-id`              |  Allows a user to get all comments for a questi        |
 | `GET`         | `/api/v2/questions/`                        |  Gets all questions from questioner                    |
-| `GET`         | `/api/v2/questions/question-id`             |  Gets a specific question from questione               |
+| `GET`         | `/api/v2/questions/question-id`             |  Gets a specific question from questioner               |
       
 # Resources and Documentation
 1. [Swagger UI documentation](http://questioner-api-v2.herokuapp.com/apidocs/) 
