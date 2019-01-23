@@ -37,14 +37,20 @@ def create_meetup()->Tuple:
                 topic = data.get("topic")
                 happening_on = data.get("happeningOn")
                 tags = data.get("Tags")
-                meetup = Meetup(location=location, images=images,
-                                topic=topic, happening_on=happening_on, tags=tags)
-                meetup.save()
-                response = jsonify({
-                    "message": "Successfully created a meetup",
-                    "data": [meetup.to_dictionary()],
-                    "status": Status.created
-                }), Status.created
+                if Meetup.query_by_field("location",location) and Meetup.query_by_field("topic",topic):
+                    response = jsonify({
+                        "error":"Sorry that meetup already exists",
+                        "status":Status.denied_access
+                    }),Status.denied_access
+                else:
+                    meetup = Meetup(location=location, images=images,
+                                    topic=topic, happening_on=happening_on, tags=tags)
+                    meetup.save()
+                    response = jsonify({
+                        "message": "Successfully created a meetup",
+                        "data": [meetup.to_dictionary()],
+                        "status": Status.created
+                    }), Status.created
     else:
         response = jsonify({
             "error": "The data should be JSON",
