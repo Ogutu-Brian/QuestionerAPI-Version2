@@ -15,6 +15,15 @@ class TestQuestion(BaseTest):
                                 headers=self.json_headers)
         self.assertEqual(Status.created, result.get("status"))
 
+    def test_similar_questions_on_meetup(self)->None:
+        """Tests if a question has been asked before on a given meetup"""
+        self.create_question_intials()
+        self.post_data(self.complete_url("questions"), data=self.questions_data.data,
+                       headers=self.json_headers)
+        result = self.post_data(self.complete_url("questions"), data=self.questions_data.data,
+                                headers=self.json_headers)
+        self.assertEqual(Status.denied_access, result.get("status"))
+
     def test_non_json_data(self)->None:
         """Tests for data that is not in json format"""
         self.create_question_intials()
