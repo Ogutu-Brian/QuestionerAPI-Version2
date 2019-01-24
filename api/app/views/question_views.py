@@ -37,14 +37,16 @@ def create_question()->Tuple:
                     "status": Status.invalid_data
                 }), Status.invalid_data
             else:
-                if Question.query_by_field("meetup", meetup) and Question.query_by_field("body", body):
+                if Question.query_by_field("meetup",
+                                           meetup) and Question.query_by_field(
+                        "body", body) and Question.query_by_field("title", title):
                     response = jsonify({
                         "error": "That question has been asked before",
                         "status": Status.denied_access
                     }), Status.denied_access
                 else:
-                    question = Question(created_by=user[0].id,
-                                        meet_up=meetup, title=title, body=body)
+                    question = Question(meet_up=meetup, title=title, body=body)
+                    question.created_by = user[0].id
                     question.save()
                     response = jsonify({
                         "message": "Successfully created a question",
@@ -176,13 +178,13 @@ def get_specific_question(question_id)->Tuple:
     return response
 
 
-@question_view.route("questions/", methods=["GET"])
+@question_view.route("questions/<meetup_id>", methods=["GET"])
 @swag_from('docs/get_all_questions.yml')
-def get_all_questions():
-    """Gets all questions in the database"""
+def get_all_questions_for_meetup(meetup_id):
+    """Gets all questions for a given meetup"""
     response = None
     from api.app.models.models import Question
-    questions = Question.query_all()
+    questions = Question.query_by_field("meetup", int(meetup_id))
     if not questions:
         response = jsonify({
             "error": "There are no questions in the daatabase",
@@ -190,7 +192,8 @@ def get_all_questions():
         }), Status.not_found
     else:
         response = jsonify({
-            "data": sorted([question.to_dictionary() for question in questions], key=lambda k: k['votes'], reverse=True),
+            "data": sorted([question.to_dictionary() for question in questions],
+                           key=lambda k: k['votes'], reverse=True),
             "status": Status.success
         }), Status.success
     return response

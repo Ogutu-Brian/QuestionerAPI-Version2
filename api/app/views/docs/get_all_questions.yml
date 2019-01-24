@@ -1,5 +1,10 @@
     tags:
       - Questions
+     - in: path
+       name: meetup_id
+       description: The specific meetup id whose questions you want to retrieve
+       type: integer
+       required: true 
     responses:
       404:
         description: when there are not Questions

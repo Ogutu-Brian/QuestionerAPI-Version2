@@ -84,12 +84,12 @@ class BaseTest(unittest.TestCase):
         token = result["data"][0].get("token")
         self.json_headers["Authorization"] = 'Bearer {}'.format(token)
         self.not_json_header["Authorization"] = 'Bearer {}'.format(token)
-        return result["data"][0]["user"]
+        return result["data"][0]["token"]
 
     def create_question_intials(self)->None:
         """Sets up intial variables needed for creation of a queestion"""
         meetup_id = self.create_meetup()["data"][0].get("id")
-        user_id = self.authorize_with_jwt()["id"]
+        self.authorize_with_jwt()
         self.questions_data.data["meetup"] = meetup_id
 
     def create_question(self):

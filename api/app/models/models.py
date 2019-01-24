@@ -176,7 +176,7 @@ class Question(V1Question, BaseModel):
     def save(self)->None:
         """Saves a question object into the database"""
         database.cursor.execute("INSERT INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
-            self.created_date(),
+            self.created_on,
             self.created_by,
             self.meet_up,
             self.title,
@@ -257,7 +257,8 @@ class Meetup(V1Meetup, BaseModel):
             happening_date varchar,
             tags varchar,
             location varchar,
-            images varchar
+            images varchar,
+            body varchar
         )""")
         database.connection.commit()
 
@@ -270,16 +271,18 @@ class Meetup(V1Meetup, BaseModel):
         meetup.location = query_dict.get("location")
         meetup.images = query_dict.get("images")
         meetup.id = query_dict.get("id")
+        meetup.body = query_dict.get("body")
         return meetup
 
     def save(self)->None:
         """Saves the meetup object into the database"""
-        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
+        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images,body) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
             self.topic,
             self.happening_on,
             self.tags,
             self.location,
-            self.images
+            self.images,
+            self.body
         ))
         super().save()
 

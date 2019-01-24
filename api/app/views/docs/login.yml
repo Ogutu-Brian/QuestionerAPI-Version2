@@ -54,30 +54,6 @@
                   message: 
                     type: string
                     description: The success message given after the login
-                  user:
-                    type: object
-                    properties:
-                      email: 
-                        type: string
-                        description: The email address of the user
-                      firstname:
-                        type: string
-                        description: The first name of the user
-                      lastname: 
-                        type: string
-                        description: The last name of the user
-                      othername:
-                        type: string
-                        description: The other name distinct from first name and last name
-                      isAdmin:
-                        type: string
-                        description: The role of the user
-                      phoneNumber:
-                        type: string
-                        description: The phone number of the user
-                      registered:
-                        type: string
-                        description: The date of registration of the user
             message: 
               type: string
               description: The success message on log in

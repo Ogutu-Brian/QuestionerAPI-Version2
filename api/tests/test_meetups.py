@@ -23,7 +23,11 @@ class TestMeetups(BaseTest):
         self.meetup_data.data["Tags"] = ""
         result = self.create_meetup()
         self.assertEqual(Status.invalid_data, result.get("status"))
-
+    def test_missing_body(self)->None:
+        """Tests if a body is not provided for the meetup"""
+        self.meetup_data.data["body"]=""
+        result = self.create_meetup()
+        self.assertEqual(Status.invalid_data,result.get("status"))
     def test_missing_location(self)->None:
         """tests for data that does not contain location of meetup"""
         self.meetup_data.data["location"] = ""
@@ -33,6 +37,17 @@ class TestMeetups(BaseTest):
     def test_missing_meetup_date(self)->None:
         """Test data that does not contain meetup date"""
         self.meetup_data.data["happeningOn"] = ""
+        result = self.create_meetup()
+        self.assertEqual(Status.invalid_data, result.get("status"))
+
+    def test_invalid_meetup_date(self)->None:
+        self.meetup_data.data["happeningOn"] = "82171-33133"
+        result = self.create_meetup()
+        self.assertEqual(Status.invalid_data, result.get("status"))
+
+    def test_passed_meetup_date(self)->None:
+        """Tests for the creation of a meetup in a passed date"""
+        self.meetup_data.data["happeningOn"] = "24-01-2017"
         result = self.create_meetup()
         self.assertEqual(Status.invalid_data, result.get("status"))
 
