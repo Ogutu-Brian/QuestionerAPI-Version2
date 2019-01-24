@@ -72,6 +72,13 @@ def create_app(application_config):
             "status": Status.bad_requst
         }), Status.bad_requst
 
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return jsonify({
+            "error": "Interval server error",
+            "status": Status.internal_server_error
+        }), Status.internal_server_error
+
     @app.route('/')
     def display_documentation():
         """Renders the documentation on the index pange"""
