@@ -61,9 +61,6 @@
                   body:
                     type: string
                     description: The body of the question
-                  createdBy:
-                    type: integer
-                    description: The id of the author of question"
                   title:
                     type: string
                     description: The title of the question

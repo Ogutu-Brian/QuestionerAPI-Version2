@@ -10,7 +10,7 @@
       404:
         description: Successful retrieval of meetup
         schema:
-          id: specific_meetup_data
+          id: specific_meetup_error
           properties:
             error:
               type: string
