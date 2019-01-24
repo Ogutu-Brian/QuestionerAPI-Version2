@@ -15,6 +15,8 @@ database = PostgresDatabase()
 from migrtions import DbMigrations
 
 load_dotenv()
+
+
 def create_app(application_config):
     """main flask application"""
     app = Flask(__name__, instance_relative_config=True)

@@ -1,7 +1,7 @@
 from .import meetup_view
 from flask import request, jsonify
 from .import Status
-from api.app.utils.validators import MeetupValidators, RsvpValidators,date_checker
+from api.app.utils.validators import MeetupValidators, RsvpValidators, date_checker
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from typing import Tuple
 from flasgger import swag_from
@@ -168,9 +168,9 @@ def create_rsvp(meetup_id: str)->Tuple:
                 meetup = meetup[0]
                 if not date_checker(meetup.happening_on):
                     response = jsonify({
-                        "error":"The meetup date has passed",
-                        "status":Status.denied_access
-                    }),Status.denied_access
+                        "error": "The meetup date has passed",
+                        "status": Status.denied_access
+                    }), Status.denied_access
                 else:
                     update = False
                     similar = False

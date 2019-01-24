@@ -182,7 +182,7 @@ def get_all_questions_for_meetup(meetup_id):
     """Gets all questions for a given meetup"""
     response = None
     from api.app.models.models import Question
-    questions = Question.query_by_field("meetup",int(meetup_id))
+    questions = Question.query_by_field("meetup", int(meetup_id))
     if not questions:
         response = jsonify({
             "error": "There are no questions in the daatabase",

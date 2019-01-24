@@ -1,6 +1,6 @@
 from .import user_view
 from flask import request, jsonify
-from api.app.utils.validators import UserValidators,date_checker
+from api.app.utils.validators import UserValidators, date_checker
 from .import Status
 import bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_raw_jwt)
