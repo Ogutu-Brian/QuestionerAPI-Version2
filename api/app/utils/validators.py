@@ -2,6 +2,7 @@ import re
 from typing import Tuple, Dict
 from datetime import date
 
+
 def valid_input_string(input_string: str)->bool:
     """Checks if the input string begins wwith an empty line"""
     regex = '[a-zA-Z0-9]'
@@ -19,10 +20,10 @@ def date_checker(item_date: str)->bool:
     response = False
     today_list = date.today().strftime('%d-%m-%Y').split('-')
     happening_list = item_date.split('-')
-    if not int(happening_list[2]) < int(today_list[2]):
-        if not int(happening_list[1]) < int(today_list[1]):
-            if not int(happening_list[0]) < int(today_list[0]):
-                response = True
+    if int(happening_list[2]) >= int(today_list[2]):
+            if int(happening_list[1]) >= int(today_list[1]):
+                if int(happening_list[0]) >= int(today_list[0]):
+                    response = True
     return response
 
 
@@ -30,10 +31,13 @@ def valid_input_date(date_string: str)->bool:
     """Checks if the input date is of the right format"""
     response = False
     if len(date_string.split('-')) == 3:
-        if re.match('[0-9]', date_string):
-            if not re.match('[a-zA-Z]', date_string):
+        date_list = date_string.split('-')
+        if date_list[0].isdigit() and date_list[1].isdigit() and date_list[2].isdigit():
+            if int(date_list[0])<=31 and int(date_list[1])<=12 and int(date_list[2]) <=3000:
                 response = True
     return response
+
+
 class UserValidators(object):
     """ Checks done on User data during Post"""
     @classmethod
@@ -95,9 +99,9 @@ class UserValidators(object):
                 errors.append({
                     "message": "The phone number is invalid"
                 })
-        elif len(phoneNumber) >13:
+        elif len(phoneNumber) > 13:
             errors.append({
-                "message":"The phone number is invalid"
+                "message": "The phone number is invalid"
             })
         if not username:
             errors.append({
@@ -114,12 +118,12 @@ class UserValidators(object):
         else:
             if not confirmPassword:
                 errors.append({
-                    "message":"Please confirm password"
+                    "message": "Please confirm password"
                 })
             else:
-                if password !=confirmPassword:
+                if password != confirmPassword:
                     errors.append({
-                        "message":"The password does not match"
+                        "message": "The password does not match"
                     })
             if len(password) < 6:
                 errors.append({
@@ -176,19 +180,23 @@ class MeetupValidators(object):
             })
         elif not valid_input_date(item.get("happeningOn")):
             errors.append({
-                "message":"The date format given is invalid"
+                "message":"The date format is invalid, please use the format dd-mm-yy"
+            })
+        elif not valid_input_date(item.get("happeningOn")):
+            errors.append({
+                "message": "The date format given is invalid"
             })
         elif not date_checker(item.get("happeningOn")):
             errors.append({
-                "message":"You cannot create a meetup in a passed day"
+                "message": "You cannot create a meetup in a passed day"
             })
         if not item.get("body"):
             errors.append({
-                "message":"Please provide the body of the meetup"
+                "message": "Please provide the body of the meetup"
             })
         elif not valid_input_string(item.get("body")):
             errors.append({
-                "message":"Please enter a valid data in the body"
+                "message": "Please enter a valid data in the body"
             })
         return len(errors) == 0, errors
 

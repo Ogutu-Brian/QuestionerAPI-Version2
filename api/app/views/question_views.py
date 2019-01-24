@@ -37,14 +37,16 @@ def create_question()->Tuple:
                     "status": Status.invalid_data
                 }), Status.invalid_data
             else:
-                if Question.query_by_field("meetup", meetup) and Question.query_by_field("body", body):
+                if Question.query_by_field("meetup",
+                                           meetup) and Question.query_by_field(
+                        "body", body) and Question.query_by_field("title", title):
                     response = jsonify({
                         "error": "That question has been asked before",
                         "status": Status.denied_access
                     }), Status.denied_access
                 else:
                     question = Question(meet_up=meetup, title=title, body=body)
-                    question.created_by=user[0].id
+                    question.created_by = user[0].id
                     question.save()
                     response = jsonify({
                         "message": "Successfully created a question",

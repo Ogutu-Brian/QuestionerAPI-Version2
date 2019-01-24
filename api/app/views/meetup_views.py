@@ -1,7 +1,8 @@
 from .import meetup_view
 from flask import request, jsonify
 from .import Status
-from api.app.utils.validators import MeetupValidators, RsvpValidators, date_checker
+from api.app.utils.validators import (
+    MeetupValidators, RsvpValidators, date_checker, valid_input_date)
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from typing import Tuple
 from flasgger import swag_from

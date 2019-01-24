@@ -276,12 +276,13 @@ class Meetup(V1Meetup, BaseModel):
 
     def save(self)->None:
         """Saves the meetup object into the database"""
-        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images) VALUES(%s,%s,%s,%s,%s) RETURNING id", (
+        database.cursor.execute("INSERT INTO meetups(topic,happening_date,tags,location,images,body) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
             self.topic,
             self.happening_on,
             self.tags,
             self.location,
-            self.images
+            self.images,
+            self.body
         ))
         super().save()
 
