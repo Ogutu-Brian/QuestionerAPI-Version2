@@ -9,7 +9,7 @@ from flasgger import swag_from
 
 
 @user_view.route("/signup", methods=["POST"])
-@swag_from('.signup.yml')
+@swag_from('docs/signup.yml')
 def sign_up()->Tuple:
     """A post endpoint for creating a user account"""
     from api.app.models.models import User
@@ -64,7 +64,7 @@ def sign_up()->Tuple:
 
 
 @user_view.route("/login", methods=["POST"])
-@swag_from('.login.yml')
+@swag_from('docs/login.yml')
 def login()->Tuple:
     """A post endpoint for logging a user into questioner"""
     response = None
@@ -143,7 +143,7 @@ def login()->Tuple:
 
 @user_view.route("/logout", methods=["DELETE"])
 @jwt_required
-@swag_from('.logout.yml')
+@swag_from('docs/logout.yml')
 def logout()->Tuple:
     """Logs out a user from Questioner"""
     from api.app.models.models import TokenBlackList

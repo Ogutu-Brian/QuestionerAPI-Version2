@@ -1,5 +1,11 @@
     tags:
       - Users
+    parameters:
+     - in: header
+       name: Authorization
+       description: 
+       type: string
+       required: true 
     responses:
       200:
         description: successful logout

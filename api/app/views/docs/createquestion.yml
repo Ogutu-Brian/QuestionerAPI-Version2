@@ -1,6 +1,11 @@
     tags:
       - Questions
     parameters:
+     - in: header
+       name: Authorization
+       description: The token key
+       type: string
+       required: true 
      - in: body
        name: post-question
        schema:

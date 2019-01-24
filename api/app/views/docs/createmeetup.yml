@@ -1,6 +1,11 @@
     tags:
       - meetups
     parameters:
+     - in: header
+       name: Authorization
+       description: The token key
+       type: string
+       required: true 
      - in: body
        name: meetup_data
        schema:

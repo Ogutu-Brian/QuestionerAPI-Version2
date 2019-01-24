@@ -1,5 +1,11 @@
     tags:
       - meetups
+    parameters:
+     - in: path
+       name: meetup_id
+       description: specific meetup id 
+       type: integer
+       required: true 
     responses:
       404:
         description: Successful retrieval of meetup

@@ -9,7 +9,7 @@ from flasgger import swag_from
 
 @meetup_view.route("/meetups", methods=["POST"])
 @jwt_required
-@swag_from(".createmeetup.yml")
+@swag_from("docs/createmeetup.yml")
 def create_meetup()->Tuple:
     """A post endpoint for creating a meetup by an administrator"""
     response = None
@@ -61,7 +61,7 @@ def create_meetup()->Tuple:
 
 
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
-@swag_from('.getspecmeetup.yml')
+@swag_from('docs/getspecmeetup.yml')
 def get_meetup(meetup_id: str)->Tuple:
     """ A get endpoint for getting a specific meetup given an id"""
     from api.app.models.models import Meetup
@@ -83,7 +83,7 @@ def get_meetup(meetup_id: str)->Tuple:
 
 
 @meetup_view.route("/meetups/upcoming/", methods=["GET"])
-@swag_from('.upcomingmeetup.yml')
+@swag_from('docs/upcomingmeetup.yml')
 def get_upcoming_meetups()->Tuple:
     """A GET endpoint for getting all the upcoming meetups"""
     from api.app.models.models import Meetup
@@ -108,7 +108,7 @@ def get_upcoming_meetups()->Tuple:
 
 @meetup_view.route("/meetups/<meetup_id>", methods=["DELETE"])
 @jwt_required
-@swag_from('.delmeetup.yml')
+@swag_from('docs/delmeetup.yml')
 def delete_meetup(meetup_id: str)->Tuple:
     """A delete endpoint for deleting meetups"""
     from api.app.models.models import Meetup, User
@@ -139,7 +139,7 @@ def delete_meetup(meetup_id: str)->Tuple:
 
 @meetup_view.route("/meetups/<meetup_id>/rsvps", methods=["POST"])
 @jwt_required
-@swag_from('.rsvps.yml')
+@swag_from('docs/rsvps.yml')
 def create_rsvp(meetup_id: str)->Tuple:
     """Endpoint for creatong Rsvp"""
     from api.app.models.models import Meetup, Rsvp, User
