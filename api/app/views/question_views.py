@@ -43,8 +43,8 @@ def create_question()->Tuple:
                         "status": Status.denied_access
                     }), Status.denied_access
                 else:
-                    question = Question(created_by=user[0].id,
-                                        meet_up=meetup, title=title, body=body)
+                    question = Question(meet_up=meetup, title=title, body=body)
+                    question.created_by=user[0].id
                     question.save()
                     response = jsonify({
                         "message": "Successfully created a question",
@@ -190,7 +190,8 @@ def get_all_questions_for_meetup(meetup_id):
         }), Status.not_found
     else:
         response = jsonify({
-            "data": sorted([question.to_dictionary() for question in questions], key=lambda k: k['votes'], reverse=True),
+            "data": sorted([question.to_dictionary() for question in questions],
+                           key=lambda k: k['votes'], reverse=True),
             "status": Status.success
         }), Status.success
     return response

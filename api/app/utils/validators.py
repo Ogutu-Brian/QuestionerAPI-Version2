@@ -12,7 +12,9 @@ def valid_input_string(input_string: str)->bool:
     if not re.match(name_regex, input_string.strip()):
         response = False
     return response
-def date_checker(item_date:str)->bool:
+
+
+def date_checker(item_date: str)->bool:
     """Checks if the previous date is greater than or equal to today"""
     response = False
     today_list = date.today().strftime('%d-%m-%Y').split('-')
@@ -23,6 +25,15 @@ def date_checker(item_date:str)->bool:
                 response = True
     return response
 
+
+def valid_input_date(date_string: str)->bool:
+    """Checks if the input date is of the right format"""
+    response = False
+    if len(date_string.split('-')) == 3:
+        if re.match('[0-9]', date_string):
+            if not re.match('[a-zA-Z]', date_string):
+                response = True
+    return response
 class UserValidators(object):
     """ Checks done on User data during Post"""
     @classmethod
@@ -162,6 +173,10 @@ class MeetupValidators(object):
         if not item.get("happeningOn"):
             errors.append({
                 "message": "Happening hodling date must be provided"
+            })
+        elif not valid_input_date(item.get("happeningOn")):
+            errors.append({
+                "message":"The date format given is invalid"
             })
         elif not date_checker(item.get("happeningOn")):
             errors.append({

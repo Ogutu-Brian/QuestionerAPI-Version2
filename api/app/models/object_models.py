@@ -6,9 +6,9 @@ import datetime
 class BaseModel(object):
     """Contains properties shared accorss all the models"""
 
-    def __init__(self, id_="", created_on=date.today()):
-        self.id = id_
-        self.created_on = created_on
+    def __init__(self):
+        self.id = None
+        self.created_on = date.today().strftime('%d-%m-%Y')
 
     def to_dictionary(self)->Dict:
         """Method to be overriden by child classes to return object properties in to dictionary
@@ -16,26 +16,23 @@ class BaseModel(object):
         """
         pass
 
-    def created_date(self):
-        """Reeturns date created as a formatted string (day-month-year) if date is provided"""
-        return self.created_on.strftime('%d-%m-%Y')
-
 
 class User(BaseModel):
     """A model for user information"""
 
-    def __init__(self, id_="", first_name="", last_name="", other_name="", email="", phone_number="", user_name="", is_admin="False", password=""):
-        super().__init__(id_=id_)
+    def __init__(self, first_name="", last_name="",
+                 other_name="", email="", phone_number="",
+                 user_name="", is_admin="False", password=""):
+        super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.other_name = other_name
         self.email = email
         self.phone_number = phone_number
         self.user_name = user_name
-        self.registred = self.created_date()
+        self.registred = self.created_on
         self.is_admin = is_admin
         self.password = password
-        self.id = id_
 
     def __str__(self):
         return self.first_name + " "+self.last_name
@@ -58,16 +55,15 @@ class User(BaseModel):
 class Meetup(BaseModel):
     """Defines the properties specific to a Meetup"""
 
-    def __init__(self, id_="", created_on=datetime.date.today(), location="", images=[],
+    def __init__(self, location="", images=[],
                  topic="", happening_on="", tags=[], creaed_by="", body=""):
-        super().__init__(id_=id_, created_on=created_on)
+        super().__init__()
         self.topic = topic
         self.happening_on = happening_on
         self.tags = tags
         self.location = location
         self.images = images
         self.created_by = creaed_by
-        self.id = id_
         self.body = body
 
     def to_dictionary(self)->Dict:
@@ -77,7 +73,7 @@ class Meetup(BaseModel):
         """
         return {
             "id": self.id,
-            "createdOn": self.created_date(),
+            "createdOn": self.created_on,
             "location": self.location,
             "images": self.images,
             "topic": self.topic,
@@ -90,15 +86,13 @@ class Meetup(BaseModel):
 class Question(BaseModel):
     """Defines the properties specific to a Question object"""
 
-    def __init__(self, id_="", created_on=date.today(), created_by="", meet_up="",
-                 title="", body="", votes=0):
-        super().__init__(id_=id_, created_on=created_on)
-        self.created_by = created_by
+    def __init__(self, meet_up="", title="", body="", votes=0):
+        super().__init__()
+        self.created_by = None
         self.meet_up = meet_up
         self.title = title
         self.body = body
         self.votes = votes
-        self.id = id_
 
     def to_dictionary(self)->Dict:
         """
@@ -119,13 +113,12 @@ class Question(BaseModel):
 class Rsvp(BaseModel):
     """Defines attributes specific to Rsvp object"""
 
-    def __init__(self, id_="", creatd_on=date.today(), meetup="", user="", response=""):
-        super().__init__(id_=id_, created_on=creatd_on)
+    def __init__(self, meetup="", user="", response=""):
+        super().__init__()
         self.meetup = meetup
         self.user = user
         self.response = response
         self.primary = (self.meetup, self.user)
-        self.id = id_
 
     def to_dictionary(self)->Dict:
         """Overrides the basemodel method to represent an Rsvp object in a dictionary format"""
@@ -141,8 +134,8 @@ class Rsvp(BaseModel):
 class Comment(BaseModel):
     """Defines a template object class for Questions"""
 
-    def __init__(self, created_on=date.today(), question="", user="", comment="", title="", body=""):
-        super().__init__(created_on=created_on)
+    def __init__(self, question="", user="", comment="", title="", body=""):
+        super().__init__()
         self.question = question
         self.comment = comment
         self.user = user
@@ -162,8 +155,8 @@ class Comment(BaseModel):
 class BlackList(BaseModel):
     """Stores blacklisted token"""
 
-    def __init__(self, id="", created_on=date.today(), token=""):
-        super().__init__(id_=id, created_on=created_on)
+    def __init__(self, id="", token=""):
+        super().__init__()
         self.token = token
 
     def to_dictionary(self)->Dict:
@@ -177,8 +170,8 @@ class BlackList(BaseModel):
 class Vote(BaseModel):
     """A bluprint for Vote object"""
 
-    def __init__(self, created_on=date.today(), user="", question="", value=0):
-        super().__init__(created_on=created_on)
+    def __init__(self, user="", question="", value=0):
+        super().__init__()
         self.user = user
         self.question = question
         self.value = value

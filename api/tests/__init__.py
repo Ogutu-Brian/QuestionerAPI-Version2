@@ -1,7 +1,7 @@
 from datetime import date
 class MeetupData(object):
     """Defines the test objects for meetup tests"""
-
+    """Sample date format '24-01-2019'"""
     def __init__(self):
         self.data = {
             "location": "Andela Campus",
