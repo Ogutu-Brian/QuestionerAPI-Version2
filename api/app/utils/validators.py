@@ -1,7 +1,7 @@
 import re
 from typing import Tuple, Dict
 from validate_email import validate_email
-
+from datetime import date
 
 def valid_input_string(input_string: str)->bool:
     """Checks if the input string begins wwith an empty line"""
@@ -155,6 +155,21 @@ class MeetupValidators(object):
             errors.append({
                 "message": "Happening hodling date must be provided"
             })
+        else:
+            today_list = date.today().strftime('%d-%m-%Y').split('-')
+            happening_list = item.get("happeningOn").split('-')
+            if happening_list[2] < today_list[2]:
+                errors.append({
+                    "message":"You cannot have a meetup in a past date"
+                })
+            elif happening_list[1]< today_list[1]:
+                errors.append({
+                    "message":"You can't have a meetup on a past month"
+                })
+            elif happening_list[0] < today_list[0]:
+                errors.append({
+                    "message":"You cannot have a meetup on a day that has passed"
+                })
         if not item.get("body"):
             errors.append({
                 "message":"Please provide the body of the meetup"

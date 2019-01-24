@@ -40,6 +40,12 @@ class TestMeetups(BaseTest):
         result = self.create_meetup()
         self.assertEqual(Status.invalid_data, result.get("status"))
 
+    def test_passed_meetup_date(self)->None:
+        """Tests for the creation of a meetup in a passed date"""
+        self.meetup_data.data["happeningOn"] = "24-01-2017"
+        result = self.create_meetup()
+        self.assertEqual(Status.invalid_data, result.get("status"))
+
     def test_missing_images(self)->None:
         """Image location is optional so missing in json object should not cause failure"""
         self.meetup_data.data["images"] = ""

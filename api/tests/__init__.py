@@ -1,3 +1,4 @@
+from datetime import date
 class MeetupData(object):
     """Defines the test objects for meetup tests"""
 
@@ -7,7 +8,7 @@ class MeetupData(object):
             "images": "['/images/important', '/images/meetup']",
             "topic": "Responsive Web Design",
             "Tags": "['User Interface', 'Responsive Design']",
-            "happeningOn": "2018-04-23T18:25:43.511Z",
+            "happeningOn":date.today().strftime('%d-%m-%Y'),
             "body":"A meetup on characteristics of a good software engineer"
         }
 
