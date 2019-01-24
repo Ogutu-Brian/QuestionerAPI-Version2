@@ -43,7 +43,7 @@ class UserValidators(object):
     @classmethod
     def is_valid(cls, item: Dict)->Tuple:
         """Validates post User data"""
-        email_regex = '^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$'
+        email_regex = '[^@]+@[^@]+\.[^@]+'
         errors = []
         firstname = item.get("firstname")
         lastname = item.get("lastname")

@@ -31,6 +31,10 @@
             password: 
               type: string
               description: The password of the user
+            confirmpassword: 
+              type: string
+              description: confirming password by user
+
     responses:
       406:
         description: Error on failure to pass the validations
