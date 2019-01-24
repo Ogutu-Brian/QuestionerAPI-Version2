@@ -56,11 +56,11 @@
               type: integer
               default: 422
               description: the status code returned
-
       201:
         description: successful signup
         schema:
           id: signup
+          properties:  
             status:
               type: integer
               default: 201
