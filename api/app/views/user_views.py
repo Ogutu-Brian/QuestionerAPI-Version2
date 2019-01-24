@@ -52,8 +52,7 @@ def sign_up()->Tuple:
             user.save()
             response = jsonify({
                 "message": "Successuflly signed up",
-                "status": Status.created,
-                "data": [user.to_dictionary()]
+                "status": Status.created
             }), Status.created
     else:
         response = jsonify({
@@ -98,8 +97,7 @@ def login()->Tuple:
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
                         "data": [{
-                            "token": token,
-                            "user": user.to_dictionary()
+                            "token": token
                         }],
                         "status": Status.success
                     }), Status.success
@@ -123,8 +121,7 @@ def login()->Tuple:
                     response = jsonify({
                         "message": "You have successfully logged into Questioner",
                         "data": [{
-                            "token": token,
-                            "user": user.to_dictionary()
+                            "token": token
                         }],
                         "status": Status.success
                     }), Status.success
