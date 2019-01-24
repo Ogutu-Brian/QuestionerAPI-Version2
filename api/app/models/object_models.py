@@ -60,7 +60,7 @@ class Meetup(BaseModel):
     """Defines the properties specific to a Meetup"""
 
     def __init__(self, id_="", created_on=datetime.date.today(), location="", images=[],
-                 topic="", happening_on="", tags=[], creaed_by=""):
+                 topic="", happening_on="", tags=[], creaed_by="", body=""):
         super().__init__(id_=id_, created_on=created_on)
         self.topic = topic
         self.happening_on = happening_on
@@ -69,6 +69,7 @@ class Meetup(BaseModel):
         self.images = images
         self.created_by = creaed_by
         self.id = id_
+        self.body = body
 
     def to_dictionary(self)->Dict:
         """
@@ -83,6 +84,7 @@ class Meetup(BaseModel):
             "topic": self.topic,
             "happendingOn": self.happening_on,
             "tags": self.tags,
+            "body": self.body
         }
 
 

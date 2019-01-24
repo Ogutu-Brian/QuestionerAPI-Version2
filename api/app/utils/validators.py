@@ -155,6 +155,14 @@ class MeetupValidators(object):
             errors.append({
                 "message": "Happening hodling date must be provided"
             })
+        if not item.get("body"):
+            errors.append({
+                "message":"Please provide the body of the meetup"
+            })
+        elif not valid_input_string(item.get("body")):
+            errors.append({
+                "message":"Please enter a valid data in the body"
+            })
         return len(errors) == 0, errors
 
 

@@ -257,7 +257,8 @@ class Meetup(V1Meetup, BaseModel):
             happening_date varchar,
             tags varchar,
             location varchar,
-            images varchar
+            images varchar,
+            body varchar
         )""")
         database.connection.commit()
 
@@ -270,6 +271,7 @@ class Meetup(V1Meetup, BaseModel):
         meetup.location = query_dict.get("location")
         meetup.images = query_dict.get("images")
         meetup.id = query_dict.get("id")
+        meetup.body = query_dict.get("body")
         return meetup
 
     def save(self)->None:

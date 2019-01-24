@@ -91,6 +91,9 @@
                   topic:
                     type: string
                     description: The topic of the meetup
+                  body:
+                    type: string
+                    description: The body of the meetup
             message:
               type: string
               description: The message on successful creation of meetup

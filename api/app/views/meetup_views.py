@@ -37,6 +37,7 @@ def create_meetup()->Tuple:
                 images = data.get("images")
                 topic = data.get("topic")
                 happening_on = data.get("happeningOn")
+                body = data.get("body")
                 tags = data.get("Tags")
                 if Meetup.query_by_field("location", location) and Meetup.query_by_field("topic", topic):
                     response = jsonify({
@@ -44,7 +45,7 @@ def create_meetup()->Tuple:
                         "status": Status.denied_access
                     }), Status.denied_access
                 else:
-                    meetup = Meetup(location=location, images=images,
+                    meetup = Meetup(location=location, images=images, body=body,
                                     topic=topic, happening_on=happening_on, tags=tags)
                     meetup.save()
                     response = jsonify({

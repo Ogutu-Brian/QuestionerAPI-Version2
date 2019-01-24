@@ -23,7 +23,11 @@ class TestMeetups(BaseTest):
         self.meetup_data.data["Tags"] = ""
         result = self.create_meetup()
         self.assertEqual(Status.invalid_data, result.get("status"))
-
+    def test_missing_body(self)->None:
+        """Tests if a body is not provided for the meetup"""
+        self.meetup_data.data["body"]=""
+        result = self.create_meetup()
+        self.assertEqual(Status.invalid_data,result.get("status"))
     def test_missing_location(self)->None:
         """tests for data that does not contain location of meetup"""
         self.meetup_data.data["location"] = ""
