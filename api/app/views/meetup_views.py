@@ -1,10 +1,11 @@
 from .import meetup_view
 from flask import request, jsonify
 from .import Status
-from api.app.utils.validators import MeetupValidators, RsvpValidators
+from api.app.utils.validators import MeetupValidators, RsvpValidators,date_checker
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from typing import Tuple
 from flasgger import swag_from
+from datetime import date
 
 
 @meetup_view.route("/meetups", methods=["POST"])
@@ -99,7 +100,8 @@ def get_upcoming_meetups()->Tuple:
     else:
         result_set = []
         for meetup in meetups:
-            result_set.append(meetup.to_dictionary())
+            if date_checker(meetup.happening_on):
+                result_set.append(meetup.to_dictionary())
         response = jsonify({
             "mesage": "Successfullyy got all upcoming meetups",
             "data": result_set,
@@ -164,44 +166,50 @@ def create_rsvp(meetup_id: str)->Tuple:
                 }), Status.not_found
             else:
                 meetup = meetup[0]
-                update = False
-                similar = False
-                user = User.query_by_field("email", get_jwt_identity())[0]
-                rsvp = Rsvp(meetup=meetup.id, user=user.id,
-                            response=data.get("response"))
-                for item in Rsvp.query_all():
-                    if user.id == item.user and meetup.id == item.meetup:
-                        if item.response == data.get("response"):
-                            response = jsonify({
-                                "error": "You have already given that response",
-                                "status": Status.denied_access
-                            }), Status.denied_access
-                            similar = True
-                        else:
-                            item.response = data.get("response")
-                            rsvp = item
-                            update = True
-                            rsvp.update()
-                            response = jsonify({
-                                "message": "Successfully submitted your Rsvp",
-                                "status": Status.created,
-                                "data": [{
-                                    "meetup": rsvp.meetup,
-                                    "topic": meetup.to_dictionary().get("topic"),
-                                    "status": rsvp.response
-                                }]
-                            }), Status.created
-                if not update and not similar:
-                    rsvp.save()
+                if not date_checker(meetup.happening_on):
                     response = jsonify({
-                        "message": "Successfully submitted your Rsvp",
-                        "status": Status.created,
-                        "data": [{
-                            "meetup": rsvp.meetup,
-                            "topic": meetup.to_dictionary().get("topic"),
-                            "status": rsvp.response
-                        }]
-                    }), Status.created
+                        "error":"The meetup date has passed",
+                        "status":Status.denied_access
+                    }),Status.denied_access
+                else:
+                    update = False
+                    similar = False
+                    user = User.query_by_field("email", get_jwt_identity())[0]
+                    rsvp = Rsvp(meetup=meetup.id, user=user.id,
+                                response=data.get("response"))
+                    for item in Rsvp.query_all():
+                        if user.id == item.user and meetup.id == item.meetup:
+                            if item.response == data.get("response"):
+                                response = jsonify({
+                                    "error": "You have already given that response",
+                                    "status": Status.denied_access
+                                }), Status.denied_access
+                                similar = True
+                            else:
+                                item.response = data.get("response")
+                                rsvp = item
+                                update = True
+                                rsvp.update()
+                                response = jsonify({
+                                    "message": "Successfully submitted your Rsvp",
+                                    "status": Status.created,
+                                    "data": [{
+                                        "meetup": rsvp.meetup,
+                                        "topic": meetup.to_dictionary().get("topic"),
+                                        "status": rsvp.response
+                                    }]
+                                }), Status.created
+                    if not update and not similar:
+                        rsvp.save()
+                        response = jsonify({
+                            "message": "Successfully submitted your Rsvp",
+                            "status": Status.created,
+                            "data": [{
+                                "meetup": rsvp.meetup,
+                                "topic": meetup.to_dictionary().get("topic"),
+                                "status": rsvp.response
+                            }]
+                        }), Status.created
     else:
         response = jsonify({
             "error": "The data needs to ne in JSON",
