@@ -46,55 +46,53 @@ def create_app(application_config):
     @jwt.expired_token_loader
     def expired_token():
         """Checks if toen has expired"""
-        return jsonify({
+        response = jsonify({
             "error": "Your token has expired",
             "status": Status.denied_access
         }), Status.denied_access
+        return response
 
     @jwt.unauthorized_loader
     def unauthoriszed(error):
-        return jsonify({
+        response = jsonify({
             "error": "Token Bearer not given",
             "status": Status.denied_access
         }), Status.denied_access
+        return response
 
     @app.errorhandler(404)
     def resource_not_found(error):
-        return jsonify({
+        response = jsonify({
             "error": "Resource unavalable in the url",
             "status": Status.not_found
         }), Status.not_found
+        return response
 
     @app.errorhandler(400)
     def bad_request(error):
-        return jsonify({
+        response = jsonify({
             "error": "bad request",
             "status": Status.bad_requst
         }), Status.bad_requst
-
-    @app.errorhandler(500)
-    def internal_server_error(error):
-        return jsonify({
-            "error": "Interval server error",
-            "status": Status.internal_server_error
-        }), Status.internal_server_error
+        return response
 
     @app.route('/')
     def display_documentation():
         """Renders the documentation on the index pange"""
-        return jsonify({
-            "message":"Welcome to Questioner API version2",
-            "status":Status.success
-        }),Status.success
+        response = jsonify({
+            "message": "Welcome to Questioner API version2",
+            "status": Status.success
+        }), Status.success
+        return response
     template = {
-        "swagger":"3.0",
-        "info":{
-            "title":"Questioner API version2",
-            "description":"Questioner API",
-            "version":"2.0"
+        "swagger": "3.0",
+        "info": {
+            "title": "Questioner API version2",
+            "description": "Questioner API",
+            "version": "2.0"
         }
     }
-    Swagger(app=app,template=template)
+    Swagger(app=app, template=template)
     return app
 
 
