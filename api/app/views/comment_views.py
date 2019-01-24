@@ -8,7 +8,7 @@ from flasgger import swag_from
 
 @comment_view.route("/comments/", methods=["POST"])
 @jwt_required
-@swag_from('.comments.yml')
+@swag_from('docs/comments.yml')
 def create_comment()->Tuple:
     """Creates a comment to a Question"""
     response = None
@@ -50,7 +50,7 @@ def create_comment()->Tuple:
 
 
 @comment_view.route("/comments/<question_id>", methods=["GET"])
-@swag_from('.get_specific_comment.yml')
+@swag_from('docs/get_specific_comment.yml')
 def get_all_comments(question_id):
     """Gets all comments from the database"""
     from api.app.models.models import Comment, Question

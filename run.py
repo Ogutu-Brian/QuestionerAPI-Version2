@@ -25,7 +25,6 @@ def create_app(application_config):
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
     app.register_blueprint(question_view, url_prefix="/api/v2")
     app.register_blueprint(comment_view, url_prefix="/api/v2")
-    Swagger(app=app)
 
     @jwt.token_in_blacklist_loader
     def token_in_blaclist(token):
@@ -73,6 +72,13 @@ def create_app(application_config):
             "status": Status.bad_requst
         }), Status.bad_requst
 
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return jsonify({
+            "error": "Interval server error",
+            "status": Status.internal_server_error
+        }), Status.internal_server_error
+
     @app.route('/')
     def display_documentation():
         """Renders the documentation on the index pange"""
@@ -80,6 +86,15 @@ def create_app(application_config):
             "message":"Welcome to Questioner API version2",
             "status":Status.success
         }),Status.success
+    template = {
+        "swagger":"3.0",
+        "info":{
+            "title":"Questioner API version2",
+            "description":"Questioner API",
+            "version":"2.0"
+        }
+    }
+    Swagger(app=app,template=template)
     return app
 
 

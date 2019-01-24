@@ -1,5 +1,16 @@
     tags:
       - meetups
+    parameters:
+     - in: header
+       name: Authorization
+       description: The token key
+       type: string
+       required: true 
+     - in: path
+       name: meetup_id
+       description: specific meetup id
+       type: integer
+       required: true 
     responses:
       404:
         description: When a meetup with a given id does not exist
