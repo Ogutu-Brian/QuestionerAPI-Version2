@@ -23,8 +23,7 @@ def create_meetup()->Tuple:
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
-            from api.app.models.models import Meetup
-            from api.app.models.models import User
+            from api.app.models.models import Meetup, User
             user_mail = get_jwt_identity()
             user = User.query_by_field("email", user_mail)[0]
             if not user.is_admin.lower() == "true":
@@ -39,7 +38,9 @@ def create_meetup()->Tuple:
                 happening_on = data.get("happeningOn")
                 body = data.get("body")
                 tags = data.get("Tags")
-                if Meetup.query_by_field("location", location) and Meetup.query_by_field("topic", topic):
+                if Meetup.query_by_field("location",
+                                         location) and Meetup.query_by_field("topic", topic) and Meetup.query_by_field("happening_date",
+                                                                                                                       happening_on):
                     response = jsonify({
                         "error": "Sorry that meetup already exists",
                         "status": Status.denied_access
