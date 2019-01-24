@@ -16,9 +16,7 @@ def create_comment()->Tuple:
         data = request.json
         valid, errors = CommentValidators.is_valid(data)
         if valid:
-            from api.app.models.models import Comment
-            from api.app.models.models import Question
-            from api.app.models.models import User
+            from api.app.models.models import Comment,Question,User
             question = Question.query_by_field("id", data.get("question"))
             if not question:
                 response = jsonify({

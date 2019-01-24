@@ -176,13 +176,13 @@ def get_specific_question(question_id)->Tuple:
     return response
 
 
-@question_view.route("questions/", methods=["GET"])
+@question_view.route("questions/<meetup_id>", methods=["GET"])
 @swag_from('docs/get_all_questions.yml')
-def get_all_questions():
-    """Gets all questions in the database"""
+def get_all_questions_for_meetup(meetup_id):
+    """Gets all questions for a given meetup"""
     response = None
     from api.app.models.models import Question
-    questions = Question.query_all()
+    questions = Question.query_by_field("meetup",int(meetup_id))
     if not questions:
         response = jsonify({
             "error": "There are no questions in the daatabase",

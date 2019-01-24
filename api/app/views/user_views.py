@@ -1,6 +1,6 @@
 from .import user_view
 from flask import request, jsonify
-from api.app.utils.validators import UserValidators
+from api.app.utils.validators import UserValidators,date_checker
 from .import Status
 import bcrypt
 from flask_jwt_extended import (create_access_token, jwt_required, get_raw_jwt)
@@ -48,7 +48,8 @@ def sign_up()->Tuple:
             password = bcrypt.hashpw(data.get("password").encode(
                 'utf8'), bcrypt.gensalt()).decode('utf8')
             user = User(first_name=first_name, last_name=last_name, is_admin=is_admin,
-                        other_name=other_name, email=email, phone_number=phone_number, user_name=user_name, password=password)
+                        other_name=other_name, email=email, phone_number=phone_number,
+                        user_name=user_name, password=password)
             user.save()
             response = jsonify({
                 "message": "Successuflly signed up",
