@@ -47,9 +47,12 @@ def sign_up()->Tuple:
                 is_admin = "True"
             password = bcrypt.hashpw(data.get("password").encode(
                 'utf8'), bcrypt.gensalt()).decode('utf8')
-            user = User(first_name=first_name, last_name=last_name, is_admin=is_admin,
-                        other_name=other_name, email=email, phone_number=phone_number,
+            user = User(is_admin=is_admin, email=email,
                         user_name=user_name, password=password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.other_name = other_name
+            phone_number = phone_number
             user.save()
             response = jsonify({
                 "message": "Successuflly signed up",
