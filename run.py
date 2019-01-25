@@ -9,12 +9,21 @@ from api.app.views.question_views import question_view
 from api.app.views.comment_views import comment_view
 from flasgger import Swagger
 from dotenv import load_dotenv
+from typing import Tuple
 
 database = PostgresDatabase()
 
 from migrtions import DbMigrations
 
 load_dotenv()
+
+
+def error_response(error: str, status: int)->Tuple:
+    """ A function to give responses depending on an error"""
+    return jsonify({
+        "error": error,
+        "status": status
+    }), status
 
 
 def create_app(application_config):
@@ -40,10 +49,7 @@ def create_app(application_config):
 
     @jwt.invalid_token_loader
     def invalid_token(error):
-        return jsonify({
-            "error": "The token provided is not valid",
-            "status": Status.denied_access,
-        }), Status.denied_access
+        return error_response(error="The token provided is not valid", status=Status.denied_access)
 
     @jwt.expired_token_loader
     def expired_token():
