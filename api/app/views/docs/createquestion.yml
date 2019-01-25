@@ -14,9 +14,6 @@
             title:
               type: string
               description: The title of the question 
-            createdBy:
-              type: string
-              description: The creator of the question
             body:
               type: string
               description: The body fo the question being asked

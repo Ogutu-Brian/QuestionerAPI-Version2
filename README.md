@@ -20,7 +20,7 @@ Questioner is an application used by meetup organizers to plan well for meetups 
 11. A user should be able to log out of Questioner
 12. A user should be able to post comments
 13. An admin should be able to delete a meetup
-14. A client should be able to get all questions
+14. A client should be able to get all questions for a meetup
 15. A client should be able to get a specific question from questioner
 
 # Installation and Setup

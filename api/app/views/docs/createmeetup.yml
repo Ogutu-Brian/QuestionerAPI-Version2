@@ -26,6 +26,9 @@
             happeningOn:
               type: string
               description: The date of the meetup
+            body:
+              type: string
+              description: The body of the meetup
     responses:
       406:
         description: On failure to pass the validations
