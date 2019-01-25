@@ -98,9 +98,9 @@ pytest tests/*
 | `DELETE`      | `/api/v2/meetups/<meetup-id>`               |  Allows an admin to delete a meetup                    |
 | `POST`        | `/api/v2/comments/`                         |  Allows a user to make comments                        |
 | `DELETE`      | `/api/v2/auth/logout`                       |  Allows a logged in user to logout                     |
-| `GET`         | `/api/v2/comments/question-id`              |  Allows a user to get all comments for a questi        |
-| `GET`         | `/api/v2/questions/`                        |  Gets all questions from questioner                    |
-| `GET`         | `/api/v2/questions/question-id`             |  Gets a specific question from questioner               |
+| `GET`         | `/api/v2/comments/<question-id>`            |  Allows a user to get all comments for a questi        |
+| `GET`         | `/api/v2/questions/<meetup-id>/`            |  Gets all questions for a meetup from questioner       |
+| `GET`         | `/api/v2/questions/<question-id>`           |  Gets a specific question from questioner              |
       
 # Resources and Documentation
 1. [Swagger UI documentation](http://questioner-api-v2.herokuapp.com/apidocs/) 
