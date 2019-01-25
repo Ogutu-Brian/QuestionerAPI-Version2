@@ -8,7 +8,7 @@
        required: true 
     responses:
       404:
-        description: Successful retrieval of meetup
+        description: Error on invalid meetup id
         schema:
           id: specific_meetup_error
           properties:
