@@ -115,9 +115,10 @@ class TestQuestion(BaseTest):
     def test_get_all_questions_in_meetup(self)->None:
         """Tests for the endpoint for get all questins for a given meetup"""
         self.create_question_intials()
-        meetup_id = self.create_question()["data"][0]["id"]
+        meetup_id = self.create_question()["data"][0]["meetup"]
         result = self.get_data(
-            url="questions/{}".format(meetup_id), headers=self.json_headers)
+            url="questions/{}/".format(meetup_id), headers=self.json_headers)
+        print(result)
         self.assertEqual(Status.success, result.get("status"))
 
     def test_get_no_questions(self)->None:

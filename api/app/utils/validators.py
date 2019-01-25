@@ -20,10 +20,14 @@ def date_checker(item_date: str)->bool:
     response = False
     today_list = date.today().strftime('%d-%m-%Y').split('-')
     happening_list = item_date.split('-')
-    if int(happening_list[2]) >= int(today_list[2]):
-            if int(happening_list[1]) >= int(today_list[1]):
-                if int(happening_list[0]) >= int(today_list[0]):
-                    response = True
+    if int(happening_list[2]) > int(today_list[2]):
+        response = True
+    elif int(happening_list[2]) == int(today_list[2]):
+        if int(happening_list[1]) > int(today_list[1]):
+            response = True
+        elif int(happening_list[1]) == int(today_list[1]):
+            if int(happening_list[0]) >= int(today_list[0]):
+                response = True
     return response
 
 

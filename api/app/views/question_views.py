@@ -178,7 +178,7 @@ def get_specific_question(question_id)->Tuple:
     return response
 
 
-@question_view.route("questions/<meetup_id>", methods=["GET"])
+@question_view.route("questions/<meetup_id>/", methods=["GET"])
 @swag_from('docs/get_all_questions.yml')
 def get_all_questions_for_meetup(meetup_id):
     """Gets all questions for a given meetup"""
