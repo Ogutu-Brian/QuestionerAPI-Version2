@@ -1,5 +1,6 @@
     tags:
       - Questions
+    parameters:
      - in: path
        name: meetup_id
        description: The specific meetup id whose questions you want to retrieve

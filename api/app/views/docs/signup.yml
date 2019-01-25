@@ -31,6 +31,10 @@
             password: 
               type: string
               description: The password of the user
+            confirmpassword: 
+              type: string
+              description: confirming password by user
+
     responses:
       406:
         description: Error on failure to pass the validations
@@ -56,11 +60,11 @@
               type: integer
               default: 422
               description: the status code returned
-
       201:
         description: successful signup
         schema:
           id: signup
+          properties:  
             status:
               type: integer
               default: 201
