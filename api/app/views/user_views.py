@@ -25,12 +25,16 @@ def sign_up()->Tuple:
             }), Status.invalid_data
         elif User.query_by_field("email", data.get("email")):
             response = jsonify({
-                "error": "The email address has already been taken",
+                "error": [{
+                    "message":"The email address has already been taken"
+                }],
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif User.query_by_field("username", data.get("username")):
             response = jsonify({
-                "error": "The username has already been taken",
+                "error": [{
+                    "message":"The username has already been taken"  
+                }],
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
@@ -64,7 +68,9 @@ def sign_up()->Tuple:
             }), Status.created
     else:
         response = jsonify({
-            "error": "The data needs to be in JSON",
+            "error":[{
+                "message":"The data needs to be in JSON"
+            }],
             "status": Status.not_json
         }), Status.not_json
     return response
@@ -82,12 +88,12 @@ def login()->Tuple:
         password = data.get("password")
         if not email and not username:
             response = jsonify({
-                "error": "provide either your username or password to log in",
+                "error": ["provide either your username or password to log in"],
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif not password:
             response = jsonify({
-                "error": "Provide your password",
+                "error": ["Provide your password"],
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif username:
@@ -95,7 +101,7 @@ def login()->Tuple:
             user = User.query_by_field("username", username)
             if not user:
                 response = jsonify({
-                    "error": "The username does not exist, plase sign up",
+                    "error": ["The username does not exist, plase sign up"],
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -111,7 +117,7 @@ def login()->Tuple:
                     }), Status.success
                 else:
                     response = jsonify({
-                        "error": "Invalid password",
+                        "error": ["Invalid password"],
                         "status": Status.denied_access
                     }), Status.denied_access
         else:
@@ -119,7 +125,7 @@ def login()->Tuple:
             user = User.query_by_field("email", email)
             if not user:
                 response = jsonify({
-                    "error": "A user with that mail does not exist, plase sign up",
+                    "error": ["A user with that mail does not exist, plase sign up"],
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -135,12 +141,12 @@ def login()->Tuple:
                     }), Status.success
                 else:
                     response = jsonify({
-                        "error": "Invalid password",
+                        "error": ["Invalid password"],
                         "status": Status.denied_access
                     }), Status.denied_access
     else:
         response = jsonify({
-            "error": "The data needs to be in JSON",
+            "error": ["The data needs to be in JSON"],
             "status": Status.not_json
         }), Status.not_json
     return response
