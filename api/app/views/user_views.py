@@ -42,9 +42,13 @@ def sign_up()->Tuple:
             email = data.get("email")
             phone_number = data.get("phoneNumber")
             user_name = data.get("username")
-            is_admin = "False"
-            if data.get("isAdmin").lower() == "true":
+            is_admin = data.get("isAdmin")
+            if not is_admin:
+                is_admin = "False"
+            elif is_admin.lower() == "true":
                 is_admin = "True"
+            else:
+                is_admin = "False"
             password = bcrypt.hashpw(data.get("password").encode(
                 'utf8'), bcrypt.gensalt()).decode('utf8')
             user = User(is_admin=is_admin, email=email,
