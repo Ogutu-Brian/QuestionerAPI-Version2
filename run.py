@@ -10,6 +10,7 @@ from api.app.views.comment_views import comment_view
 from flasgger import Swagger
 from dotenv import load_dotenv
 from typing import Tuple
+from flask_cors import CORS
 
 database = PostgresDatabase()
 
@@ -32,6 +33,7 @@ def create_app(application_config):
     app.config.from_object(app_config.get(application_config))
     database.initialize_application(app)
     jwt = JWTManager(app)
+    CORS(app)
     app.register_blueprint(user_view, url_prefix="/api/v2/auth")
     app.register_blueprint(meetup_view, url_prefix="/api/v2")
     app.register_blueprint(question_view, url_prefix="/api/v2")
