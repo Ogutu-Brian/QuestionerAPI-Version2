@@ -88,7 +88,7 @@ def login()->Tuple:
         password = data.get("password")
         if not email and not username:
             response = jsonify({
-                "error": ["provide either your username or password to log in"],
+                "error": ["provide either your username or email to log in"],
                 "status": Status.invalid_data
             }), Status.invalid_data
         elif not password:
