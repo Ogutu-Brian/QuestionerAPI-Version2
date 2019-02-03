@@ -176,7 +176,7 @@ class MeetupValidators(object):
             })
         if not item.get("happeningOn"):
             errors.append({
-                "message": "Happening hodling date must be provided"
+                "message": "Happening/hodling date must be provided"
             })
         elif not valid_input_date(item.get("happeningOn")):
             errors.append({
