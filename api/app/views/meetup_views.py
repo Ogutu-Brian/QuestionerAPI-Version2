@@ -30,7 +30,9 @@ def create_meetup()->Tuple:
             user = User.query_by_field("email", user_mail)[0]
             if not user.is_admin.lower() == "true":
                 response = jsonify({
-                    "error": "You are not an admin",
+                    "error": [{
+                        "message": "You are not an admin"
+                    }],
                     "status": Status.denied_access
                 }), Status.denied_access
             else:
@@ -44,7 +46,9 @@ def create_meetup()->Tuple:
                                          location) and Meetup.query_by_field("topic", topic) and Meetup.query_by_field("happening_date",
                                                                                                                        happening_on):
                     response = jsonify({
-                        "error": "Sorry that meetup already exists",
+                        "error": [{
+                            "message": "Sorry that meetup already exists"
+                        }],
                         "status": Status.denied_access
                     }), Status.denied_access
                 else:
@@ -58,7 +62,9 @@ def create_meetup()->Tuple:
                     }), Status.created
     else:
         response = jsonify({
-            "error": "The data should be JSON",
+            "error": [{
+                "message": "The data should be JSON"
+            }],
             "status": Status.not_json
         }), Status.not_json
     return response

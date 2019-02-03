@@ -37,7 +37,7 @@ def valid_input_date(date_string: str)->bool:
     if len(date_string.split('-')) == 3:
         date_list = date_string.split('-')
         if date_list[0].isdigit() and date_list[1].isdigit() and date_list[2].isdigit():
-            if int(date_list[0])<=31 and int(date_list[1])<=12 and int(date_list[2]) <=3000:
+            if int(date_list[0]) <= 31 and int(date_list[1]) <= 12 and int(date_list[2]) <= 3000:
                 response = True
     return response
 
@@ -174,17 +174,13 @@ class MeetupValidators(object):
             errors.append({
                 "message": "The topic is not valid"
             })
-        if not item.get("Tags"):
-            errors.append({
-                "message": "Tags must be provided"
-            })
         if not item.get("happeningOn"):
             errors.append({
-                "message": "Happening hodling date must be provided"
+                "message": "Happening/hodling date must be provided"
             })
         elif not valid_input_date(item.get("happeningOn")):
             errors.append({
-                "message":"The date format is invalid, please use the format dd-mm-yy"
+                "message": "The date format is invalid, please use the format dd-mm-yy"
             })
         elif not valid_input_date(item.get("happeningOn")):
             errors.append({
@@ -192,7 +188,7 @@ class MeetupValidators(object):
             })
         elif not date_checker(item.get("happeningOn")):
             errors.append({
-                "message": "You cannot create a meetup in a passed day"
+                "message": "You cannot create a meetup on a passed day"
             })
         if not item.get("body"):
             errors.append({

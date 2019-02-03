@@ -1,4 +1,4 @@
-from flask import Flask,jsonify, Blueprint,request
+from flask import Flask, jsonify, Blueprint, request
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
 from flask_jwt_extended import JWTManager
@@ -57,7 +57,9 @@ def create_app(application_config):
     def expired_token():
         """Checks if toen has expired"""
         response = jsonify({
-            "error": "Your token has expired",
+            "error": [{
+                "message": "Your token has expired"
+            }],
             "status": Status.denied_access
         }), Status.denied_access
         return response
@@ -65,7 +67,9 @@ def create_app(application_config):
     @jwt.unauthorized_loader
     def unauthoriszed(error):
         response = jsonify({
-            "error": "Token Bearer not given",
+            "error": [{
+                "message": "Token Bearer not given"
+            }],
             "status": Status.denied_access
         }), Status.denied_access
         return response
@@ -73,7 +77,9 @@ def create_app(application_config):
     @app.errorhandler(404)
     def resource_not_found(error):
         response = jsonify({
-            "error": "Resource unavalable in the url",
+            "error": [{
+                "message": "Resource unavalable in the url"
+            }],
             "status": Status.not_found
         }), Status.not_found
         return response
