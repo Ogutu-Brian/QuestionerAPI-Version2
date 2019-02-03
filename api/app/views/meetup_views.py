@@ -110,7 +110,7 @@ def get_upcoming_meetups()->Tuple:
             if date_checker(meetup.happening_on):
                 result_set.append(meetup.to_dictionary())
         response = jsonify({
-            "mesage": "Successfullyy got all upcoming meetups",
+            "mesage": "Successfully got all upcoming meetups",
             "data": result_set,
             "status": Status.success
         }), Status.success
