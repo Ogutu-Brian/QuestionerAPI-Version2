@@ -174,10 +174,6 @@ class MeetupValidators(object):
             errors.append({
                 "message": "The topic is not valid"
             })
-        if not item.get("Tags"):
-            errors.append({
-                "message": "Tags must be provided"
-            })
         if not item.get("happeningOn"):
             errors.append({
                 "message": "Happening hodling date must be provided"
