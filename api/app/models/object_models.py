@@ -75,7 +75,7 @@ class Meetup(BaseModel):
             "location": self.location,
             "images": self.images,
             "topic": self.topic,
-            "happendingOn": self.happening_on,
+            "happeningOn": self.happening_on,
             "tags": self.tags,
             "body": self.body
         }
