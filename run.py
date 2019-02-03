@@ -1,4 +1,3 @@
-from migrtions import DbMigrations
 from flask import Flask, jsonify, Blueprint, request
 from api.app.models.database import PostgresDatabase
 from api.instance.config import app_config
@@ -15,6 +14,7 @@ from flask_cors import CORS
 
 database = PostgresDatabase()
 
+from migrtions import DbMigrations
 
 load_dotenv()
 
