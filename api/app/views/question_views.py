@@ -19,7 +19,7 @@ def create_question()->Tuple:
         if not valid:
             response = jsonify({
                 "message": "You encountered {} errors".format(len(errors)),
-                "data": errors,
+                "error": errors,
                 "status": Status.invalid_data
             }), Status.invalid_data
         else:
