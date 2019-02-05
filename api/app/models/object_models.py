@@ -91,6 +91,7 @@ class Question(BaseModel):
         self.title = title
         self.body = body
         self.votes = votes
+        self.comments = 0
 
     def to_dictionary(self)->Dict:
         """
@@ -104,7 +105,8 @@ class Question(BaseModel):
             "meetup": self.meet_up,
             "title": self.title,
             "body": self.body,
-            "votes": self.votes
+            "votes": self.votes,
+            "comments": self.comments
         }
 
 
@@ -146,7 +148,8 @@ class Comment(BaseModel):
             "question": self.question,
             "title": self.title,
             "body": self.body,
-            "comment": self.comment
+            "comment": self.comment,
+            "user": self.user
         }
 
 

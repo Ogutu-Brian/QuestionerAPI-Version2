@@ -160,7 +160,7 @@ def downvote(question_id: str)->Tuple:
 @question_view.route("questions/<question_id>", methods=["GET"])
 @swag_from('docs/get_specific_question.yml')
 def get_specific_question(question_id)->Tuple:
-    """Gets a specific question id"""
+    """Gets a specific question"""
     from api.app.models.models import Question
     question_id = int(question_id)
     response = None
