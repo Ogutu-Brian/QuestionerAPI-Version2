@@ -156,7 +156,9 @@ class Question(V1Question, BaseModel):
             meetup integer,
             title varchar,
             body varchar,
-            votes integer
+            votes integer,
+            upvotes integer,
+            downvotes integer
         )""")
         database.connection.commit()
 
@@ -171,25 +173,32 @@ class Question(V1Question, BaseModel):
         question.title = query_dict.get("title")
         question.body = query_dict.get("body")
         question.votes = query_dict.get("votes")
-        question.comments = len(Comment.query_by_field("question", question.id))
+        question.upvotes = query_dict.get("upvotes")
+        question.downvotes = query_dict.get("downvotes")
+        question.comments = len(
+            Comment.query_by_field("question", question.id))
         return question
 
     def save(self)->None:
         """Saves a question object into the database"""
-        database.cursor.execute("INSERT INTO questions(created_date,created_by,meetup,title,body,votes) VALUES(%s,%s,%s,%s,%s,%s) RETURNING id", (
+        database.cursor.execute("INSERT INTO questions(created_date,created_by,meetup,title,body,votes,upvotes,downvotes) VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id", (
             self.created_on,
             self.created_by,
             self.meet_up,
             self.title,
             self.body,
-            self.votes
+            self.votes,
+            self.upvotes,
+            self.downvotes
         ))
         super().save()
 
     def update(self)->None:
         """Updates question"""
-        database.cursor.execute("UPDATE questions SET votes = %s WHERE id = %s", (
+        database.cursor.execute("UPDATE questions SET votes = %s,upvotes=%s,downvotes=%s WHERE id = %s", (
             self.votes,
+            self.upvotes,
+            self.downvotes,
             self.id
         ))
         database.connection.commit()

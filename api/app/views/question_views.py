@@ -84,6 +84,8 @@ def upvote(question_id: str)->Tuple:
                 if vote.value == -1:
                     vote.value = 1
                     question.votes += 1
+                    question.upvotes += 1
+                    question.downvotes -= 1
                     vote.update()
                     question.update()
                     response = jsonify({
@@ -100,6 +102,7 @@ def upvote(question_id: str)->Tuple:
             vote = Vote(user=user.id, question=question.id, value=1)
             vote.save()
             question.votes += 1
+            question.upvotes += 1
             question.update()
             response = jsonify({
                 "message": "successfully upvoted",
@@ -132,6 +135,8 @@ def downvote(question_id: str)->Tuple:
                 if vote.value == 1:
                     vote.value = -1
                     question.votes -= 1
+                    question.upvotes -= 1
+                    question.downvotes += 1
                     vote.update()
                     question.update()
                     response = jsonify({
@@ -148,6 +153,7 @@ def downvote(question_id: str)->Tuple:
             vote = Vote(user=user.id, question=question.id, value=-1)
             vote.save()
             question.votes -= 1
+            question.downvotes += 1
             question.update()
             response = jsonify({
                 "message": "Successfully downvoted a question",
