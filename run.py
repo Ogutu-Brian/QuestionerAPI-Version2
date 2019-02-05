@@ -113,6 +113,6 @@ def create_app(application_config):
 
 
 app = create_app("DEVELOPMENT")
-DbMigrations.drop_tables()
+DbMigrations.makemigrations()
 if __name__ == "__main__":
     app.run()
