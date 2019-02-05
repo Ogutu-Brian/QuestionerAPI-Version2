@@ -283,7 +283,7 @@ class Meetup(V1Meetup, BaseModel):
             self.location,
             self.images,
             self.body
-        ))
+        ))user
         super().save()
 
 
