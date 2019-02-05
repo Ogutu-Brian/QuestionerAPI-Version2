@@ -156,7 +156,9 @@ class Question(V1Question, BaseModel):
             meetup integer,
             title varchar,
             body varchar,
-            votes integer
+            votes integer,
+            upvotes integer,
+            downvotes integer
         )""")
         database.connection.commit()
 
@@ -171,7 +173,10 @@ class Question(V1Question, BaseModel):
         question.title = query_dict.get("title")
         question.body = query_dict.get("body")
         question.votes = query_dict.get("votes")
-        question.comments = len(Comment.query_by_field("question", question.id))
+        question.upvotes = query_dict.get("upvotes")
+        question.downvotes = query_dict.get("downvotes")
+        question.comments = len(
+            Comment.query_by_field("question", question.id))
         return question
 
     def save(self)->None:
