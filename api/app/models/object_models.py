@@ -146,7 +146,8 @@ class Comment(BaseModel):
             "question": self.question,
             "title": self.title,
             "body": self.body,
-            "comment": self.comment
+            "comment": self.comment,
+            "user": self.user
         }
 
 
