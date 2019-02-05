@@ -193,8 +193,10 @@ class Question(V1Question, BaseModel):
 
     def update(self)->None:
         """Updates question"""
-        database.cursor.execute("UPDATE questions SET votes = %s WHERE id = %s", (
+        database.cursor.execute("UPDATE questions SET votes = %s,upvotes=%s,downvotes=%s WHERE id = %s", (
             self.votes,
+            self.upvotes,
+            self.downvotes,
             self.id
         ))
         database.connection.commit()
