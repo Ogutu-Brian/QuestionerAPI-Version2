@@ -317,7 +317,7 @@ class Comment(V1Comment, BaseModel):
     def to_object(cls, query_dict: Dict):
         """Object representation of Rsvp data after querying the database"""
         comment = Comment()
-        user = User.query_by_field("id",query_dict.get("user_id"))[0]
+        user = User.query_by_field("id", query_dict.get("user_id"))[0]
         comment.question = query_dict.get("question")
         comment.user = user.user_name
         comment.comment = query_dict.get("comment")
