@@ -63,6 +63,9 @@ class Meetup(BaseModel):
         self.images = images
         self.created_by = creaed_by
         self.body = body
+        self.yes_rsvp = 0
+        self.maybe_rsvp = 0
+        self.no_rsvp = 0
 
     def to_dictionary(self)->Dict:
         """
@@ -77,7 +80,10 @@ class Meetup(BaseModel):
             "topic": self.topic,
             "happeningOn": self.happening_on,
             "tags": self.tags,
-            "body": self.body
+            "body": self.body,
+            "yes": self.yes_rsvp,
+            "maybe": self.maybe_rsvp,
+            "no": self.no_rsvp
         }
 
 

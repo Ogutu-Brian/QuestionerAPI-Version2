@@ -190,7 +190,9 @@ def create_rsvp(meetup_id: str)->Tuple:
                         if user.id == item.user and meetup.id == item.meetup:
                             if item.response == data.get("response"):
                                 response = jsonify({
-                                    "error": "You have already given that response",
+                                    "error": [{
+                                        "message": "You have already given that response"
+                                    }],
                                     "status": Status.denied_access
                                 }), Status.denied_access
                                 similar = True
