@@ -1,15 +1,18 @@
 from datetime import date
+
+
 class MeetupData(object):
     """Defines the test objects for meetup tests"""
     """Sample date format '24-01-2019'"""
+
     def __init__(self):
         self.data = {
             "location": "Andela Campus",
             "images": "['/images/important', '/images/meetup']",
             "topic": "Responsive Web Design",
             "Tags": "['User Interface', 'Responsive Design']",
-            "happeningOn":date.today().strftime('%d-%m-%Y'),
-            "body":"A meetup on characteristics of a good software engineer"
+            "happeningOn": date.today().strftime('%d-%m-%Y'),
+            "body": "A meetup on characteristics of a good software engineer"
         }
 
 
@@ -29,7 +32,6 @@ class RsvpData(object):
 
     def __init__(self):
         self.data = {
-            "user": 1,
             "response": "yes",
         }
 
@@ -47,7 +49,7 @@ class UserData(object):
             "email": "codingbrian58@gmail.com",
             "password": "password12#B",
             "isAdmin": "True",
-            "confirmpassword":"password12#B"
+            "confirmpassword": "password12#B"
         }
 
 
