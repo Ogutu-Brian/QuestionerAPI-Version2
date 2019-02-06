@@ -135,7 +135,9 @@ def delete_meetup(meetup_id: str)->Tuple:
         user = User.query_by_field("email", user_mail)[0]
         if not user.is_admin.lower() == "true":
             response = jsonify({
-                "error": "You are not an admin",
+                "error": [{
+                    "message": "You are not an admin"
+                }],
                 "status": Status.denied_access
             }), Status.denied_access
         else:
