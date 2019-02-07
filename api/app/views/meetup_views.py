@@ -70,6 +70,19 @@ def create_meetup()->Tuple:
     return response
 
 
+def set_rsvps(meetup)->None:
+    """Function that takes meetup and gives count of
+    rsvp responses"""
+    from api.app.models.models import Rsvp
+    meetup_rsvps = Rsvp.query_by_field("meetup", meetup.id)
+    meetup.yes_rsvp = len(
+        [rsvp for rsvp in meetup_rsvps if rsvp.response.lower() == "yes"])
+    meetup.no_rsvp = len(
+        [rsvp for rsvp in meetup_rsvps if rsvp.response.lower() == "no"])
+    meetup.maybe_rsvp = len(
+        [rsvp for rsvp in meetup_rsvps if rsvp.response.lower() == "maybe"])
+
+
 @meetup_view.route('/meetups/<meetup_id>', methods=["GET"])
 @swag_from('docs/getspecmeetup.yml')
 def get_meetup(meetup_id: str)->Tuple:
@@ -84,6 +97,7 @@ def get_meetup(meetup_id: str)->Tuple:
         }), Status.not_found
     else:
         meetup = meetup[0]
+        set_rsvps(meetup)
         response = jsonify({
             "message": "A meetup was successfully found",
             "data": [meetup.to_dictionary()],
@@ -108,6 +122,7 @@ def get_upcoming_meetups()->Tuple:
         result_set = []
         for meetup in meetups:
             if date_checker(meetup.happening_on):
+                set_rsvps(meetup)
                 result_set.append(meetup.to_dictionary())
         response = jsonify({
             "mesage": "Successfully got all upcoming meetups",

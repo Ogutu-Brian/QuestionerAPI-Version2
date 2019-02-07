@@ -251,7 +251,7 @@ class Rsvp(V1Rsvp, BaseModel):
             self.meetup,
             self.user
         ))
-        database.connection.commit()
+        database.connectio
 
 
 class Meetup(V1Meetup, BaseModel):
@@ -282,10 +282,6 @@ class Meetup(V1Meetup, BaseModel):
         meetup.images = query_dict.get("images")
         meetup.id = query_dict.get("id")
         meetup.body = query_dict.get("body")
-        meetup.yes_rsvp = len(Rsvp.query_by_field("response".lower(),"yes"))
-        meetup.maybe_rsvp = len(Rsvp.query_by_field("response".lower(),"maybe"))
-        meetup.no_rsvp = len(Rsvp.query_by_field("response".lower(),"no"))
-
         return meetup
 
     def save(self)->None:
